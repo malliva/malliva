@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Looking for something amazing?">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="HandheldFriendly" content="True">
+    <title>Your Travel World </title>
+    <!-- Edge and IE-->
+    <meta name="msapplication-tap-highlight" content="no">
+    <!-- Add to homescreen for Chrome on Android-->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Looking for something amazing?">
+    <link rel="icon" sizes="192x192" href="img/touch/chrome-touch-icon-192x192.png">
+    <!-- Add to homescreen for Safari on iOS-->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Your Travel World">
+    <link rel="apple-touch-icon" href="img/touch/apple-touch-icon.png">
+    <!-- Google Fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,500,600,700%7CPoppins:400,500,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="css/jquery-ui.structure.min.css">
+    <link rel="stylesheet" href="css/jquery-ui.theme.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link id="cssRtl" rel="stylesheet" href="#">
+    <link rel="stylesheet" href="css/flatpickr.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/fontawesome-stars-o.css">
+    <link rel="stylesheet" href="css/swiper.min.css">
+    <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet" href="css/select2.min.css">
+    <link rel="stylesheet" href="css/nouislider.min.css">
+    <link rel="stylesheet" href="css/blueimp-gallery.min.css">
+    <link rel="stylesheet" href="style.min.css">
+    <link id="cssTheme" rel="stylesheet" href="skins/style-default.css">
+  </head>
+  <body class="load">
+    <div class="progress-load js-progress-load"></div>
+    <div class="demo-panel bx4dp d-none d-sm-block" id="demoSwitcher">
+      <div class="container">
+        <div class="demo-panel__toggle btn btn-light text-primary shadow-sm js-panel-toggle"><i class="fa fa-cog"></i></div>
+      </div>
+      <div class="demo-panel__content bg-light pt-3">
+        <div class="container">
+          <div class="row flex-nowrap">
+            <div class="col-auto mb-2 d-flex align-items-center">
+              <h4>Colors</h4>
+              <div class="demo-panel__colors nav"><a class="nav-link js-toggle-theme is-active" href="#" data-path="skins/style-default.css" role="button"></a><a class="nav-link js-toggle-theme" href="#" data-path="skins/style-orange.css" role="button"></a><a class="nav-link js-toggle-theme" href="#" data-path="skins/style-green.css" role="button"></a><a class="nav-link js-toggle-theme" href="#" data-path="skins/style-red.css" role="button"></a><a class="nav-link js-toggle-theme" href="#" data-path="skins/style-purple.css" role="button"></a><a class="nav-link js-toggle-theme" href="#" data-path="skins/style-pink.css" role="button"></a>
+              </div>
+            </div>
+            <div class="col-auto mb-2 d-flex align-items-center">
+              <h4>RTL</h4>
+              <button class="btn-switch text-primary js-switch-rtl" type="button" data-switch="css/bootstrap-rtl.min.css"><span class="bar bg-primary"></span><span class="toggle bg-secondary"></span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-account modal" id="modalAccount" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <ul class="modal-account__tabs nav nav-tabs d-flex js-account-tabs" id="accountTabs" role="tablist">
+              <li class="nav-item w-50"><a class="nav-link" data-toggle="tab" href="#accountLogin" role="tab" aria-controls="accountLogin" aria-selected="false">Login</a></li>
+              <li class="nav-item w-50"><a class="nav-link" data-toggle="tab" href="#accountRegist" role="tab" aria-controls="accountRegist" aria-selected="false">Sign Up</a></li>
+              <li><a class="nav-link p-0 border-0" data-toggle="tab" href="#accountForgot" role="tab" aria-controls="accountForgot" aria-selected="false"></a></li>
+            </ul>
+            <button class="btn btn-light close pointer" type="button" data-dismiss="modal" aria-label="close"><span class="icon text-dark" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 510 510"><path d="M255 0C114.75 0 0 114.75 0 255s114.75 255 255 255 255-114.75 255-255S395.25 0 255 0zm127.5 346.8l-35.7 35.7-91.8-91.8-91.8 91.8-35.7-35.7 91.8-91.8-91.8-91.8 35.7-35.7 91.8 91.8 91.8-91.8 35.7 35.7-91.8 91.8 91.8 91.8z"/></svg></span></button>
+          </div>
+          <div class="modal-body">
+            <div class="tab-content">
+              <div class="tab-pane" id="accountLogin" role="tabpanel">
+                <form class="modal-account__form js-account-form" id="formLogin" action="#" method="POST" data-toggle="validator">
+                  <div class="form-group">
+                    <input class="form-control form-control-sm" type="email" name="user_email" placeholder="E-mail address" required="required"/>
+                    <div class="help-block with-errors"></div>
+                  </div>
+                  <div class="form-group">
+                    <input class="form-control form-control-sm" type="password" name="user_pass" placeholder="Password" data-minlength="6" required="required"/>
+                    <div class="help-block">Your password must be at least 6 characters long</div>
+                  </div>
+                  <div class="d-flex flex-wrap justify-content-between align-items-center">
+                    <button class="btn btn-secondary btn--round mr-2 mb-2" type="submit">sign in
+                    </button>
+                    <p class="mb-2"><a class="js-toggle-account" href="#" data-account="forgot">Forgot your password?</a></p>
+                  </div>
+                  <div class="d-inline-block my-2 w-100">
+                    <div class="social-sign">
+                      <div class="divider divider-horizontal">
+                        <h5 class="font-weight-normal mx-2">Or click to sign in</h5>
+                      </div>
+                      <ul class="social-sign__list row">
+                        <li class="col col-sm-6"><a class="nav-link" href="#"><img class="nav-icon img-fluid mr-2" src="img/facebook.png" alt="#"/><span class="nav-text">Connect with Facebook</span></a></li>
+                        <li class="col col-sm-6"><a class="nav-link" href="#"><img class="nav-icon img-fluid mr-2" src="img/google-plus.png" alt="#"/><span class="nav-text">Connect with Google</span></a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </form>
+                <div class="modal-footer d-block">
+                  <p class="fz-small mb-0"><em>By accessing your account, you agree to our  <a href="#">Terms and Conditions</a> and   <a href="#">Privacy Policy</a></em></p>
+                </div>
+              </div>
+              <div class="tab-pane active show" id="accountRegist" role="tabpanel">
+                <form class="modal-account__form js-account-form" id="formRegist" action="#" method="POST" data-toggle="validator">
+                  <div class="form-group">
+                    <input class="form-control form-control-sm" type="text" name="user_name" placeholder="First Name" required="required"/>
+                    <div class="help-block">Please enter your name</div>
+                  </div>
+                  <div class="form-group">
+                    <input class="form-control form-control-sm" type="text" name="user_last_name" placeholder="Last Name" required="required"/>
+                    <div class="help-block">Please enter your last name</div>
+                  </div>
+                  <div class="form-group">
+                    <input class="form-control form-control-sm" type="email" name="user_email" placeholder="E-mail address" required="required"/>
+                    <div class="help-block with-errors"></div>
+                  </div>
+                  <div class="form-group">
+                    <input class="form-control form-control-sm" id="userPass" type="password" name="user_pass" placeholder="Password" data-minlength="6" required="required"/>
+                    <div class="help-block">Your password must be at least 6 characters long</div>
+                  </div>
+                  <div class="form-group">
+                    <input class="form-control form-control-sm" type="password" name="user_pass_confirm" placeholder="Confirm Password" data-match="#userPass" required="required"/>
+                    <div class="help-block">Please enter the same password as above</div>
+                  </div>
+                  <div class="form-group">
+                    <label class="custom-control custom-checkbox">
+                      <input class="custom-control-input" id="agreePolicy" type="checkbox" required><span class="custom-control-label">I have read and agree to the  <a href="#">Terms of Use</a> and the  <a href="#">Privacy Policy.</a></span>
+                    </label>
+                    <div class="help-block">Please accept our policy</div>
+                  </div>
+                  <p class="mb-4 d-flex justify-content-center justify-content-sm-start">
+                    <button class="btn btn-secondary btn--round" type="submit">Create Account</button>
+                  </p>
+                  <div class="d-inline-block my-2 w-100">
+                    <div class="social-sign">
+                      <div class="divider divider-horizontal">
+                        <h5 class="font-weight-normal mx-2">Or click to sign in</h5>
+                      </div>
+                      <ul class="social-sign__list row">
+                        <li class="col col-sm-6"><a class="nav-link" href="#"><img class="nav-icon img-fluid mr-2" src="img/facebook.png" alt="#"/><span class="nav-text">Sign up with Facebook</span></a></li>
+                        <li class="col col-sm-6"><a class="nav-link" href="#"><img class="nav-icon img-fluid mr-2" src="img/google-plus.png" alt="#"/><span class="nav-text">Sign up with Google</span></a></li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="modal-footer d-block">
+                    <div class="form-group">
+                      <label class="custom-control custom-checkbox">
+                        <input class="custom-control-input" id="dispatchEmail" type="checkbox"><span class="custom-control-label">Please send me Travelocity.com emails with travel deals, special offers, and other information.</span>
+                      </label>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="tab-pane" id="accountForgot" role="tabpanel">
+                <form class="modal-account__form" id="formForgot" action="#" method="POST" data-toggle="validator">
+                  <div class="form-group">
+                    <input class="form-control form-control-sm" type="email" name="user_email" placeholder="E-mail address" required>
+                    <div class="help-block with-errors"></div>
+                  </div>
+                  <p class="text-center">We will email you instructions for resetting your password.</p>
+                  <p class="d-flex justify-content-center">
+                    <button class="btn btn-secondary btn--round" type="submit">Retrieve Password
+                    </button>
+                  </p>
+                  <p class="d-flex justify-content-center"><a class="js-toggle-account mr-3" href="#" data-account="regist">Create a new account</a><a class="js-toggle-account" href="#" data-account="login">Return to Sign In</a></p>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <header class="page-header">
+      <div class="panel-fixed">
+        <div class="page-header__top bg-white js-header-top js-top-panel">
+          <div class="container">
+            <div class="row justify-content-center justify-content-between">
+              <div class="col-12 col-md col-lg-3 d-flex justify-content-center justify-content-md-start"><a class="navbar-logo d-inline-flex align-items-center" href="index.html"><img class="img-fluid mr-3" src="img/logo.png" alt="#"/>
+                  <h4 class="m-0">Your Travel World</h4></a></div>
+              <div class="col col-lg-6 d-none d-md-flex align-items-center justify-content-center"><a class="page-header__call d-flex align-items-center text-nowrap" href="tel:880000112222333"><i class="icon icon-call js-tooltip-call mr-3" data-toggle="tooltip" data-placement="bottom" title="Support 8-800-0011-2222-333"></i>
+                  <div class="page-header__call-right">
+                    <div class="title fz-small">Support</div>
+                    <div class="phone fw-bold">8-800-0011-2222-333</div>
+                  </div></a>
+                <div class="page-header__top-search d-none d-lg-block ml-4" id="navbarSearch">
+                  <form class="navbar-search" action="#" method="GET">
+                    <div class="input-group flex-nowrap">
+                      <input class="form-control pr-0 js-navbar-search-input" type="search" placeholder="Search on site"/>
+                      <div class="input-group-append">
+                        <button class="navbar-search__subject btn btn-light" type="button"><i class="fa fa-search text-gray"></i></button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <div class="col col-lg-3 d-none d-md-flex">
+                <ul class="nav nav-panel">
+                  <li class="nav-item d-flex"><a class="nav-link btn btn-light js-toggle-account" href="#modalAccount" data-toggle="modal" role="button" data-account="login"><i class="text-gray icon icon-user mr-2"></i><span>log in</span></a>
+                  </li>
+                  <li class="nav-item d-flex"><a class="nav-link btn btn-light js-toggle-account" href="#modalAccount" data-toggle="modal" role="button" data-account="regist"><i class="text-gray icon icon-login mr-2"></i><span>sign up</span></a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="btn-toggle btn btn-light d-lg-none btn-toggle-nav" type="button" data-toggle="collapse" data-target="#navPanel"><span class="icon-bar"></span></button>
+      <nav class="main-nav d-flex collapse d-lg-block" id="navPanel">
+        <div class="main-nav__container d-flex">
+          <div class="container">
+            <div class="d-lg-none">
+              <div class="main-nav__search">
+                <form class="navbar-search" action="#" method="GET">
+                  <div class="input-group flex-nowrap">
+                    <input class="form-control pr-0 js-navbar-search-input" type="search" placeholder="Search on site"/>
+                    <div class="input-group-append">
+                      <button class="navbar-search__subject btn btn-light" type="button"><i class="fa fa-search text-gray"></i></button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <ul class="nav nav-panel">
+                <li class="nav-item d-flex"><a class="nav-link btn btn-light js-toggle-account" href="#modalAccount" data-toggle="modal" role="button" data-account="login"><i class="text-gray icon icon-user mr-2"></i><span>log in</span></a>
+                </li>
+                <li class="nav-item d-flex"><a class="nav-link btn btn-light js-toggle-account" href="#modalAccount" data-toggle="modal" role="button" data-account="regist"><i class="text-gray icon icon-login mr-2"></i><span>sign up</span></a>
+                </li>
+              </ul>
+            </div>
+            <ul class="main-nav__list nav d-flex" id="navMenu">
+              <li class="nav-item dropdown"><a class="nav-link fw-bold text-uppercase" href="#"><span>home</span><i class="caret fa fa-angle-down ml-2"></i></a>
+                <ul class="dropdown-menu">
+                  <li class="nav-item"><a class="nav-link" href="index.html"><span>Home</span></a>
+                  </li>
+                  <li class="nav-item"><a class="nav-link" href="index-account.html"><span>Home Login</span></a>
+                  </li>
+                  <li class="nav-item"><a class="nav-link" href="index-video.html"><span>Home Video</span></a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item"><a class="nav-link fw-bold text-uppercase" href="hotel.html"><span>Hotel</span></a>
+              </li>
+              <li class="nav-item"><a class="nav-link fw-bold text-uppercase" href="flights.html"><span>flights</span></a>
+              </li>
+              <li class="nav-item"><a class="nav-link fw-bold text-uppercase" href="category.html"><span>best seller</span></a>
+              </li>
+              <li class="nav-item"><a class="nav-link fw-bold text-uppercase" href="category.html"><span>hot deals</span></a>
+              </li>
+              <li class="nav-item"><a class="nav-link fw-bold text-uppercase" href="category.html"><span>air tickets</span></a>
+              </li>
+              <li class="nav-item"><a class="nav-link fw-bold text-uppercase" href="category.html"><span>rent a car</span></a>
+              </li>
+              <li class="nav-item"><a class="nav-link fw-bold text-uppercase" href="about.html"><span>about us</span></a>
+              </li>
+              <li class="nav-item dropdown"><a class="nav-link fw-bold text-uppercase" href="#"><span>pages</span><i class="caret fa fa-angle-down ml-2"></i></a>
+                <ul class="dropdown-menu">
+                  <li class="nav-item dropdown"><a class="nav-link" href="#"><span>Home</span><i class="caret fa fa-angle-down ml-2"></i></a>
+                    <ul class="dropdown-menu">
+                      <li class="nav-item"><a class="nav-link" href="index.html"><span>Home</span></a>
+                      </li>
+                      <li class="nav-item"><a class="nav-link" href="index-account.html"><span>Home Login</span></a>
+                      </li>
+                      <li class="nav-item"><a class="nav-link" href="index-video.html"><span>Home Video</span></a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li class="nav-item"><a class="nav-link" href="category.html"><span>Category</span></a>
+                  </li>
+                  <li class="nav-item dropdown"><a class="nav-link" href="#"><span>Blog</span><i class="caret fa fa-angle-down ml-2"></i></a>
+                    <ul class="dropdown-menu">
+                      <li class="nav-item"><a class="nav-link" href="blog-list.html"><span>Blog List</span></a>
+                      </li>
+                      <li class="nav-item"><a class="nav-link" href="blog-post.html"><span>Blog Post</span></a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li class="nav-item dropdown"><a class="nav-link" href="#"><span>Hotel</span><i class="caret fa fa-angle-down ml-2"></i></a>
+                    <ul class="dropdown-menu">
+                      <li class="nav-item"><a class="nav-link" href="hotel.html"><span>Hotel</span></a>
+                      </li>
+                      <li class="nav-item"><a class="nav-link" href="hotel-services.html"><span>Hotel Services</span></a>
+                      </li>
+                      <li class="nav-item"><a class="nav-link" href="hotel-accommodation.html"><span>Hotel Accommodation</span></a>
+                      </li>
+                      <li class="nav-item"><a class="nav-link" href="hotel-reviews.html"><span>Hotel Reviews</span></a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li class="nav-item"><a class="nav-link" href="flights.html"><span>Flights</span></a>
+                  </li>
+                  <li class="nav-item dropdown"><a class="nav-link" href="#"><span>Booking</span><i class="caret fa fa-angle-down ml-2"></i></a>
+                    <ul class="dropdown-menu">
+                      <li class="nav-item"><a class="nav-link" href="booking-traveler.html"><span>Traveler</span></a>
+                      </li>
+                      <li class="nav-item"><a class="nav-link" href="booking-payment.html"><span>Payment</span></a>
+                      </li>
+                      <li class="nav-item"><a class="nav-link" href="booking-confirm.html"><span>Confirmation</span></a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li class="nav-item"><a class="nav-link" href="about.html"><span>About us</span></a>
+                  </li>
+                  <li class="nav-item"><a class="nav-link" href="contacts.html"><span>Contacts</span></a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item"><a class="nav-link fw-bold text-uppercase" href="blog-list.html"><span>news</span></a>
+              </li>
+              <li class="nav-item"><a class="nav-link fw-bold text-uppercase" href="contacts.html"><span>contacts</span></a>
+              </li>
+              <li class="nav-item"><a class="nav-link fw-bold text-uppercase" href="shortcodes.html"><span>Shortcodes</span></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main class="page-main">
+      <nav class="breadcrumb-nav d-flex align-items-center" aria-label="breadcrumb">
+        <div class="container">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a class="under" href="index.html">Home</a></li>
+            <li class="breadcrumb-item"><a class="under" href="category.html">Hotels</a></li>
+            <li class="breadcrumb-item"><a class="under" href="category.html">Spain</a></li>
+            <li class="breadcrumb-item"><a class="under" href="category.html">Costa Brava</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><span>Ravenna Best Hotel - services</span></li>
+          </ol>
+        </div>
+      </nav>
+      <div class="page-content">
+        <div class="container">
+          <div class="row">
+            <aside class="sidebar col-lg-3">
+              <div class="sidebar__content js-sticky-top">
+                <div class="sidebar__finder card bg-primary text-white">
+                  <h4 class="m-0 mb-lg-4">Search for hotels</h4>
+                  <form class="collapse show d-lg-block mt-3" id="hotelFinder" action="#" method="POST" data-toggle="validator">
+                    <div class="row">
+                      <div class="col-12 form-group">
+                        <label class="label">Place or name of the hotel / city</label><span class="form-select">
+                          <select class="form-control select2 js-form-select" id="hotelName" name="hotel_name">
+                            <option value="Resort Spa Hotel">Resort Spa Hotel</option>
+                            <option value="Black Pearl">Black Pearl</option>
+                            <option value="Marsol">Marsol</option>
+                            <option value="Macronissos Village Bungalows">Macronissos Village Bungalows</option>
+                            <option value="Iberotel Aquamarine Resort">Iberotel Aquamarine Resort</option>
+                          </select></span>
+                      </div>
+                      <div class="col-12">
+                        <div class="row">
+                          <div class="col-12 col-sm-6 col-lg-12 form-group">
+                            <label class="label-text" for="hotelInDate">Check in date</label>
+                            <div class="input-group-append"><i class="icon icon-calendar"></i>
+                              <input class="form-control js-input-date " id="hotelInDate" type="text" name="hotel_date_in" required="required"/>
+                            </div>
+                          </div>
+                          <div class="col-12 col-sm-6 col-lg-12 form-group">
+                            <label class="label-text" for="hotelOutDate">Check out date</label>
+                            <div class="input-group-append"><i class="icon icon-calendar"></i>
+                              <input class="form-control js-input-date " id="hotelOutDate" type="text" name="hotel_date_out" required="required"/>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <label class="label">13 Nights</label>
+                        <div class="row">
+                          <div class="col-12 col-sm-6 form-group col-lg-12"><span class="form-select">
+                              <select class="form-control select2 js-form-select" id="hotelAdults" name="hotel_adults">
+                                <option value="1 Adult">1 Adult</option>
+                                <option value="2 Adults">2 Adults</option>
+                                <option value="3 Adults">3 Adults</option>
+                                <option value="4 Adults">4 Adults</option>
+                                <option value="5 Adults">5 Adults</option>
+                              </select></span>
+                          </div>
+                          <div class="col-12 col-sm-6 form-group col-lg-6"><span class="form-select">
+                              <select class="form-control select2 js-form-select" id="hotelChild" name="hotel__childs">
+                                <option value="1 Child">1 Child</option>
+                                <option value="2 Childs">2 Childs</option>
+                                <option value="3 Childs">3 Childs</option>
+                                <option value="4 Childs">4 Childs</option>
+                                <option value="5 Childs">5 Childs</option>
+                              </select></span>
+                          </div>
+                          <div class="col-12 col-sm-6 form-group col-lg-6"><span class="form-select">
+                              <select class="form-control select2 js-form-select" id="hotelRoom" name="hotel_rooms">
+                                <option value="1 Room">1 Room</option>
+                                <option value="2 Rooms">2 Rooms</option>
+                                <option value="3 Rooms">3 Rooms</option>
+                                <option value="4 Rooms">4 Rooms</option>
+                                <option value="5 Rooms">5 Rooms</option>
+                              </select></span>
+                          </div>
+                          <div class="col-12 col-sm-6 col-lg-12 form-group"><span class="form-select">
+                              <select class="form-control select2 js-form-select" id="hotelDeparture" name="hotel_departure">
+                                <option value="Resort Spa Hotel">Resort Spa Hotel</option>
+                                <option value="Black Pearl">Black Pearl</option>
+                                <option value="Marsol">Marsol</option>
+                                <option value="Macronissos Village Bungalows">Macronissos Village Bungalows</option>
+                                <option value="Iberotel Aquamarine Resort">Iberotel Aquamarine Resort</option>
+                              </select></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <button class="btn btn-secondary btn--round mx-auto mt-2 w-100" type="submit">search
+                    </button>
+                  </form>
+                </div>
+                <button class="btn-toggle btn btn-primary-light border-0 w-100 py-3 d-lg-none" data-target="#hotelFinder" data-toggle="collapse" aria-expanded="true" type="button"><span class="icon-bar"></span></button>
+                <div class="card d-none d-lg-flex">
+                  <p class="fw-bold"><span class="count">9 803</span>
+                    guests liked this hotel
+                  </p>
+                  <ul class="guests-room">
+                    <li class="guests-room__item">
+                      <div class="guests-room__desc">&quot;Very clean, nice, stylish. From the metro 10 min walk Similar hotels usually cost many times more expensive. Huge bed, towels, everything you need. Cleaning once a day. The breakfast is excellent, the coffee is prepared by the barista - the first time I meet this at the hotel. &quot;</div>
+                      <div class="guests-room__bottom d-flex align-items-center">
+                        <div class="guests-room__avatar d-flex align-items-center pointer"><a class="media-object d-block rounded-circle" href="hotel-reviews.html"><img class="img-fluid rounded-circle" src="img/avatar-1.jpg" alt="#"/></a></div>
+                        <div class="guests-room__right">
+                          <h5 class="mb-1">Roman</h5>
+                          <div class="d-flex align-items-center"><img class="mr-2" src="img/ru.png" alt="#"/>
+                            <div class="country fz-xs">Russia</div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="guests-room__item">
+                      <div class="guests-room__desc">&quot;A wonderful hotel with spacious rooms and a good bathroom. Polite staff. Good breakfast. &quot;</div>
+                      <div class="guests-room__bottom d-flex align-items-center">
+                        <div class="guests-room__avatar d-flex align-items-center pointer"><a class="media-object d-block rounded-circle" href="hotel-reviews.html"><img class="img-fluid rounded-circle" src="img/avatar-2.jpg" alt="#"/></a></div>
+                        <div class="guests-room__right">
+                          <h5 class="mb-1">Jessica</h5>
+                          <div class="d-flex align-items-center"><img class="mr-2" src="img/en.png" alt="#"/>
+                            <div class="country fz-xs">USA</div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="guests-room__item">
+                      <div class="guests-room__desc">Good, great hotel. Excellent beds. Good sound insulation. The metro is 25 minutes on foot. Free parking. We liked!</div>
+                      <div class="guests-room__bottom d-flex align-items-center">
+                        <div class="guests-room__avatar d-flex align-items-center pointer"><a class="media-object d-block rounded-circle" href="hotel-reviews.html"><img class="img-fluid rounded-circle" src="img/avatar-3.jpg" alt="#"/></a></div>
+                        <div class="guests-room__right">
+                          <h5 class="mb-1">Chris</h5>
+                          <div class="d-flex align-items-center"><img class="mr-2" src="img/au.png" alt="#"/>
+                            <div class="country fz-xs">Australia</div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="guests-room__item">
+                      <div class="guests-room__desc">&quot;Free parking. Convenient arrivals by car from the airport. Approximately 1 km yellow subway line, which goes without a transfer to the Duomo. Large room. The hotel security speaks English. Excellent breakfast. A giant bed. &quot;</div>
+                      <div class="guests-room__bottom d-flex align-items-center">
+                        <div class="guests-room__avatar d-flex align-items-center pointer"><a class="media-object d-block rounded-circle" href="hotel-reviews.html"><img class="img-fluid rounded-circle" src="img/avatar-4.jpg" alt="#"/></a></div>
+                        <div class="guests-room__right">
+                          <h5 class="mb-1">Maddalena</h5>
+                          <div class="d-flex align-items-center"><img class="mr-2" src="img/it.png" alt="#"/>
+                            <div class="country fz-xs">Italy</div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="guests-room__item">
+                      <div class="guests-room__desc">&quot;Very clean, nice, stylish. From the metro 10 min walk Similar hotels usually cost many times more expensive. Huge bed, towels, everything you need. Cleaning once a day. The breakfast is excellent, the coffee is prepared by the barista - the first time I meet this at the hotel. &quot;</div>
+                      <div class="guests-room__bottom d-flex align-items-center">
+                        <div class="guests-room__avatar d-flex align-items-center pointer"><a class="media-object d-block rounded-circle" href="hotel-reviews.html"><img class="img-fluid rounded-circle" src="img/avatar-1.jpg" alt="#"/></a></div>
+                        <div class="guests-room__right">
+                          <h5 class="mb-1">Roman</h5>
+                          <div class="d-flex align-items-center"><img class="mr-2" src="img/ru.png" alt="#"/>
+                            <div class="country fz-xs">Russia</div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="guests-room__item">
+                      <div class="guests-room__desc">&quot;A wonderful hotel with spacious rooms and a good bathroom. Polite staff. Good breakfast. &quot;</div>
+                      <div class="guests-room__bottom d-flex align-items-center">
+                        <div class="guests-room__avatar d-flex align-items-center pointer"><a class="media-object d-block rounded-circle" href="hotel-reviews.html"><img class="img-fluid rounded-circle" src="img/avatar-2.jpg" alt="#"/></a></div>
+                        <div class="guests-room__right">
+                          <h5 class="mb-1">Jessica</h5>
+                          <div class="d-flex align-items-center"><img class="mr-2" src="img/en.png" alt="#"/>
+                            <div class="country fz-xs">USA</div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="guests-room__item">
+                      <div class="guests-room__desc">Good, great hotel. Excellent beds. Good sound insulation. The metro is 25 minutes on foot. Free parking. We liked!</div>
+                      <div class="guests-room__bottom d-flex align-items-center">
+                        <div class="guests-room__avatar d-flex align-items-center pointer"><a class="media-object d-block rounded-circle" href="hotel-reviews.html"><img class="img-fluid rounded-circle" src="img/avatar-3.jpg" alt="#"/></a></div>
+                        <div class="guests-room__right">
+                          <h5 class="mb-1">Chris</h5>
+                          <div class="d-flex align-items-center"><img class="mr-2" src="img/au.png" alt="#"/>
+                            <div class="country fz-xs">Australia</div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="guests-room__item">
+                      <div class="guests-room__desc">&quot;Free parking. Convenient arrivals by car from the airport. Approximately 1 km yellow subway line, which goes without a transfer to the Duomo. Large room. The hotel security speaks English. Excellent breakfast. A giant bed. &quot;</div>
+                      <div class="guests-room__bottom d-flex align-items-center">
+                        <div class="guests-room__avatar d-flex align-items-center pointer"><a class="media-object d-block rounded-circle" href="hotel-reviews.html"><img class="img-fluid rounded-circle" src="img/avatar-4.jpg" alt="#"/></a></div>
+                        <div class="guests-room__right">
+                          <h5 class="mb-1">Maddalena</h5>
+                          <div class="d-flex align-items-center"><img class="mr-2" src="img/it.png" alt="#"/>
+                            <div class="country fz-xs">Italy</div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </aside>
+            <div class="col-lg-9" id="barba-wrapper">
+              <div class="barba-container">
+                <nav class="hotel-nav">
+                  <ul class="hotel-nav__menu nav nav-tabs" role="tablist">
+                    <li class="nav-item d-flex col-12 col-sm p-0"><a class="nav-link" href="hotel.html">Hotel information and room rates</a>
+                    </li>
+                    <li class="nav-item d-flex col-12 col-sm p-0"><a class="nav-link active" href="hotel-services.html">Facilities &amp; Services</a>
+                    </li>
+                    <li class="nav-item d-flex col-12 col-sm p-0"><a class="nav-link" href="hotel-accommodation.html">Accommodation conditions</a>
+                    </li>
+                    <li class="nav-item d-flex col-12 col-sm p-0"><a class="nav-link" href="hotel-reviews.html">Guest reviews</a>
+                    </li>
+                  </ul>
+                </nav>
+                <section>
+                  <h3 class="fw-md">Facilities & Services</h3>
+                  <hr class="mb-4">
+                  <div class="hotel-card">
+                    <h5>Most popular facilities</h5>
+                    <ul class="hotel-facilities d-flex flex-wrap flex-column flex-md-row mb-3">
+                      <li class="mr-2"><i class="align-middle icon text-secondary icon-wifi mr-2"></i><span class="align-middle mr-2">Wi-Fi</span><i class="bullet d-none d-md-inline-block"></i></li>
+                      <li class="mr-2"><i class="align-middle icon text-secondary icon-24-hours mr-2"></i><span class="align-middle mr-2">24-hour front desk</span><i class="bullet d-none d-md-inline-block"></i></li>
+                      <li class="mr-2"><i class="align-middle icon text-secondary icon-freezer mr-2"></i><span class="align-middle mr-2">Air conditioning</span><i class="bullet d-none d-md-inline-block"></i></li>
+                      <li class="mr-2"><i class="align-middle icon text-secondary icon-food mr-2"></i><span class="align-middle mr-2">Food and beverage delivery to the room</span><i class="bullet d-none d-md-inline-block"></i></li>
+                      <li class="mr-2"><i class="align-middle icon text-secondary icon-parking mr-2"></i><span class="align-middle mr-2">Free parking</span><i class="bullet d-none d-md-inline-block"></i></li>
+                      <li class="mr-2"><i class="align-middle icon text-secondary icon-no-smoking mr-2"></i><span class="align-middle mr-2">Non-smoking rooms</span><i class="bullet d-none d-md-inline-block"></i></li>
+                      <li class="mr-2"><i class="align-middle icon text-secondary icon-pets mr-2"></i><span class="align-middle mr-2">Pets Allowed</span><i class="bullet d-none d-md-inline-block"></i></li>
+                    </ul>
+                    <div class="row">
+                      <div class="col-12 col-sm-6">
+                        <div class="hotel-service mb-4">
+                          <div class="hotel-service__title d-flex mb-3"><i class="icon icon-dinner mr-2"></i>
+                            <h4 class="h4">Food and Beverages</h4>
+                          </div>
+                          <ul class="hotel-service__list">
+                            <li class="d-flex"><i class="icon icon-check-button text-primary"></i>
+                              <div class="d-block"><span>Wine / Champagne</span>
+                              </div>
+                            </li>
+                            <li class="d-flex"><i class="icon icon-check-button text-primary"></i>
+                              <div class="d-block"><span>Special diet menus</span>
+                              </div>
+                            </li>
+                            <li class="d-flex"><i class="icon icon-check-button text-primary"></i>
+                              <div class="d-block"><span>Snack bar</span>
+                              </div>
+                            </li>
+                            <li class="d-flex"><i class="icon icon-check-button text-primary"></i>
+                              <div class="d-block"><span>Breakfast in the room</span>
+                              </div>
+                            </li>
+                            <li class="d-flex"><i class="icon icon-check-button text-primary"></i>
+                              <div class="d-block"><span>Restaurant</span>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                        <div class="hotel-service mb-4">
+                          <div class="hotel-service__title d-flex mb-3"><i class="icon icon-cleaning mr-2"></i>
+                            <h4 class="h4">Cleaning services</h4>
+                          </div>
+                          <ul class="hotel-service__list">
+                            <li class="d-flex"><i class="icon icon-check-button text-primary"></i>
+                              <div class="d-block"><span>Daily cleaning</span>
+                              </div>
+                            </li>
+                            <li class="d-flex"><i class="icon icon-check-button text-primary"></i>
+                              <div class="d-block"><span>Ironing Service</span>
+                                <div class="w-100"></div><span class="available">(Paid separately)</span>
+                              </div>
+                            </li>
+                            <li class="d-flex"><i class="icon icon-check-button text-primary"></i>
+                              <div class="d-block"><span>Dry Cleaning</span>
+                                <div class="w-100"></div><span class="available">(Paid separately)</span>
+                              </div>
+                            </li>
+                            <li class="d-flex"><i class="icon icon-check-button text-primary"></i>
+                              <div class="d-block"><span>Laundry</span>
+                                <div class="w-100"></div><span class="available">(Paid separately)</span>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                        <div class="hotel-service mb-4">
+                          <div class="hotel-service__title d-flex mb-3"><i class="icon icon-parking mr-2"></i>
+                            <h4 class="h4">Parking</h4>
+                          </div>
+                          <ul class="hotel-service__list">
+                            <li class="d-flex"><i class="icon icon-check-button text-primary"></i>
+                              <div class="d-block"><span>Is free! Free private parking is possible on site (reservation is not needed).</span>
+                              </div>
+                            </li>
+                            <li class="d-flex"><i class="icon icon-check-button text-primary"></i>
+                              <div class="d-block"><span>Parking spaces for people with disabilities</span>
+                              </div>
+                            </li>
+                            <li class="d-flex"><i class="icon icon-check-button text-primary"></i>
+                              <div class="d-block"><span>Secured parking</span>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                        <div class="hotel-service mb-4">
+                          <div class="hotel-service__title d-flex mb-3"><i class="icon icon-info mr-2"></i>
+                            <h4 class="h4">General services</h4>
+                          </div>
+                          <ul class="hotel-service__list">
+                            <li class="d-flex"><i class="icon icon-check-button text-primary"></i>
+                              <div class="d-block"><span>Common lounge / lounge with TV</span>
+                              </div>
+                            </li>
+                            <li class="d-flex"><i class="icon icon-check-button text-primary"></i>
+                              <div class="d-block"><span>Air conditioning</span>
+                              </div>
+                            </li>
+                            <li class="d-flex"><i class="icon icon-check-button text-primary"></i>
+                              <div class="d-block"><span>Smoking is prohibited throughout the property.</span>
+                              </div>
+                            </li>
+                            <li class="d-flex"><i class="icon icon-check-button text-primary"></i>
+                              <div class="d-block"><span>Soundproofed rooms</span>
+                              </div>
+                            </li>
+                            <li class="d-flex"><i class="icon icon-check-button text-primary"></i>
+                              <div class="d-block"><span>Elevator</span>
+                              </div>
+                            </li>
+                            <li class="d-flex"><i class="icon icon-check-button text-primary"></i>
+                              <div class="d-block"><span>Family rooms</span>
+                              </div>
+                            </li>
+                            <li class="d-flex"><i class="icon icon-check-button text-primary"></i>
+                              <div class="d-block"><span>Facilities for disabled guests</span>
+                              </div>
+                            </li>
+                            <li class="d-flex"><i class="icon icon-check-button text-primary"></i>
+                              <div class="d-block"><span>Food and beverage delivery to the room</span>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div class="col-12 col-sm-6">
+                        <div class="hotel-service mb-4">
+                          <div class="hotel-service__title d-flex mb-3"><i class="icon icon-disabled mr-2"></i>
+                            <h4 class="h4">Availability</h4>
+                          </div>
+                          <ul class="hotel-service__list">
+                            <li class="d-flex"><i class="icon icon-check-button text-primary"></i>
+                              <div class="d-block"><span>Cord / button call help in the bathroom</span>
+                              </div>
+                            </li>
+                            <li class="d-flex"><i class="icon icon-check-button text-primary"></i>
+                              <div class="d-block"><span>Suitable for wheelchair users</span>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                        <div class="hotel-service mb-4">
+                          <div class="hotel-service__title d-flex mb-3"><i class="icon icon-pets mr-2"></i>
+                            <h4 class="h4">Pets</h4>
+                          </div>
+                          <ul class="hotel-service__list">
+                            <li class="d-flex"><i class="icon icon-check-button text-primary"></i>
+                              <div class="d-block"><span>Pets are allowed on request. This service can be paid.</span>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                        <div class="hotel-service mb-4">
+                          <div class="hotel-service__title d-flex mb-3"><i class="icon icon-family mr-2"></i>
+                            <h4 class="h4">Entertainment and Family Services</h4>
+                          </div>
+                          <ul class="hotel-service__list">
+                            <li class="d-flex"><i class="icon icon-check-button text-primary"></i>
+                              <div class="d-block"><span>Children's TV channels</span>
+                              </div>
+                            </li>
+                            <li class="d-flex"><i class="icon icon-check-button text-primary"></i>
+                              <div class="d-block"><span>Babysitting service</span>
+                                <div class="w-100"></div><span class="available">(Paid separately)</span>
+                              </div>
+                            </li>
+                            <li class="d-flex"><i class="icon icon-check-button text-primary"></i>
+                              <div class="d-block"><span>Children's room</span>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                        <div class="hotel-service mb-4">
+                          <div class="hotel-service__title d-flex mb-3"><i class="icon icon-credits mr-2"></i>
+                            <h4 class="h4">Business center services</h4>
+                          </div>
+                          <ul class="hotel-service__list">
+                            <li class="d-flex"><i class="icon icon-check-button text-primary"></i>
+                              <div class="d-block"><span>Fax / Photocopying</span>
+                                <div class="w-100"></div><span class="available">(Paid separately)</span>
+                              </div>
+                            </li>
+                            <li class="d-flex"><i class="icon icon-check-button text-primary"></i>
+                              <div class="d-block"><span>Conference hall / banquet hall</span>
+                                <div class="w-100"></div><span class="available">(Paid separately)</span>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                        <div class="hotel-service mb-4">
+                          <div class="hotel-service__title d-flex mb-3"><i class="icon icon-receptionist mr-2"></i>
+                            <h4 class="h4">Reseption</h4>
+                          </div>
+                          <ul class="hotel-service__list">
+                            <li class="d-flex"><i class="icon icon-check-button text-primary"></i>
+                              <div class="d-block"><span>Concierge Service</span>
+                              </div>
+                            </li>
+                            <li class="d-flex"><i class="icon icon-check-button text-primary"></i>
+                              <div class="d-block"><span>Luggage office</span>
+                              </div>
+                            </li>
+                            <li class="d-flex"><i class="icon icon-check-button text-primary"></i>
+                              <div class="d-block"><span>24-hour front desk</span>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                        <div class="hotel-service mb-4">
+                          <div class="hotel-service__title d-flex mb-3"><i class="icon icon-bellboy mr-2"></i>
+                            <h4 class="h4">Staff speaks</h4>
+                          </div>
+                          <ul class="hotel-service__list">
+                            <li class="d-flex"><i class="icon icon-check-button text-primary"></i>
+                              <div class="d-block"><span>English</span>
+                              </div>
+                            </li>
+                            <li class="d-flex"><i class="icon icon-check-button text-primary"></i>
+                              <div class="d-block"><span>French</span>
+                              </div>
+                            </li>
+                            <li class="d-flex"><i class="icon icon-check-button text-primary"></i>
+                              <div class="d-block"><span>Italian</span>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="hotel-card">
+                    <h4 class="mb-4">Several reasons to choose accommodation option Hotel Ravena</h4>
+                    <ul class="hotel-options row">
+                      <li class="col-12 col-sm-6 d-flex mb-3"><i class="icon icon-check-button"></i><span>Reasonable prices</span></li>
+                      <li class="col-12 col-sm-6 d-flex mb-3"><i class="icon icon-check-button"></i><span>Staff speaks 3 languages</span></li>
+                      <li class="col-12 col-sm-6 d-flex mb-3"><i class="icon icon-check-button"></i><span>One of the best options chosen by guests in the city of Milan</span></li>
+                      <li class="col-12 col-sm-6 d-flex mb-3"><i class="icon icon-check-button"></i><span>Manage reservations online</span></li>
+                      <li class="col-12 col-sm-6 d-flex mb-3"><i class="icon icon-check-button"></i><span>Free parking</span></li>
+                    </ul>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-nav btn-nav--up js-scroll-up" type="button"><i class="fa fa-angle-up"></i></button>
+      </div>
+    </main>
+    <footer class="page-footer">
+      <div class="page-footer__cover jarallax" data-speed="0.5"><img class="jarallax-img" src="img/footer.jpg" alt="#"></div>
+      <div class="container mb-5 mb-lg-4">
+        <div class="row">
+          <div class="col-12 col-sm-6 col-lg-4 mt-5">
+            <h3 class="h3 text-uppercase">your travel world</h3>
+            <ul class="page-footer__address">
+              <li class="mb-2"><strong class="float-left mr-1">A:</strong>
+                314-336 Bourke St, Melbourne VIC 3000, Australia
+              </li>
+              <li class="mb-2"><strong class="float-left mr-1">P:</strong>
+                24/7 customer support:
+                <a href="tel:#">1-222-2222-22-22</a>
+              </li>
+              <li class="mb-2"><strong class="float-left mr-1">E:</strong>
+                <a href="mailto:#">Yourtravel@gmail.com</a>
+              </li>
+            </ul>
+            <h4 class="h4 mb-2">Follow us:</h4>
+            <ul class="footer-social d-flex flex-wrap">
+              <li class="mr-4"><a class="social-link" href="#" target="_blank"><i class="fa fa-facebook"></i></a></li>
+              <li class="mr-4"><a class="social-link" href="#" target="_blank"><i class="fa fa-twitter"></i></a></li>
+              <li class="mr-4"><a class="social-link" href="#" target="_blank"><i class="fa fa-instagram"></i></a></li>
+              <li class="mr-4"><a class="social-link" href="#" target="_blank"><i class="fa fa-youtube"></i></a></li>
+              <li class="mr-4"><a class="social-link" href="#" target="_blank"><i class="fa fa-whatsapp"></i></a></li>
+            </ul>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-4 mt-5">
+            <h3 class="h3 text-uppercase">customer support</h3>
+            <ul class="page-footer__support list-styled">
+              <li class="mb-2"><a href="#" target="_blank">Faq</a></li>
+              <li class="mb-2"><a href="#" target="_blank">How do I make a reservation?</a></li>
+              <li class="mb-2"><a href="#" target="_blank">Payment options</a></li>
+              <li class="mb-2"><a href="#" target="_blank">Booking tips</a></li>
+            </ul>
+          </div>
+          <div class="col-12 col-sm-12 col-lg-4 mt-5">
+            <h3 class="h3 text-uppercase">get our best offers</h3>
+            <form class="subscribe-form" action="#" method="POST">
+              <div class="input-group input-group--lg flex-nowrap mb-4">
+                <input class="form-control form-control-lg" type="email" placeholder="Enter Your email" required>
+                <div class="input-group-append">
+                  <button class="btn btn-btn btn-light btn--round" type="submit"><i class="fa fa-send"></i>
+                  </button>
+                </div>
+              </div>
+              <p>We guarantee your confidentiality, and we also undertake not to transfer your email address to third parties.</p>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="page-footer__copyright text-center">
+        <div class="container">
+          <div class="hr"></div>YourTravelWorld ltd. All rights reserved.<br/><a class="text-light text-uppercase" href="https://themeforest.net/user/netgon">Copyright by Netgon
+            <script>document.write(new Date().getFullYear());</script></a>
+        </div>
+      </div>
+    </footer>
+    <div class="modal-map modal" id="modalMap" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header align-items-center py-2">
+            <h4 class="modal-title"><a class="d-flex align-items-center" href="hotel.html"><i class="icon mr-2"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 31.5 22.1"><path d="M0.3,10.3C0.3,10.3,0.3,10.3,0.3,10.3c-0.4,0.5-0.4,1.2,0,1.6l10,10c0,0,0,0,0,0c0.4,0.4,1.1,0.4,1.6,0 c0.4-0.4,0.4-1.1,0-1.6l-8-8h26.6c0.6,0,1.1-0.5,1.1-1.1c0,0,0,0,0,0c0-0.6-0.5-1.1-1.1-1.1H3.8l8-8c0.4-0.4,0.4-1.1,0-1.6 c0,0,0,0,0,0c-0.4-0.4-1.1-0.4-1.6,0L0.3,10.3z"/></svg></i><span class="title">Hotel</span></a></h4>
+            <button class="btn btn-secondary btn--round px-4" type="button" data-dismiss="modal">map close
+            </button>
+          </div>
+          <div class="map-contain" id="map"></div>
+        </div>
+      </div>
+    </div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3gFKhVywUkygSxQEBdGVrI5-ZRrdjueA"></script>
+    <script src="js/maps.js"></script>
+    <script src="js/libs/moment.min.js"></script>
+    <script src="js/libs/wNumb.js"></script>
+    <script src="js/libs/nouislider.min.js"></script>
+    <script src="js/libs/jquery.min.js"></script>
+    <script src="js/libs/jquery-ui.min.js"></script>
+    <script src="js/libs/barba.min.js"></script>
+    <script src="js/libs/sticky-kit.min.js"></script>
+    <script src="js/libs/velocity.min.js"></script>
+    <script src="js/libs/velocity.ui.min.js"></script>
+    <script src="js/libs/jquery.waypoints.min.js"></script>
+    <script src="js/libs/popper.min.js"></script>
+    <script src="js/libs/bootstrap.min.js"></script>
+    <script src="js/libs/imagesloaded.pkgd.min.js"></script>
+    <script src="js/libs/masonry.pkgd.min.js"></script>
+    <script src="js/libs/isotope.pkgd.min.js"></script>
+    <script src="js/libs/ofi.min.js"></script>
+    <script src="js/libs/jarallax.min.js"></script>
+    <script src="js/libs/jarallax-video.min.js"></script>
+    <script src="js/libs/jarallax-element.min.js"></script>
+    <script src="js/libs/jquery.mCustomScrollbar.min.js"></script>
+    <script src="js/libs/swiper.min.js"></script>
+    <script src="js/libs/flatpickr/flatpickr.min.js"></script>
+    <script src="js/libs/flatpickr/rangePlugin.js"></script>
+    <script src="js/libs/select2.min.js"></script>
+    <script src="js/libs/select2/en.js"></script>
+    <script src="js/libs/jquery.mask.min.js"></script>
+    <script src="js/libs/validator.min.js"></script>
+    <script src="js/libs/jquery.barrating.min.js"></script>
+    <script src="js/libs/jquery.blueimp-gallery.min.js"></script>
+    <script src="js/script.min.js"></script>
+    <script src="js/demo-switcher.js"></script>
+  </body>
+</html>
