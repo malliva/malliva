@@ -80,18 +80,12 @@ WSGI_APPLICATION = 'malliva.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'djongo',
-        'NAME': 'malliva21_db',
-        'USER': 'root',
-        'PASSWORD': 'Pa$$w0rd',
-        'PORT': '27017'
-        'CLIENT': {
-            'host': 'malliva33y21_db',
-        }
-    }
-}
+import mongoengine
+mongoengine.connect(db='malliva21_db', host='malliva33y21_db', username='mallivay21', password='P@123Maliva')
+
+# For mongo lab connection
+# mongoengine.connect(db='malliva21_db', host='cluster0.z7zzm.mongodb.net', username='mallivay21', password='P@123Maliva')
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators

@@ -1,7 +1,7 @@
 version: '3.8'
 services:
     malliva33y21_api:
-        container_name: django_api
+        container_name: malliva33y21_api
         build:
             context: .
             dockerfile: Dockerfile
@@ -13,13 +13,16 @@ services:
             - malliva33y21_db
     
     malliva33y21_db:
-        container_name: django_admin_db
-        image: mongo
+        container_name: malliva33y21_db
+        image: mongo:4.4
         restart: always
         environment:
-            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_USERNAME: mallivay21
             MONGO_INITDB_ROOT_PASSWORD: P@123Maliva
+            MONGO_INITDB_DATABASE: malliva21_db
         volumes:
-            - .malliva33y_dbdata:/data/mallivadb
+            - .mongodb/home/mongodb:/home/mongodb
+            - .mongodb/database/migrations:/docker-entrypoint-initdb.d
+            - .mongodb/malliva_dbdata:/data/malliva21_db
         ports:
             - 27017:27017
