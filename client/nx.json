@@ -1,0 +1,39 @@
+{
+  "implicitDependencies": {
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
+    ".eslintrc.json": "*"
+  },
+  "affected": {
+    "defaultBase": "master"
+  },
+  "npmScope": "client",
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@nrwl/workspace/tasks-runners/default",
+      "options": {
+        "cacheableOperations": ["build", "lint", "test", "e2e"]
+      }
+    }
+  },
+  "projects": {
+    "marketing-app": {
+      "tags": []
+    },
+    "marketing-app-e2e": {
+      "tags": [],
+      "implicitDependencies": ["marketing-app"]
+    },
+    "client-marketing-app": {
+      "tags": []
+    },
+    "marketing-app-marketing-app": {
+      "tags": []
+    },
+    "marketing-app-landing-page": {
+      "tags": []
+    }
+  }
+}

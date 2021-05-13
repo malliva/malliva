@@ -1,0 +1,30 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2017", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@client/client/marketing-app": [
+        "libs/client/marketing-app/src/index.ts"
+      ],
+      "@client/marketing-app/marketing-app": [
+        "libs/marketing-app/marketing-app/src/index.ts"
+      ],
+      "@client/marketing-app/landing-page": [
+        "libs/marketing-app/landing-page/src/index.ts"
+      ]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}
