@@ -1,0 +1,194 @@
+{
+  "version": 2,
+  "cli": {
+    "defaultCollection": "@nrwl/react"
+  },
+  "defaultProject": "marketing-app",
+  "generators": {
+    "@nrwl/react": {
+      "application": {
+        "style": "scss",
+        "linter": "eslint",
+        "babel": true
+      },
+      "component": {
+        "style": "scss"
+      },
+      "library": {
+        "style": "scss",
+        "linter": "eslint"
+      }
+    }
+  },
+  "projects": {
+    "marketing-app": {
+      "root": "apps/marketing-app",
+      "sourceRoot": "apps/marketing-app/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/marketing-app",
+            "index": "apps/marketing-app/src/index.html",
+            "main": "apps/marketing-app/src/main.tsx",
+            "polyfills": "apps/marketing-app/src/polyfills.ts",
+            "tsConfig": "apps/marketing-app/tsconfig.app.json",
+            "assets": [
+              "apps/marketing-app/src/favicon.ico",
+              "apps/marketing-app/src/assets"
+            ],
+            "styles": ["apps/marketing-app/src/styles.scss"],
+            "scripts": [],
+            "webpackConfig": "tailwind.webpack.config.js"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/marketing-app/src/environments/environment.ts",
+                  "with": "apps/marketing-app/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/web:dev-server",
+          "options": {
+            "buildTarget": "marketing-app:build"
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "marketing-app:build:production"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/marketing-app/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/marketing-app"],
+          "options": {
+            "jestConfig": "apps/marketing-app/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "marketing-app-e2e": {
+      "root": "apps/marketing-app-e2e",
+      "sourceRoot": "apps/marketing-app-e2e/src",
+      "projectType": "application",
+      "targets": {
+        "e2e": {
+          "executor": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/marketing-app-e2e/cypress.json",
+            "tsConfig": "apps/marketing-app-e2e/tsconfig.e2e.json",
+            "devServerTarget": "marketing-app:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "marketing-app:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/marketing-app-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    },
+    "client-marketing-app": {
+      "root": "libs/client/marketing-app",
+      "sourceRoot": "libs/client/marketing-app/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/client/marketing-app/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/client/marketing-app"],
+          "options": {
+            "jestConfig": "libs/client/marketing-app/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "marketing-app-marketing-app": {
+      "root": "libs/marketing-app/marketing-app",
+      "sourceRoot": "libs/marketing-app/marketing-app/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/marketing-app/marketing-app/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/marketing-app/marketing-app"],
+          "options": {
+            "jestConfig": "libs/marketing-app/marketing-app/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "marketing-app-landing-page": {
+      "root": "libs/marketing-app/landing-page",
+      "sourceRoot": "libs/marketing-app/landing-page/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/marketing-app/landing-page/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/marketing-app/landing-page"],
+          "options": {
+            "jestConfig": "libs/marketing-app/landing-page/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    }
+  }
+}
