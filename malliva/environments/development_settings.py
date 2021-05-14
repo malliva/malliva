@@ -37,6 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework_mongoengine'
+    'corsheaders'
+    'users'
 ]
 
 MIDDLEWARE = [
@@ -47,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'malliva.urls'
@@ -80,12 +84,12 @@ WSGI_APPLICATION = 'malliva.wsgi.application'
 #     }
 # }
 
-import mongoengine
-mongoengine.connect(db='malliva21_db', host='malliva33y21_db', username='mallivay21', password='P@123Maliva')
-
-# For mongo lab connection
-# mongoengine.connect(db='malliva21_db', host='cluster0.z7zzm.mongodb.net', username='mallivay21', password='P@123Maliva')
-
+DATABASES = {
+    'default': {
+        'ENGINE': '',
+        'NAME': '',
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -124,3 +128,19 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# Custom settings for this project
+
+# Default Mongo database settings
+
+DB_USERNAME = 'mallivay21'
+DB_PASSWORD = 'P@123Maliva'
+PLATFORM_DB = 'malliva21_db'
+PLATFORM_DB_CONN_ALIAS = 'MALLIVA0000001'
+PLATFORM_DB_HOST = 'malliva33y21_db'
+
+AUTH_USER_MODEL = 'users.User'
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
