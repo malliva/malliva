@@ -4,10 +4,10 @@ boto3
 Django
 django-cors-headers
 django-storages
-django-rest-framework-mongoengine
+django-rest-framework
+djongo
 Faker
 mongo-connector
-mongoengine
 Pillow
 PyJWT
 python-dateutil

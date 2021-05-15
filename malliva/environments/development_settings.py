@@ -37,9 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework_mongoengine'
-    'corsheaders'
-    'users'
+    'rest_framework',
+    'corsheaders',
+    'mallivaUsers'
 ]
 
 MIDDLEWARE = [
@@ -84,12 +84,6 @@ WSGI_APPLICATION = 'malliva.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': '',
-        'NAME': '',
-    }
-}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -134,13 +128,24 @@ STATIC_URL = '/static/'
 
 # Default Mongo database settings
 
-DB_USERNAME = 'mallivay21'
-DB_PASSWORD = 'P@123Maliva'
-PLATFORM_DB = 'malliva21_db'
-PLATFORM_DB_CONN_ALIAS = 'MALLIVA0000001'
-PLATFORM_DB_HOST = 'malliva33y21_db'
+DATABASES = {
+    'default': {
+        'ENGINE': 'djongo',
+        'NAME': 'malliva21_db',
+        'HOST': 'localhost',
+        'USER': 'mallivay21',
+        'PASSWORD': 'P@123Maliva'
+    }
+}
 
-AUTH_USER_MODEL = 'users.User'
+
+# DB_USERNAME = 'mallivay21'
+# DB_PASSWORD = 'P@123Maliva'
+# PLATFORM_DB = 'malliva21_db'
+# PLATFORM_DB_CONN_ALIAS = 'MALLIVA0000001'
+# PLATFORM_DB_HOST = 'malliva33y21_db'
+
+AUTH_USER_MODEL = 'mallivaUsers.User'
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True

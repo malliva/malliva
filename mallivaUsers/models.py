@@ -1,14 +1,29 @@
 # User authentication abstraction for all kinds of users
 
-from mongoengine import *
+from django.db import models
+from django.contrib.auth.models import AbstractUser
 
-# import the current settings for this mode
+# import the settings loaded for this environment mode (Development or production settings)
 from django.conf import settings
 
-class User(Document):
-    first_name = StringField(max_length=200)
-    last_name = StringField(max_length=200)
-    username = StringField(max_length=200, unique=True, required=True)
-    password = StringField(max_length=200, required=True)
-    email_address = StringField(max_length=200, unique=True, required=True)
-    role = StringField(max_length=200, null=True)
+# Manage connections to database based on models
+#from tenant_connections import connect_to_database
+# connect_to_database(settings.PLATFORM_DB_HOST, settings.PLATFORM_DB_CONN_ALIAS, settings.PLATFORM_DB, settings.DB_USERNAME, settings.DB_PASSWORD)
+
+class User(AbstractUser):
+    first_name = models.CharField(max_length=200)
+    last_name = models.CharField(max_length=200)
+    username = models.CharField(max_length=200, unique=True)
+    password = models.CharField(max_length=200)
+    email_address = models.EmailField(max_length=200, unique=True)
+    user_context = models.CharField(max_length=200)
+    role = models.CharField(max_length=200, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
+
+    USERNAME_FIELD = 'email_address'
+    EMAIL_FIELD = 'email_address'
+    REQUIRED_FIELDS = ['user_context']
+
+    # connect to database based on context
+    # meta = {'db_alias': 'user-db-alias'}
