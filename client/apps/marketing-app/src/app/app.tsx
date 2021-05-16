@@ -1,4 +1,4 @@
-import { MarketingAppLandingPage } from 'libs/marketing-app/landing-page/src/index';
+import { MarketingAppLandingPage } from '@client/marketing-app/landing-page';
 
 export function App() {
   return (
