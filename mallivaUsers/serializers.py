@@ -17,7 +17,6 @@ class UserSerializer(serializers.ModelSerializer):
         # fields = '__all__'
         # allow only selected inputs
         fields = [
-            "user_id",
             "first_name",
             "last_name",
             "email_address",
