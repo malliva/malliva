@@ -25,7 +25,7 @@ SECRET_KEY = ")-o_$+9*gk1!u#u-4xie!ll-5u95mdgw3as57x%c-qi3)z@%rg"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [".localhost"]
 
 
 # Application definition
@@ -37,12 +37,16 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django_hosts",
     "rest_framework",
     "corsheaders",
     "mallivaUsers",
+    "marketplaceRouter",
+    "settingsManager",
 ]
 
 MIDDLEWARE = [
+    "django_hosts.middleware.HostsRequestMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -51,6 +55,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "corsheaders.middleware.CorsMiddleware",
+    "django_hosts.middleware.HostsResponseMiddleware",
 ]
 
 ROOT_URLCONF = "malliva.urls"
@@ -138,6 +143,7 @@ DATABASES = {
     }
 }
 
+DATABASE_ROUTERS = []
 
 # DB_USERNAME = 'mallivay21'
 # DB_PASSWORD = 'P@123Maliva'
@@ -149,3 +155,7 @@ AUTH_USER_MODEL = "mallivaUsers.User"
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
+
+DEFAULT_HOST = "*"
+
+ROOT_HOSTCONF = "malliva.hosts"

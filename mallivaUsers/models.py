@@ -7,8 +7,9 @@ from django.contrib.auth.models import AbstractUser
 from django.conf import settings
 
 # Manage connections to database based on models
-#from tenant_connections import connect_to_database
+# from tenant_connections import connect_to_database
 # connect_to_database(settings.PLATFORM_DB_HOST, settings.PLATFORM_DB_CONN_ALIAS, settings.PLATFORM_DB, settings.DB_USERNAME, settings.DB_PASSWORD)
+
 
 class User(AbstractUser):
     first_name = models.CharField(max_length=200)
@@ -21,9 +22,9 @@ class User(AbstractUser):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
 
-    USERNAME_FIELD = 'email_address'
-    EMAIL_FIELD = 'email_address'
-    REQUIRED_FIELDS = ['user_context']
+    USERNAME_FIELD = "email_address"
+    EMAIL_FIELD = "email_address"
+    REQUIRED_FIELDS = ["user_context"]
 
     # connect to database based on context
     # meta = {'db_alias': 'user-db-alias'}

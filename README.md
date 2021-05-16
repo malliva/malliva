@@ -14,3 +14,6 @@ python manage.py createsuperuser
 
 python .\manage.py runserver
 
+API end points
+
+http://localhost:8000/api/v1/accounts/register POST
