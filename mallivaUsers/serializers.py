@@ -19,7 +19,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = [
             "first_name",
             "last_name",
-            "email_address",
+            "email",
             "password",
             "role",
             "user_context",
@@ -44,7 +44,7 @@ class UserSerializer(serializers.ModelSerializer):
     # def update(self, user, validated_data):
 
     #     # remove and return password from validated data
-    #     password = validated_data.pop('password', None)
+    #     password = validated_data.pop("password", None)
 
     #     if password is not None:
     #         user.set_password(password)

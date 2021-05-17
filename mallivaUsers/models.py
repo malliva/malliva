@@ -16,14 +16,17 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=200)
     username = models.CharField(max_length=200, unique=True)
     password = models.CharField(max_length=200)
-    email_address = models.EmailField(max_length=200, unique=True)
+    email = models.EmailField(max_length=200, unique=True)
     user_context = models.CharField(max_length=200)
     role = models.CharField(max_length=200, null=True)
+    marketplace_id = models.ForeignKey(
+        "marketplaceAccounts.MarketplaceAccount", on_delete=models.DO_NOTHING, null=True
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
 
-    USERNAME_FIELD = "email_address"
-    EMAIL_FIELD = "email_address"
+    USERNAME_FIELD = "email"
+    EMAIL_FIELD = "email"
     REQUIRED_FIELDS = ["user_context"]
 
     # connect to database based on context

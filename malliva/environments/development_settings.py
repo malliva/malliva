@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,16 +38,13 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "django_hosts",
     "rest_framework",
     "corsheaders",
     "mallivaUsers",
-    "marketplaceRouter",
-    "settingsManager",
+    "marketplaceAccounts",
 ]
 
 MIDDLEWARE = [
-    "django_hosts.middleware.HostsRequestMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -55,7 +53,6 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "corsheaders.middleware.CorsMiddleware",
-    "django_hosts.middleware.HostsResponseMiddleware",
 ]
 
 ROOT_URLCONF = "malliva.urls"
@@ -143,19 +140,10 @@ DATABASES = {
     }
 }
 
-DATABASE_ROUTERS = []
-
-# DB_USERNAME = 'mallivay21'
-# DB_PASSWORD = 'P@123Maliva'
-# PLATFORM_DB = 'malliva21_db'
-# PLATFORM_DB_CONN_ALIAS = 'MALLIVA0000001'
-# PLATFORM_DB_HOST = 'malliva33y21_db'
 
 AUTH_USER_MODEL = "mallivaUsers.User"
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
-DEFAULT_HOST = "*"
-
-ROOT_HOSTCONF = "malliva.hosts"
+MALLIVA_DOMAIN = "localhost"

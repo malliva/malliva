@@ -3,7 +3,6 @@ bcrypt
 boto3
 Django
 django-cors-headers
-django-hosts==4.0
 django-storages
 django-rest-framework
 djongo
