@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +26,7 @@ SECRET_KEY = ")-o_$+9*gk1!u#u-4xie!ll-5u95mdgw3as57x%c-qi3)z@%rg"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [".localhost"]
 
 
 # Application definition
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "corsheaders",
     "mallivaUsers",
+    "marketplaceAccounts",
 ]
 
 MIDDLEWARE = [
@@ -139,13 +141,9 @@ DATABASES = {
 }
 
 
-# DB_USERNAME = 'mallivay21'
-# DB_PASSWORD = 'P@123Maliva'
-# PLATFORM_DB = 'malliva21_db'
-# PLATFORM_DB_CONN_ALIAS = 'MALLIVA0000001'
-# PLATFORM_DB_HOST = 'malliva33y21_db'
-
 AUTH_USER_MODEL = "mallivaUsers.User"
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
+
+MALLIVA_DOMAIN = "localhost"
