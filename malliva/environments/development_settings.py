@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+import malliva
 from pathlib import Path
 import os
 
@@ -53,6 +54,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "corsheaders.middleware.CorsMiddleware",
+    "malliva.databaseResolver.getSubdomainMiddleware",
 ]
 
 ROOT_URLCONF = "malliva.urls"
@@ -137,13 +139,19 @@ DATABASES = {
         "HOST": "localhost",
         "USER": "mallivay21",
         "PASSWORD": "P@123Maliva",
+        "tz_aware": True,  # if you using timezones in django (USE_TZ = True)
     }
 }
 
+
+
+DATABASE_ROUTERS = ["malliva.marketplaceRouter.MallivaDatabaseRouter"]
 
 AUTH_USER_MODEL = "mallivaUsers.User"
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
-MALLIVA_DOMAIN = "localhost"
+MALLIVA_DOMAIN = "localhost:8000"
+MALLIVA_SUB = "help"
+MALLIVA_DEFAULT_DB = "malliva21_db"

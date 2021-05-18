@@ -7,14 +7,14 @@ from rest_framework.response import Response
 # from .authentication import generate_access_token, jwtAuthentication
 from .serializers import MarketplaceAccountSerializer
 
-from django.contrib.sites.shortcuts import get_current_site
-
 
 @api_view(["POST"])
 def create_marketplace(request):
     data = request.data
-    current_site = get_current_site(request)
-    print(current_site)
+
+    # set the database for this request
+    database_name = request.META["database_name"]
+    print(database_name)
 
     serializer = MarketplaceAccountSerializer(data=data)
     serializer.is_valid(raise_exception=True)
