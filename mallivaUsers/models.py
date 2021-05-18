@@ -18,7 +18,7 @@ class User(AbstractUser):
     password = models.CharField(max_length=200)
     email = models.EmailField(max_length=200, unique=True)
     user_context = models.CharField(max_length=200)
-    role = models.CharField(max_length=200, null=True)
+    role = models.CharField(max_length=200, default="")
     marketplace_id = models.ForeignKey(
         "marketplaceAccounts.MarketplaceAccount", on_delete=models.DO_NOTHING, null=True
     )

@@ -1,3 +1,5 @@
+from re import I
+from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import render
 from rest_framework import exceptions
 from rest_framework.decorators import api_view
@@ -6,6 +8,7 @@ from .models import User
 
 from .authentication import generate_access_token, jwtAuthentication
 from .serializers import UserSerializer
+
 
 # Create your views here.
 
