@@ -34,6 +34,19 @@
     },
     "marketing-app-landing-page": {
       "tags": []
+    },
+    "market-app": {
+      "tags": []
+    },
+    "market-app-e2e": {
+      "tags": [],
+      "implicitDependencies": ["market-app"]
+    },
+    "market-app-sign-ups": {
+      "tags": []
+    },
+    "market-app-sign-in": {
+      "tags": []
     }
   }
 }

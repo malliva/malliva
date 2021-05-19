@@ -23,7 +23,9 @@
       ],
       "@client/marketing-app/landing-page": [
         "libs/marketing-app/landing-page/src/index.ts"
-      ]
+      ],
+      "@client/market-app/sign-ups": ["libs/market-app/sign-ups/src/index.ts"],
+      "@client/market-app/sign-in": ["libs/market-app/sign-in/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
