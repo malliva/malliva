@@ -333,6 +333,52 @@
           }
         }
       }
+    },
+    "market-app-landing-page": {
+      "root": "libs/market-app/landing-page",
+      "sourceRoot": "libs/market-app/landing-page/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/market-app/landing-page/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/market-app/landing-page"],
+          "options": {
+            "jestConfig": "libs/market-app/landing-page/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "market-app-top-menu": {
+      "root": "libs/market-app/top-menu",
+      "sourceRoot": "libs/market-app/top-menu/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/market-app/top-menu/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/market-app/top-menu"],
+          "options": {
+            "jestConfig": "libs/market-app/top-menu/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   }
 }

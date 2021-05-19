@@ -7,5 +7,7 @@ module.exports = {
     '<rootDir>/apps/market-app',
     '<rootDir>/libs/market-app/sign-ups',
     '<rootDir>/libs/market-app/sign-in',
+    '<rootDir>/libs/market-app/landing-page',
+    '<rootDir>/libs/market-app/top-menu',
   ],
 };

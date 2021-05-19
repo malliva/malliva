@@ -25,7 +25,11 @@
         "libs/marketing-app/landing-page/src/index.ts"
       ],
       "@client/market-app/sign-ups": ["libs/market-app/sign-ups/src/index.ts"],
-      "@client/market-app/sign-in": ["libs/market-app/sign-in/src/index.ts"]
+      "@client/market-app/sign-in": ["libs/market-app/sign-in/src/index.ts"],
+      "@client/market-app/landing-page": [
+        "libs/market-app/landing-page/src/index.ts"
+      ],
+      "@client/market-app/top-menu": ["libs/market-app/top-menu/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

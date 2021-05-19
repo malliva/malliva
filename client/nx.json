@@ -47,6 +47,12 @@
     },
     "market-app-sign-in": {
       "tags": []
+    },
+    "market-app-landing-page": {
+      "tags": []
+    },
+    "market-app-top-menu": {
+      "tags": []
     }
   }
 }
