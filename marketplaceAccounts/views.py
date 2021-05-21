@@ -12,10 +12,6 @@ from .serializers import MarketplaceAccountSerializer
 def create_marketplace(request):
     data = request.data
 
-    # set the database for this request
-    database_name = request.META["database_name"]
-    print(database_name)
-
     serializer = MarketplaceAccountSerializer(data=data)
     serializer.is_valid(raise_exception=True)
     serializer.save()

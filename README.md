@@ -21,6 +21,11 @@ http://localhost:8000/api/v1/user/register POST
 http://localhost:8000/api/v1/marketplace/create/ POST
 
 npm install -g nx
+
 npm install
+
 nx serve marketing-app or 
+
 npm run nx -- serve marketing-app
+
+Change secret key for production
