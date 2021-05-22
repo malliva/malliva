@@ -19,6 +19,6 @@ from django.urls import path, re_path, include
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    re_path(r"^api/v1/users/", include("mallivaUsers.urls")),
-    re_path(r"^api/v1/marketplace/", include("marketplaceAccounts.urls")),
+    path("api/v1/users/", include("mallivaUsers.urls")),
+    path("api/v1/marketplace/", include("marketplaceAccounts.urls")),
 ]

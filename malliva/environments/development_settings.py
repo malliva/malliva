@@ -144,7 +144,6 @@ DATABASES = {
 }
 
 
-
 DATABASE_ROUTERS = ["malliva.marketplaceRouter.MallivaDatabaseRouter"]
 
 AUTH_USER_MODEL = "mallivaUsers.User"
@@ -155,3 +154,7 @@ CORS_ALLOW_CREDENTIALS = True
 MALLIVA_DOMAIN = "localhost:8000"
 MALLIVA_SUB = "help"
 MALLIVA_DEFAULT_DB = "malliva21_db"
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+MEDIA_URL = "/media/"

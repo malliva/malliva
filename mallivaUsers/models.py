@@ -15,6 +15,7 @@ class User(AbstractUser):
     marketplace = models.ForeignKey(
         "marketplaceAccounts.MarketplaceAccount", on_delete=models.CASCADE
     )
+    profile_picture = models.ImageField(upload_to="user_profile_pictures/",)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
 

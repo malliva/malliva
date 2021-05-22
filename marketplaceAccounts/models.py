@@ -3,7 +3,10 @@
 import uuid
 from django.db import models
 
-from django.conf import settings
+# from django.conf import settings
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 class MarketplaceAccount(models.Model):
@@ -13,7 +16,7 @@ class MarketplaceAccount(models.Model):
     # make it foreign key to marketplace settings
     marketplace_name = models.CharField(max_length=200)
 
-    marketplace_admin = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING)
+    marketplace_admin = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     marketplace_plan_id = models.CharField(max_length=200, default="trial")
 
     database_name = models.CharField(max_length=200, unique=True)

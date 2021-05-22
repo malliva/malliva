@@ -23,6 +23,7 @@ class UserSerializer(serializers.ModelSerializer):
             "password",
             "role",
             "user_context",
+            "profile_picture",
         ]
 
         # Don't show passwords in API responses

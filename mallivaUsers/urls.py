@@ -1,14 +1,22 @@
 from django.urls import path, re_path
-from .views import register, login, logout, UserViewSet, PasswordUpdateAPIView
+from .views import (
+    register,
+    login,
+    logout,
+    UserViewSet,
+    PasswordUpdateAPIView,
+    ProfilePictureUploadView,
+)
 
 urlpatterns = [
-    re_path(r"^register", register),
-    re_path(r"^login", login),
-    re_path(r"^login", logout),
-    path("users", UserViewSet.as_view({"get": "list", "post": "create"})),
+    path("register", register),
+    path("login", login),
+    path("logout", logout),
+    path("change_password", PasswordUpdateAPIView.as_view()),
+    path("profile_picture", ProfilePictureUploadView.as_view()),
+    path("", UserViewSet.as_view({"get": "list"})),
     path(
-        "users/<str:pk>",
+        "<str:pk>",
         UserViewSet.as_view({"get": "retrieve", "put": "update", "delete": "destroy"}),
     ),
-    path("users/change_password", PasswordUpdateAPIView.as_view()),
 ]
