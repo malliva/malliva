@@ -379,6 +379,52 @@
           }
         }
       }
+    },
+    "market-app-main-filter": {
+      "root": "libs/market-app/main-filter",
+      "sourceRoot": "libs/market-app/main-filter/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/market-app/main-filter/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/market-app/main-filter"],
+          "options": {
+            "jestConfig": "libs/market-app/main-filter/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "market-app-item-list": {
+      "root": "libs/market-app/item-list",
+      "sourceRoot": "libs/market-app/item-list/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/market-app/item-list/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/market-app/item-list"],
+          "options": {
+            "jestConfig": "libs/market-app/item-list/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   }
 }

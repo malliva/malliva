@@ -53,6 +53,12 @@
     },
     "market-app-top-menu": {
       "tags": []
+    },
+    "market-app-main-filter": {
+      "tags": []
+    },
+    "market-app-item-list": {
+      "tags": []
     }
   }
 }

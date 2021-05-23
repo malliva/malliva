@@ -11,7 +11,7 @@ export function MarketAppSignIn(props: MarketAppSignInProps) {
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <img
           className="mx-auto h-12 w-auto"
-          src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+          src="https://tailwindui.com/img/logos/workflow-mark-teal-200-cyan-400.svg"
           alt="Workflow"
         />
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
@@ -21,7 +21,7 @@ export function MarketAppSignIn(props: MarketAppSignInProps) {
           Or{' '}
           <a
             href="#"
-            className="font-medium text-indigo-600 hover:text-indigo-500"
+            className="font-medium text-gray-600 hover:text-indigo-500"
           >
             start your 14-day free trial
           </a>
@@ -72,8 +72,8 @@ export function MarketAppSignIn(props: MarketAppSignInProps) {
             <div className="flex items-center justify-between">
               <div className="flex items-center">
                 <a
-                  href="#"
-                  className="font-medium text-indigo-600 hover:text-indigo-500"
+                  href="/sign-up"
+                  className="font-medium text-gray-600 hover:text-indigo-500"
                 >
                   New to this app?
                 </a>
@@ -82,7 +82,7 @@ export function MarketAppSignIn(props: MarketAppSignInProps) {
               <div className="text-sm">
                 <a
                   href="#"
-                  className="font-medium text-indigo-600 hover:text-indigo-500"
+                  className="font-medium text-gray-600 hover:text-indigo-500"
                 >
                   Forgot your password?
                 </a>
@@ -92,7 +92,7 @@ export function MarketAppSignIn(props: MarketAppSignInProps) {
             <div>
               <button
                 type="submit"
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 Sign in
               </button>
