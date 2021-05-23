@@ -1,16 +1,28 @@
+import React from 'react';
 import styles from './app.module.scss';
-
-import { ReactComponent as Logo } from './logo.svg';
-import star from './star.svg';
-
-import { Route, Link } from 'react-router-dom';
+import { Route, BrowserRouter, Switch, Redirect } from 'react-router-dom';
 
 import { MarketAppLandingPage } from 'libs/market-app/landing-page/src/index';
+import { MarketAppSignIn } from 'libs/market-app/sign-in/src/index';
+import { MarketAppSignUps } from 'libs/market-app/sign-ups/src/index';
 
 export function App() {
   return (
     <div>
-      <MarketAppLandingPage />
+      <BrowserRouter>
+        <Switch>
+          <Route path="/sign-in">
+            <MarketAppSignIn />
+          </Route>
+          <Route path="/sign-up">
+            <MarketAppSignUps />
+          </Route>
+          <Route path="/dashboard">
+            <MarketAppLandingPage />
+          </Route>
+          <Redirect to="/sign-in" />
+        </Switch>
+      </BrowserRouter>
     </div>
   );
 }
