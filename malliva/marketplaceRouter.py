@@ -38,5 +38,9 @@ class MallivaDatabaseRouter:
         """
         All non-auth models end up in this pool.
         """
-        # return db == 'default'
+
+        # if 'target_db' in hints:
+        #     return db == hints['target_db']
+
+        return db == "default"
         return True

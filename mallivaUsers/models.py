@@ -3,19 +3,23 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+# TODO Evaluate: create abstract models to separate marketplace users from malliva admin
+
+
+def user_directory_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
+    return "user_{0}/{1}".format(instance.user.id, filename)
+
 
 class User(AbstractUser):
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
-    username = models.CharField(max_length=200, unique=True)
+    username = models.CharField(max_length=200, primary_key=True)
     password = models.CharField(max_length=200)
     email = models.EmailField(max_length=200, unique=True)
     user_context = models.CharField(max_length=200)
     role = models.CharField(max_length=200, default="")
-    marketplace = models.ForeignKey(
-        "marketplaceAccounts.MarketplaceAccount", on_delete=models.CASCADE
-    )
-    profile_picture = models.ImageField(upload_to="user_profile_pictures/",)
+    profile_picture = models.ImageField(upload_to=user_directory_path, default="")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
 

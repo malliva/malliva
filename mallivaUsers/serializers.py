@@ -42,13 +42,23 @@ class UserSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
-    # def update(self, user, validated_data):
+    def update(self, instance, validated_data):
 
-    #     # remove and return password from validated data
-    #     password = validated_data.pop("password", None)
+        # remove and return password from validated data
+        password = validated_data.pop("password", None)
+        instance.first_name = validated_data.get("first_name", instance.first_name)
+        instance.last_name = validated_data.get("last_name", instance.last_name)
+        instance.email = validated_data.get("email", instance.email)
+        instance.role = validated_data.get("role", instance.role)
+        instance.user_context = validated_data.get(
+            "user_context", instance.user_context
+        )
+        instance.profile_picture = validated_data.get(
+            "profile_picture", instance.profile_picture
+        )
 
-    #     if password is not None:
-    #         user.set_password(password)
+        if password is not None:
+            instance.set_password(password)
 
-    #     user.save()
-    #     return user
+        instance.save()
+        return instance

@@ -80,7 +80,30 @@ def logout(request):
     return response
 
 
-class UserViewSet(viewsets.ViewSet):
+class PasswordUpdateAPIView(APIView):
+    """
+    This apiview requires authentication and will handle password change requests
+    """
+
+    authentication_classes = [jwtAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request, pk=None):
+        user = request.user
+
+        if request.data["password"] != request.data["password_confirm"]:
+            raise exceptions.ValidationError("Passwords do not match")
+
+        # initialize the serializer
+        serializer = UserSerializer(user, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+
+        # call the serializer
+        serializer.save(owner=user)
+        return Response(serializer.data)
+
+
+class ProfilePictureUploadView(viewsets.ViewSet):
     """
     This viewset api requires authentication and will handle all
     user profile update requests
@@ -92,13 +115,23 @@ class UserViewSet(viewsets.ViewSet):
     authentication_classes = [jwtAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def list(self, request):
+    parser_classes = [
+        MultiPartParser,
+    ]
 
-        response = Response()
+    def upload(self, request):
 
-        response.data = {"message": "Users can list"}
+        user = request.user
 
-        return response
+        file = request.data["profile_picture"]
+        file_name = default_storage.save(file.name, file)
+        url = default_storage.url(file_name)
+
+        serializer = UserSerializer(user, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response({"url": settings.MALLIVA_DOMAIN + "/api/v1/users" + url})
 
     def retrieve(self, request, pk=None):
 
@@ -120,71 +153,7 @@ class UserViewSet(viewsets.ViewSet):
 
         return response
 
-    def destroy(self, request, pk=None):
-
-        data = request.data
-
-        response = Response()
-
-        response.data = {"message": "delete user"}
-
-        return response
-
-
-class PasswordUpdateAPIView(APIView):
-    """
-    This apiview requires authentication and will handle password change requests
-    """
-
-    authentication_classes = [jwtAuthentication]
-    permission_classes = [IsAuthenticated]
-
-    def put(self, request, pk=None):
-        user = request.user
-
-        if request.data["password"] != request.data["password_confirm"]:
-            raise exceptions.ValidationError("Passwords do not match")
-
-        serializer = UserSerializer(user, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data)
-
-
-class ProfilePictureUploadView(APIView):
-
-    """
-    This apiview requires authentication and will handle profile picture upload requests
-    """
-
-    authentication_classes = [jwtAuthentication]
-    permission_classes = [IsAuthenticated]
-    parser_classes = [
-        MultiPartParser,
-    ]
-
-    def post(self, request):
-
-        user = request.user
-
-        file = request.FILES["profile_picture"]
-        file_name = default_storage.save(file.name, file)
-        url = default_storage.url(file_name)
-
-        serializer = UserSerializer(user, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
-        return Response({"url": settings.MALLIVA_DOMAIN + "/api/v1/users" + url})
-
-    def get(self, request):
-        file = request.FILES["profile_picture"]
-        file_name = default_storage.save(file.name, file)
-        url = default_storage.url(file_name)
-
-        return Response({"url": settings.MALLIVA_DOMAIN + "/api/v1/users" + url})
-
-    def destroy(self, request):
+    def remove(self, request):
         data = request.data
 
         response = Response()
@@ -209,3 +178,69 @@ def forgot_password(request):
     serializer.is_valid(raise_exception=True)
     serializer.save()
     return Response(serializer.data)
+
+
+# class ListUsers(APIView):
+#     """
+#     View to list all users in the marketplace.
+
+#     * Requires token authentication.
+#     * Only admin users are able to access this view.
+#     """
+#     authentication_classes = [authentication.TokenAuthentication]
+#     permission_classes = [permissions.IsAdminUser]
+
+#     def get(self, request, format=None):
+#         """
+#         Return a list of all users.
+#         """
+#         usernames = [user.username for user in User.objects.all()]
+#         return Response(usernames)
+
+
+class UserViewSet(viewsets.ViewSet):
+    """
+    This viewset api requires authentication and will handle all
+    user profile update requests
+    user profile view requests,
+    user delete requests,
+    List users requests,
+    """
+
+    authentication_classes = [jwtAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def retrieve(self, request, pk=None):
+
+        data = request.data
+
+        response = Response()
+
+        response.data = {"message": "Get user details"}
+
+        return response
+
+    def update(self, request, pk=None):
+
+        user = request.user
+
+        # if request.data["password"] != request.data["password_confirm"]:
+        #     raise exceptions.ValidationError("Passwords do not match")
+
+        # initialize the serializer
+        serializer = UserSerializer(user, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+
+        # call the serializer
+        serializer.save(owner=user)
+        return Response(serializer.data)
+
+    def destroy(self, request, pk=None):
+
+        data = request.data
+
+        response = Response()
+
+        response.data = {"message": "delete user"}
+
+        return response
