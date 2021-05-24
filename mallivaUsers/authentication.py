@@ -10,7 +10,7 @@ from django.contrib.auth import get_user_model
 
 def generate_access_token(user):
     payload = {
-        "user_id": user.id,
+        "user_username": user.username,
         "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
         "iat": datetime.datetime.utcnow(),
     }
@@ -31,7 +31,9 @@ class jwtAuthentication(BaseAuthentication):
         except:
             raise exceptions.AuthenticationFailed("unauthenticated")
 
-        user = get_user_model().objects.filter(id=payload["user_id"]).first()
+        user = (
+            get_user_model().objects.filter(username=payload["user_username"]).first()
+        )
 
         if user is None:
             raise exceptions.AuthenticationFailed("User not found")

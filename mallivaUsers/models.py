@@ -2,13 +2,17 @@
 
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.conf import settings
+from threadlocals.threadlocals import get_request_variable
 
 # TODO Evaluate: create abstract models to separate marketplace users from malliva admin
 
 
 def user_directory_path(instance, filename):
-    # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
-    return "user_{0}/{1}".format(instance.user.id, filename)
+    # file will be uploaded to MEDIA_ROOT/domain/<username>/<filename>
+    return "{0}/{1}/{2}".format(
+        get_request_variable("malliva_domain"), instance.username, filename
+    )
 
 
 class User(AbstractUser):
@@ -27,5 +31,13 @@ class User(AbstractUser):
     EMAIL_FIELD = "email"
     REQUIRED_FIELDS = ["user_context"]
 
-    # connect to database based on context
-    # meta = {'db_alias': 'user-db-alias'}
+    @property
+    def set_username(self):
+        """
+        set username from submited email
+        """
+        self.username = self.email.split("@")[0]
+        # return self.username
+
+    def get_fullname(self):
+        return self.first_name + "" + self.last_name

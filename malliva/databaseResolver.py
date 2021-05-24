@@ -15,14 +15,15 @@ class getSubdomainMiddleware:
 
     def __call__(self, request):
 
-        self.current_marketplace = get_current_site(request).domain.split(".")[0]
-        # print("subdomain middleware starts here")
-        # print(self.current_marketplace)
-        if self.current_marketplace == settings.MALLIVA_DOMAIN:
-            # request.META["database_name"] = "default"
+        self.current_marketplace = get_current_site(request).domain.split(":")[0]
+        set_request_variable("malliva_domain", self.current_marketplace)
+
+        if self.current_marketplace == settings.MALLIVA_DOMAIN.split(":")[0]:
             set_request_variable("database_name", settings.MALLIVA_DEFAULT_DB)
         else:
-            set_request_variable("database_name", self.current_marketplace)
+            set_request_variable(
+                "database_name", self.current_marketplace.split(".")[0]
+            )
         # Make the database to default here if you wish to use it no longer
 
         return self.get_response(request)

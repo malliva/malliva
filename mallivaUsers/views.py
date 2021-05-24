@@ -6,12 +6,10 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
-from django.core.files.storage import default_storage
 
 # from .models import User
 # from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
-from django.conf import settings
 
 User = get_user_model()
 from rest_framework.views import APIView
@@ -103,63 +101,29 @@ class PasswordUpdateAPIView(APIView):
         return Response(serializer.data)
 
 
-class ProfilePictureUploadView(viewsets.ViewSet):
-    """
-    This viewset api requires authentication and will handle all
-    user profile update requests
-    user profile view requests,
-    user delete requests,
-    List users requests,
-    """
+# class ProfilePictureUploadView(viewsets.ViewSet):
+#     """
+#     This viewset api requires authentication and will handle all
+#     user profile update requests
+#     user profile view requests,
+#     user delete requests,
+#     List users requests,
+#     """
 
-    authentication_classes = [jwtAuthentication]
-    permission_classes = [IsAuthenticated]
+#     authentication_classes = [jwtAuthentication]
+#     permission_classes = [IsAuthenticated]
 
-    parser_classes = [
-        MultiPartParser,
-    ]
+#     parser_classes = [MultiPartParser]
 
-    def upload(self, request):
+#     def upload(self, request):
 
-        user = request.user
+#         user = request.user
 
-        file = request.data["profile_picture"]
-        file_name = default_storage.save(file.name, file)
-        url = default_storage.url(file_name)
+#         serializer = UserSerializer(user, data=request.data, partial=True)
+#         serializer.is_valid(raise_exception=True)
+#         serializer.save()
 
-        serializer = UserSerializer(user, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
-        return Response({"url": settings.MALLIVA_DOMAIN + "/api/v1/users" + url})
-
-    def retrieve(self, request, pk=None):
-
-        data = request.data
-
-        response = Response()
-
-        response.data = {"message": "Get user details"}
-
-        return response
-
-    def update(self, request, pk=None):
-
-        data = request.data
-
-        response = Response()
-
-        response.data = {"message": "Update user info"}
-
-        return response
-
-    def remove(self, request):
-        data = request.data
-
-        response = Response()
-        response = {"message": "The image has been deleted"}
-
-        return response
+#         return Response(serializer.data)
 
 
 @api_view(["POST"])
@@ -203,29 +167,28 @@ class UserViewSet(viewsets.ViewSet):
     This viewset api requires authentication and will handle all
     user profile update requests
     user profile view requests,
-    user delete requests,
-    List users requests,
+    user delete requests
     """
 
     authentication_classes = [jwtAuthentication]
     permission_classes = [IsAuthenticated]
 
+    parser_classes = [
+        MultiPartParser,
+    ]
+
     def retrieve(self, request, pk=None):
-
-        data = request.data
-
-        response = Response()
-
-        response.data = {"message": "Get user details"}
-
-        return response
-
-    def update(self, request, pk=None):
 
         user = request.user
 
-        # if request.data["password"] != request.data["password_confirm"]:
-        #     raise exceptions.ValidationError("Passwords do not match")
+        queryset = User.objects.all()
+        user = get_object_or_404(queryset, pk=pk)
+        serializer = UserSerializer(user)
+        return Response(serializer.data)
+
+    def update_user(self, request, pk=None):
+
+        user = request.user
 
         # initialize the serializer
         serializer = UserSerializer(user, data=request.data, partial=True)
@@ -233,14 +196,15 @@ class UserViewSet(viewsets.ViewSet):
 
         # call the serializer
         serializer.save(owner=user)
+
         return Response(serializer.data)
 
-    def destroy(self, request, pk=None):
+    def destroy_user(self, request, pk=None):
 
-        data = request.data
+        user = request.user
+        user.delete()
 
         response = Response()
-
-        response.data = {"message": "delete user"}
+        response.data = {"message": "User was successfully deleted"}
 
         return response

@@ -39,6 +39,8 @@ class UserSerializer(serializers.ModelSerializer):
         if password is not None:
             user.set_password(password)
 
+        user.set_username
+
         user.save()
         return user
 
@@ -59,6 +61,8 @@ class UserSerializer(serializers.ModelSerializer):
 
         if password is not None:
             instance.set_password(password)
+
+        print(instance.get_fullname)
 
         instance.save()
         return instance
