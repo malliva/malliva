@@ -1,5 +1,5 @@
 from django.urls import path, re_path
-from .views import register, login, logout, UserViewSet, PasswordUpdateAPIView
+from .views import register, login, logout, UserViewSet, PasswordUpdateAPIView, ListUsers
 
 urlpatterns = [
     path("register", register),
@@ -12,4 +12,5 @@ urlpatterns = [
             {"get": "retrieve", "put": "update_user", "delete": "destroy_user"}
         ),
     ),
+    path("", ListUsers.as_view())
 ]

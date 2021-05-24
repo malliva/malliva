@@ -144,22 +144,24 @@ def forgot_password(request):
     return Response(serializer.data)
 
 
-# class ListUsers(APIView):
-#     """
-#     View to list all users in the marketplace.
+class ListUsers(APIView):
+    """
+    View to list all users in the marketplace.
 
-#     * Requires token authentication.
-#     * Only admin users are able to access this view.
-#     """
-#     authentication_classes = [authentication.TokenAuthentication]
-#     permission_classes = [permissions.IsAdminUser]
+    * Requires token authentication.
+    * Only admin users are able to access this view.
+    """
 
-#     def get(self, request, format=None):
-#         """
-#         Return a list of all users.
-#         """
-#         usernames = [user.username for user in User.objects.all()]
-#         return Response(usernames)
+    authentication_classes = [jwtAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        """
+        Return a list of all users.
+        """
+        queryset = User.objects.all()
+        serializer = UserSerializer(queryset, many=True)
+        return Response(serializer.data)
 
 
 class UserViewSet(viewsets.ViewSet):
