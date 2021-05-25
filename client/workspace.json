@@ -425,6 +425,73 @@
           }
         }
       }
+    },
+    "market-app-footer": {
+      "root": "libs/market-app/footer",
+      "sourceRoot": "libs/market-app/footer/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/market-app/footer/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/market-app/footer"],
+          "options": {
+            "jestConfig": "libs/market-app/footer/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "market-app-top-banner": {
+      "root": "libs/market-app/top-banner",
+      "sourceRoot": "libs/market-app/top-banner/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/market-app/top-banner/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/market-app/top-banner"],
+          "options": {
+            "jestConfig": "libs/market-app/top-banner/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "market-app-top-bar-settings": {
+      "root": "libs/market-app/top-bar-settings",
+      "sourceRoot": "libs/market-app/top-bar-settings/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/market-app/top-bar-settings/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/market-app/top-bar-settings"],
+          "options": {
+            "jestConfig": "libs/market-app/top-bar-settings/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   }
 }

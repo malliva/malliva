@@ -59,6 +59,15 @@
     },
     "market-app-item-list": {
       "tags": []
+    },
+    "market-app-footer": {
+      "tags": []
+    },
+    "market-app-top-banner": {
+      "tags": []
+    },
+    "market-app-top-bar-settings": {
+      "tags": []
     }
   }
 }

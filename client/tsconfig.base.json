@@ -33,7 +33,16 @@
       "@client/market-app/main-filter": [
         "libs/market-app/main-filter/src/index.ts"
       ],
-      "@client/market-app/item-list": ["libs/market-app/item-list/src/index.ts"]
+      "@client/market-app/item-list": [
+        "libs/market-app/item-list/src/index.ts"
+      ],
+      "@client/market-app/footer": ["libs/market-app/footer/src/index.ts"],
+      "@client/market-app/top-banner": [
+        "libs/market-app/top-banner/src/index.ts"
+      ],
+      "@client/market-app/top-bar-settings": [
+        "libs/market-app/top-bar-settings/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

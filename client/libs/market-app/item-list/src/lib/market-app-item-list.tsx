@@ -11,7 +11,7 @@ const people = [
     linkedinUrl: '#',
   },
   {
-    name: 'Lindsay Walton',
+    name: 'Lindsay Walton 1',
     role: 'Front-end Developer',
     imageUrl:
       'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80',
@@ -19,7 +19,7 @@ const people = [
     linkedinUrl: '#',
   },
   {
-    name: 'Lindsay Walton',
+    name: 'Lindsay Walton 2',
     role: 'Front-end Developer',
     imageUrl:
       'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80',
@@ -27,7 +27,7 @@ const people = [
     linkedinUrl: '#',
   },
   {
-    name: 'Lindsay Walton',
+    name: 'Lindsay Walton 3',
     role: 'Front-end Developer',
     imageUrl:
       'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80',
@@ -35,7 +35,7 @@ const people = [
     linkedinUrl: '#',
   },
   {
-    name: 'Lindsay Walton',
+    name: 'Lindsay Walton 4',
     role: 'Front-end Developer',
     imageUrl:
       'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80',
@@ -43,7 +43,7 @@ const people = [
     linkedinUrl: '#',
   },
   {
-    name: 'Lindsay Walton',
+    name: 'Lindsay Walton 5',
     role: 'Front-end Developer',
     imageUrl:
       'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80',
@@ -57,8 +57,8 @@ export interface MarketAppItemListProps {}
 
 export function MarketAppItemList(props: MarketAppItemListProps) {
   return (
-    <div className="bg-white">
-      <div className="mx-auto py-12 px-4 max-w-7xl sm:px-6 lg:px-8 lg:py-24">
+    <div className="bg-white ml-2">
+      <div className="mx-auto  max-w-5xl sm:px-6 lg:px-8 lg:py-10">
         <div className="space-y-12">
           <div className="space-y-5 sm:space-y-4 md:max-w-xl lg:max-w-3xl xl:max-w-none">
             <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">

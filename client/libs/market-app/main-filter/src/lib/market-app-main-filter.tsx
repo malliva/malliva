@@ -22,14 +22,14 @@ const filters = [
   },
   {
     id: 3,
-    title: 'Office closed on July 2nd',
+    title: 'Office closed on July 2nd 1',
     href: '#',
     preview:
       'Tenetur libero voluptatem rerum occaecati qui est molestiae exercitationem. Voluptate quisquam iure assumenda consequatur ex et recusandae. Alias consectetur voluptatibus. Accusamus a ab dicta et. Consequatur quis dignissimos voluptatem nisi.',
   },
   {
     id: 4,
-    title: 'Office closed on July 2nd',
+    title: 'Office closed on July 2nd 2',
     href: '#',
     preview: 'Has text libero',
     checkbox: true,
@@ -75,9 +75,9 @@ export function MarketAppMainFilter(props: MarketAppMainFilterProps) {
                             {announcement.title}
                           </a>
                         </h3>
-                        <p className="mt-1 text-sm text-gray-600 line-clamp-2">
-                          {announcement.preview}
-                        </p>
+                        <div className="mt-1 text-sm text-gray-600 line-clamp-2">
+                          {/* {announcement.preview} */}
+                        </div>
                       </div>
                     )}
                     {announcement.checkbox && (
@@ -95,10 +95,8 @@ export function MarketAppMainFilter(props: MarketAppMainFilterProps) {
                             {announcement.title}
                           </a>
                         </h3>
-                        {/* <p className="mt-1 text-sm text-gray-600 line-clamp-2">
-                          {announcement.preview}
-                        </p> */}
-                        <p className="mt-1 text-sm text-gray-600 line-clamp-2">
+
+                        <div className="mt-1 text-sm text-gray-600 line-clamp-2">
                           <Switch.Group as="div" className="flex items-center">
                             <Switch
                               checked={enabled}
@@ -128,7 +126,7 @@ export function MarketAppMainFilter(props: MarketAppMainFilterProps) {
                               </span>
                             </Switch.Label>
                           </Switch.Group>
-                        </p>
+                        </div>
                       </div>
                     )}
                   </li>
@@ -138,9 +136,9 @@ export function MarketAppMainFilter(props: MarketAppMainFilterProps) {
             <div className="mt-6">
               <a
                 href="#"
-                className="w-full flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                className="w-full flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 hover:text-white bg-white hover:bg-green-500"
               >
-                Update view
+                Update search
               </a>
             </div>
           </div>
