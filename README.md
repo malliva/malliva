@@ -24,6 +24,7 @@ npm install -g nx
 
 npm install
 
+nx serve market-app
 nx serve marketing-app or 
 
 npm run nx -- serve marketing-app

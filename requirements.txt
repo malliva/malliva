@@ -5,10 +5,13 @@ Django
 django-cors-headers
 django-storages
 django-rest-framework
+django-translations
 djongo
 Faker
 mongo-connector
 Pillow
 PyJWT
 python-dateutil
+rave_python
 s3transfer
+stripe>=2.48.0,<3.0

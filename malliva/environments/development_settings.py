@@ -42,6 +42,15 @@ INSTALLED_APPS = [
     "corsheaders",
     "mallivaUsers",
     "marketplaceAccounts",
+    "customfields",
+    "transactions",
+    "listings",
+    "categories",
+    "settingsManager",
+    "mallivaEmails",
+    "paymentGateways",
+    "storages",
+    "translations",
 ]
 
 MIDDLEWARE = [
@@ -139,9 +148,20 @@ DATABASES = {
         "USER": "mallivay21",
         "PASSWORD": "P@123Maliva",
         "tz_aware": True,  # if you using timezones in django (USE_TZ = True)
-    }
+    },
+    "audit_db": {
+        "ENGINE": "djongo",
+        "NAME": "malliva21_auditdb",
+        "HOST": "localhost",
+        "USER": "mallivay21",
+        "PASSWORD": "P@123Maliva",
+        "tz_aware": True,
+    },
 }
 
+# close database connection after every request
+
+CONN_MAX_AGE = 0
 
 DATABASE_ROUTERS = ["malliva.marketplaceRouter.MallivaDatabaseRouter"]
 
@@ -157,3 +177,38 @@ MALLIVA_DEFAULT_DB = "malliva21_db"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 MEDIA_URL = "/media/"
+
+DEFAULT_FROM_EMAIL = "administrator@malliva.com"
+EMAIL_HOST = ""
+EMAIL_HOST_PASSWORD = ""
+EMAIL_HOST_USER = ""
+EMAIL_PORT = 25
+EMAIL_USE_TLS = False
+
+EMAIL_SUBJECT_PREFIX = "Malliva"
+
+SERVER_EMAIL = "platform@malliva.com"
+
+ADMINS = [("John", "john@malliva.com"), ("Mary", "mary@malliva.com")]
+
+# Amazon S3 configurations
+
+AWS_ACCESS_KEY_ID = "AKIAIT2Z5TDYPX3ARJBA"
+AWS_SECRET_ACCESS_KEY = "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"
+AWS_STORAGE_BUCKET_NAME = "sibtc-static"
+AWS_S3_CUSTOM_DOMAIN = "%s.s3.amazonaws.com" % AWS_STORAGE_BUCKET_NAME
+AWS_S3_OBJECT_PARAMETERS = {
+    "CacheControl": "max-age=86400",
+}
+AWS_LOCATION = "static"
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "mysite/static"),
+]
+STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+
+# DEFAULT_FILE_STORAGE = 'malliva.storage_backends.MediaStorage'  # <-- here is where we reference it
+
+AWS_PRIVATE_MEDIA_LOCATION = "media/private"
+PRIVATE_FILE_STORAGE = "mysite.storage_backends.PrivateMediaStorage"
