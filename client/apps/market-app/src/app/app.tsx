@@ -17,7 +17,7 @@ export function App() {
           <Route path="/sign-up">
             <MarketAppSignUps />
           </Route>
-          <Route path="/dashboard">
+          <Route path="/index">
             <MarketAppLandingPage />
           </Route>
           <Redirect to="/sign-in" />

@@ -16,7 +16,7 @@ export function MarketAppLandingPage(props: MarketAppLandingPageProps) {
       <MarketAppTopMenu />
       <MarketAppTopBanner />
       {/* <MarketAppTopBarSettings /> */}
-      <div className="flex justify-center space-between">
+      <div className="flex justify-center space-between flex-wrap">
         <MarketAppMainFilter />
         <MarketAppItemList />
       </div>

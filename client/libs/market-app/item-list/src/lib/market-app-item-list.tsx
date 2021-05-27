@@ -57,17 +57,17 @@ export interface MarketAppItemListProps {}
 
 export function MarketAppItemList(props: MarketAppItemListProps) {
   return (
-    <div className="bg-white ml-2">
-      <div className="mx-auto  max-w-5xl sm:px-6 lg:px-8 lg:py-10">
+    <div className="bg-white lg:ml-2">
+      <div className="mx-auto  max-w-5xl sm:px-6 lg:px-8 lg:py-0">
         <div className="space-y-12">
           <div className="space-y-5 sm:space-y-4 md:max-w-xl lg:max-w-3xl xl:max-w-none">
-            <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">
+            {/* <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">
               Our Wares
             </h2>
             <p className="text-xl text-gray-500">
               Odio nisi, lectus dis nulla. Ultrices maecenas vitae rutrum dolor
               ultricies donec risus sodales. Tempus quis et.
-            </p>
+            </p> */}
           </div>
           <ul className="space-y-12 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 sm:space-y-0 lg:grid-cols-3 lg:gap-x-8">
             {people.map((person) => (
