@@ -8,6 +8,10 @@ class PaymentGateway(models.Model):
     and stores active payments in the marketplace.
     """
 
-    gateway_id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
-    handler_name = models.CharField(max_length=200, blank=False)
+    gateway_id = models.UUIDField(
+        primary_key=True, editable=False, default=uuid.uuid4()
+    )
+    handler_name = models.CharField(
+        max_length=200, blank=False, help_text="Name of the payment gateway"
+    )
     active = models.BooleanField(default=False)

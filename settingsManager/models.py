@@ -3,10 +3,14 @@ from django.db import models
 # Create your models here.
 
 
-class Settings(models.Model):
+class Setting(models.Model):
     """
     Transaction FLow, related to marketplace plans
     """
+
+    language = models.CharField(max_length=200)
+    country = models.CharField(max_length=200)
+    currency = models.CharField(max_length=200)
 
     print("hello")
 

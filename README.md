@@ -24,6 +24,8 @@ npm install -g nx
 
 npm install
 
+sudo apt install gettext
+
 nx serve market-app
 nx serve marketing-app or 
 

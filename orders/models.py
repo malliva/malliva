@@ -1,7 +1,7 @@
 from django.db import models
 import uuid
 from django.contrib.auth import get_user_model
-from django.db.models.deletion import SET_DEFAULT
+from django.db.models.deletion import DO_NOTHING, SET_DEFAULT
 
 User = get_user_model()
 
@@ -13,11 +13,13 @@ class Order(models.Model):
     TODO: set orders belonging to deleted user to "deleted user"
     """
 
-    order_id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
-    PaymentGateway = models.ForeignKey("paymentGateways.PaymentGateway")
+    order_id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4())
+    PaymentGateway = models.ForeignKey(
+        "paymentGateways.PaymentGateway", on_delete=DO_NOTHING
+    )
     seller = models.ForeignKey(
         User, on_delete=SET_DEFAULT, default="deleted_user", blank=False
     )
-    buyer = models.ForeignKey(
-        User, on_delete=SET_DEFAULT, default="deleted_user", blank=False
-    )
+    # buyer = models.ForeignKey(
+    #    User, on_delete=SET_DEFAULT, default="deleted_user", blank=False
+    # )

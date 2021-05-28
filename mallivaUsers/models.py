@@ -29,7 +29,7 @@ class User(AbstractUser):
 
     USERNAME_FIELD = "email"
     EMAIL_FIELD = "email"
-    REQUIRED_FIELDS = ["user_context"]
+    REQUIRED_FIELDS = ["username", "user_context"]
 
     @property
     def set_username(self):
