@@ -42,6 +42,9 @@
       ],
       "@client/market-app/top-bar-settings": [
         "libs/market-app/top-bar-settings/src/index.ts"
+      ],
+      "@client/market-app/item-details": [
+        "libs/market-app/item-details/src/index.ts"
       ]
     }
   },

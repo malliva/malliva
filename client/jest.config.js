@@ -14,5 +14,6 @@ module.exports = {
     '<rootDir>/libs/market-app/footer',
     '<rootDir>/libs/market-app/top-banner',
     '<rootDir>/libs/market-app/top-bar-settings',
+    '<rootDir>/libs/market-app/item-details',
   ],
 };

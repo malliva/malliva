@@ -68,23 +68,15 @@ export function MarketAppTopMenu(props: MarketAppTopMenuProps) {
                     href="#"
                     className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
                   >
+                    <PlusIcon
+                      className="-ml-1 mr-2 h-5 w-5"
+                      aria-hidden="true"
+                    />
                     Invite new members
                   </a>
                 </div>
               </div>
               <div className="flex items-center">
-                <div className="flex-shrink-0">
-                  <button
-                    type="button"
-                    className="relative inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-                  >
-                    <PlusIcon
-                      className="-ml-1 mr-2 h-5 w-5"
-                      aria-hidden="true"
-                    />
-                    <span>Sign up for free</span>
-                  </button>
-                </div>
                 <div className="hidden md:ml-4 md:flex-shrink-0 md:flex md:items-center">
                   <button className="bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
                     <span className="sr-only">View notifications</span>
@@ -191,9 +183,12 @@ export function MarketAppTopMenu(props: MarketAppTopMenuProps) {
               </a>
               <a
                 href="#"
-                className="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium sm:pl-5 sm:pr-6"
+                className="flex border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium sm:pl-5 sm:pr-6"
               >
-                Invite new members
+                <span>
+                  <PlusIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
+                </span>
+                <span>Invite new members</span>
               </a>
             </div>
             <div className="pt-4 pb-3 border-t border-gray-200">

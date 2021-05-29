@@ -45,7 +45,7 @@ export interface MarketAppMainFilterProps {}
 export function MarketAppMainFilter(props: MarketAppMainFilterProps) {
   const [enabled, setEnabled] = useState(false);
   return (
-    <div className="mt-10 hidden lg:block">
+    <div className="mt-5 hidden lg:block">
       {/* Filters */}
       <section aria-labelledby="filters-title">
         <div className="rounded-lg bg-white overflow-hidden shadow">

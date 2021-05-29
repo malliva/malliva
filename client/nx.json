@@ -68,6 +68,9 @@
     },
     "market-app-top-bar-settings": {
       "tags": []
+    },
+    "market-app-item-details": {
+      "tags": []
     }
   }
 }
