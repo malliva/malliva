@@ -34,8 +34,9 @@ export function MarketAppItemDetails(props: MarketAppItemDetailsProps) {
   return (
     <div>
       <MarketAppTopMenu />
+
       <div className="bg-gray-50">
-        <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
+        <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-8 lg:px-4 lg:flex lg:items-center lg:justify-between">
           <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
             <span className="block">Ready to dive in?</span>
           </h2>
@@ -52,8 +53,8 @@ export function MarketAppItemDetails(props: MarketAppItemDetailsProps) {
         </div>
       </div>
 
-      <div className="flex flex-wrap align-center">
-        <div className="w-full lg:w-3/4">
+      <div className="flex justify-center lg:space-between flex-wrap">
+        <div className="w-full lg:w-4/12">
           <ImageGallery
             items={images}
             showBullets={true}
@@ -71,7 +72,7 @@ export function MarketAppItemDetails(props: MarketAppItemDetailsProps) {
           </div>
         </div>
 
-        <div className="w-full lg:w-1/4">
+        <div className="w-full lg:w-2/12">
           {paymentMethod && (
             <div className="buy-panel border-b-2 p-5">
               <p className="text-5xl py-2">$70</p>

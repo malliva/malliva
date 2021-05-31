@@ -45,11 +45,11 @@ export interface MarketAppMainFilterProps {}
 export function MarketAppMainFilter(props: MarketAppMainFilterProps) {
   const [enabled, setEnabled] = useState(false);
   return (
-    <div className="mt-5 hidden lg:block">
+    <div className="hidden lg:block mt-5">
       {/* Filters */}
       <section aria-labelledby="filters-title">
-        <div className="rounded-lg bg-white overflow-hidden shadow">
-          <div className="p-6">
+        <div className="rounded-lg bg-white overflow-hidden shadow p-5">
+          <div className="">
             <h2
               className="text-base font-medium text-gray-900"
               id="filters-title"
@@ -57,14 +57,14 @@ export function MarketAppMainFilter(props: MarketAppMainFilterProps) {
               Filters
             </h2>
             <div className="flow-root mt-6">
-              <ul className="-my-5 divide-y divide-gray-200">
+              <ul className="my-5 divide-y divide-gray-200">
                 {filters.map((announcement) => (
                   <li key={announcement.id} className="py-5">
                     {!announcement.checkbox && (
                       <div className="relative focus-within:ring-2 focus-within:ring-green-500">
                         <h3 className="text-sm font-semibold text-gray-800">
-                          <a
-                            href={announcement.href}
+                          <span
+                            // href={announcement.href}
                             className="hover:underline focus:outline-none"
                           >
                             {/* Extend touch target to entire panel */}
@@ -73,7 +73,7 @@ export function MarketAppMainFilter(props: MarketAppMainFilterProps) {
                               aria-hidden="true"
                             />
                             {announcement.title}
-                          </a>
+                          </span>
                         </h3>
                         <div className="mt-1 text-sm text-gray-600 line-clamp-2">
                           {/* {announcement.preview} */}
@@ -83,8 +83,8 @@ export function MarketAppMainFilter(props: MarketAppMainFilterProps) {
                     {announcement.checkbox && (
                       <div className="relative ">
                         <h3 className="text-sm font-semibold text-gray-800">
-                          <a
-                            href={announcement.href}
+                          <span
+                            // href={announcement.href}
                             className="hover:underline focus:outline-none"
                           >
                             {/* Extend touch target to entire panel */}
@@ -93,7 +93,7 @@ export function MarketAppMainFilter(props: MarketAppMainFilterProps) {
                               aria-hidden="true"
                             />
                             {announcement.title}
-                          </a>
+                          </span>
                         </h3>
 
                         <div className="mt-1 text-sm text-gray-600 line-clamp-2">
