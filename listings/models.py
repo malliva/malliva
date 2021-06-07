@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 import uuid
 from django.db.models.deletion import CASCADE, SET_DEFAULT
 from translations.models import Translatable
+from django.urls import get_resolver
 
 User = get_user_model()
 
@@ -25,3 +26,10 @@ class Listing(Translatable):
 
     class TranslatableMeta:
         fields = ["category", "listing_name"]
+
+    @property
+    def set_posted_by(self):
+        """
+        set author of this listing
+        """
+        # self.posted_by = self.email.split("@")[0]

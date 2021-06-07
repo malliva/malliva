@@ -1,7 +1,5 @@
-import re
-from rest_framework import exceptions, serializers, viewsets, status
-from rest_framework import response
-from rest_framework.decorators import api_view, action
+from rest_framework import exceptions, viewsets, status
+from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
