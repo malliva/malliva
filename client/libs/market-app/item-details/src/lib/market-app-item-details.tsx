@@ -54,7 +54,7 @@ export function MarketAppItemDetails(props: MarketAppItemDetailsProps) {
       </div>
 
       <div className="flex justify-center lg:space-between flex-wrap">
-        <div className="w-full lg:w-4/12">
+        <div className="w-full lg:w-6/12">
           <ImageGallery
             items={images}
             showBullets={true}
@@ -72,7 +72,7 @@ export function MarketAppItemDetails(props: MarketAppItemDetailsProps) {
           </div>
         </div>
 
-        <div className="w-full lg:w-2/12">
+        <div className="w-full lg:w-3/12">
           {paymentMethod && (
             <div className="buy-panel border-b-2 p-5">
               <p className="text-5xl py-2">$70</p>

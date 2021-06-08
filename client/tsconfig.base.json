@@ -45,6 +45,9 @@
       ],
       "@client/market-app/item-details": [
         "libs/market-app/item-details/src/index.ts"
+      ],
+      "@client/shared/account-syn-api": [
+        "libs/shared/account-syn-api/src/index.ts"
       ]
     }
   },

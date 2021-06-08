@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import './market-app-sign-in.module.scss';
 
@@ -6,6 +6,26 @@ import './market-app-sign-in.module.scss';
 export interface MarketAppSignInProps {}
 
 export function MarketAppSignIn(props: MarketAppSignInProps) {
+  const [login, setLogin] = useState({
+    email: '',
+    password: '',
+  });
+
+  const handleUserLogin = (event) => {
+    console.log(login);
+  };
+
+  const handleUserChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+
+    setLogin((prevalue) => {
+      return {
+        ...prevalue, // Spread Operator
+        [name]: value,
+      };
+    });
+  };
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -40,6 +60,7 @@ export function MarketAppSignIn(props: MarketAppSignInProps) {
               </label>
               <div className="mt-1">
                 <input
+                  onChange={handleUserChange}
                   id="email"
                   name="email"
                   type="email"
@@ -59,6 +80,7 @@ export function MarketAppSignIn(props: MarketAppSignInProps) {
               </label>
               <div className="mt-1">
                 <input
+                  onChange={handleUserChange}
                   id="password"
                   name="password"
                   type="password"
@@ -91,7 +113,8 @@ export function MarketAppSignIn(props: MarketAppSignInProps) {
 
             <div>
               <button
-                type="submit"
+                onClick={handleUserLogin}
+                type="button"
                 className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 Sign in

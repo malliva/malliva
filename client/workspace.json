@@ -515,6 +515,29 @@
           }
         }
       }
+    },
+    "shared-account-syn-api": {
+      "root": "libs/shared/account-syn-api",
+      "sourceRoot": "libs/shared/account-syn-api/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/shared/account-syn-api/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared/account-syn-api"],
+          "options": {
+            "jestConfig": "libs/shared/account-syn-api/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   }
 }

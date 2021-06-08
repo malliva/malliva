@@ -71,6 +71,9 @@
     },
     "market-app-item-details": {
       "tags": []
+    },
+    "shared-account-syn-api": {
+      "tags": []
     }
   }
 }
