@@ -9,9 +9,12 @@ from threadlocals.threadlocals import get_request_variable
 
 
 def user_directory_path(instance, filename):
-    # file will be uploaded to MEDIA_ROOT/domain/<username>/<filename>
-    return "{0}/{1}/{2}".format(
-        get_request_variable("malliva_domain"), instance.username, filename
+    # file will be uploaded to MEDIA_ROOT/domain/<username>/profile_images/<filename>
+    return "{0}/{1}/{2}/{3}".format(
+        get_request_variable("malliva_domain"),
+        instance.username,
+        "profile_images",
+        filename,
     )
 
 

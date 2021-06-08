@@ -30,28 +30,28 @@ class ListingViewSet(viewsets.ViewSet):
     def create_listing(self, request, pk=None):
 
         user = request.user
-        user.delete()
+        data = request.data
 
-        response = Response()
-        response.data = {"message": "User was successfully deleted"}
-
-        return response
+        serializer = ListingSerializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
 
     def retrieve(self, request, pk=None):
 
         user = request.user
 
-        queryset = User.objects.all()
+        queryset = Listing.objects.all()
         user = get_object_or_404(queryset, pk=pk)
-        serializer = UserSerializer(user)
+        serializer = ListingSerializer(user)
         return Response(serializer.data)
 
-    def update_user(self, request, pk=None):
+    def update_listing(self, request, pk=None):
 
         user = request.user
 
         # initialize the serializer
-        serializer = UserSerializer(user, data=request.data, partial=True)
+        serializer = ListingSerializer(user, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
 
         # call the serializer
@@ -62,10 +62,11 @@ class ListingViewSet(viewsets.ViewSet):
     def destroy_listing(self, request, pk=None):
 
         user = request.user
-        user.delete()
+        listing = request.listing
+        listing.delete()
 
         response = Response()
-        response.data = {"message": "User was successfully deleted"}
+        response.data = {"message": "Listing was successfully deleted"}
 
         return response
 

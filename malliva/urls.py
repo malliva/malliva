@@ -25,6 +25,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/v1/users/", include("mallivaUsers.urls")),
     path("api/v1/marketplace/", include("marketplaceAccounts.urls")),
-    path("api/v1/listing/", include("listings.urls")),
+    path("api/v1/listings/", include("listings.urls")),
     re_path(r"^$", views.index),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
