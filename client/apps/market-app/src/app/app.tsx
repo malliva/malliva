@@ -7,16 +7,17 @@ import {
   Redirect,
   useRouteMatch,
 } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { Store } from '@reduxjs/toolkit';
 
 import { MarketAppLandingPage } from 'libs/market-app/landing-page/src/index';
 import { MarketAppSignIn } from 'libs/market-app/sign-in/src/index';
 import { MarketAppSignUps } from 'libs/market-app/sign-ups/src/index';
 import { MarketAppItemDetails } from 'libs/market-app/item-details/src/index';
 
-export function App() {
-  const match = useRouteMatch();
+export function App(props: { store: Store }) {
   return (
-    <div>
+    <Provider store={props.store}>
       <BrowserRouter>
         <Switch>
           <Route path="/sign-in">
@@ -34,7 +35,7 @@ export function App() {
           <Redirect to="/sign-in" />
         </Switch>
       </BrowserRouter>
-    </div>
+    </Provider>
   );
 }
 
