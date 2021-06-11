@@ -7,7 +7,7 @@ export interface SharedAccountSynApiProps {}
 
 export type SignInError = any;
 
-export interface registerUser {
+export interface SignUpState {
   first_name: string;
   last_name: string;
   username: string;
@@ -31,17 +31,19 @@ export function SharedAccountSynApi(props: SharedAccountSynApiProps) {
   return;
 }
 
-export function registerUser(registerUser) {
-  createAsyncThunk('malliva/register', async () => {
+export const postSignUpUser = createAsyncThunk(
+  'malliva/register',
+  async (payload: SignUpState) => {
     const response = await fetch(
-      API_URL + 'api/v1/user/register' + registerUser
+      API_URL + 'api/v1/user/register' + JSON.stringify(payload)
     );
     if (response.ok) {
       const serverResponse = response.json();
       return { serverResponse };
     }
-  });
-}
+    return response.json();
+  }
+);
 
 export const getSingInUser = createAsyncThunk(
   'malliva/login',
