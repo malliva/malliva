@@ -158,6 +158,9 @@ DATABASES = {
         "USER": "mallivay21",
         "PASSWORD": "P@123Maliva",
         "tz_aware": True,  # if you using timezones in django (USE_TZ = True)
+        "CLIENT": {
+            "host": "malliva33y21_db",
+        },
     },
     "audit_db": {
         "ENGINE": "djongo",
@@ -166,6 +169,9 @@ DATABASES = {
         "USER": "mallivay21",
         "PASSWORD": "P@123Maliva",
         "tz_aware": True,
+        "CLIENT": {
+            "host": "malliva33y21_db",
+        },
     },
 }
 
