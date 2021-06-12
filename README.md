@@ -8,6 +8,8 @@ or
 
 $env:DJANGO_SETTINGS_MODULE='malliva.environments.development_settings'
 
+docker-compose up -d --build
+
 python .\manage.py makemigrations
 python manage.py migrate
 

@@ -148,12 +148,13 @@ STATIC_URL = "/static/"
 # Custom settings for this project
 
 # Default Mongo database settings
+# remember to change host to database container if you're using docker
 
 DATABASES = {
     "default": {
         "ENGINE": "djongo",
         "NAME": "malliva21_db",
-        "HOST": "localhost",
+        "HOST": "malliva33y21_db",
         "USER": "mallivay21",
         "PASSWORD": "P@123Maliva",
         "tz_aware": True,  # if you using timezones in django (USE_TZ = True)
@@ -161,7 +162,7 @@ DATABASES = {
     "audit_db": {
         "ENGINE": "djongo",
         "NAME": "malliva21_auditdb",
-        "HOST": "localhost",
+        "HOST": "malliva33y21_db",
         "USER": "mallivay21",
         "PASSWORD": "P@123Maliva",
         "tz_aware": True,

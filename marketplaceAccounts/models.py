@@ -1,6 +1,5 @@
 # Marketplace accounts created on the platform, they have users and settings and databases
 
-import uuid
 from django.db import models
 
 # from django.conf import settings
@@ -11,7 +10,7 @@ User = get_user_model()
 
 class MarketplaceAccount(models.Model):
 
-    marketplace_id = models.UUIDField(primary_key=True, default=uuid.uuid4().hex)
+    id = models.BigAutoField(primary_key=True)
 
     # make it foreign key to marketplace settings
     marketplace_name = models.CharField(max_length=200)

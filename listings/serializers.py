@@ -3,8 +3,6 @@ from rest_framework import serializers
 from .models import Listing, ListingImage
 from django.http import QueryDict
 
-from drf_writable_nested.serializers import WritableNestedModelSerializer
-
 
 class ListingImageSerializer(serializers.ModelSerializer):
     class Meta:

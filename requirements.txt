@@ -5,6 +5,7 @@ Django
 django-cors-headers
 django-storages
 django-rest-framework
+django-threadlocals
 django-translations
 djongo
 Faker

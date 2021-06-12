@@ -155,7 +155,7 @@ class ListingViewSet(viewsets.ViewSet):
                         imageserializer.save()
 
                         # TODO: handle listing images deleting later in updates
-                        # and prevent duplicate uploads
+                        # and prevent duplicate uploads, maximum no of images per listing
 
             serializer.save(owner=user)
             return Response(serializer.data)

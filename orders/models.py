@@ -1,5 +1,4 @@
 from django.db import models
-import uuid
 from django.contrib.auth import get_user_model
 from django.db.models.deletion import DO_NOTHING, SET_DEFAULT
 
@@ -13,7 +12,7 @@ class Order(models.Model):
     TODO: set orders belonging to deleted user to "deleted user"
     """
 
-    order_id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4())
+    id = models.BigAutoField(primary_key=True)
     PaymentGateway = models.ForeignKey(
         "paymentGateways.PaymentGateway", on_delete=DO_NOTHING
     )

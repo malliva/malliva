@@ -9,4 +9,8 @@ ENV DJANGO_SETTINGS_MODULE='malliva.environments.development_settings'
 
 COPY . /app
 
+RUN python manage.py makemigrations
+RUN python manage.py migrate
+RUN python manage.py loaddata categories.json
+
 CMD python manage.py runserver 0.0.0.0:8000

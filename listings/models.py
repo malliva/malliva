@@ -40,7 +40,7 @@ class Listing(Translatable):
 
     class TranslatableMeta:
 
-        fields = ["category", "description"]
+        fields = ["title", "description"]
 
 
 class ListingImage(models.Model):
