@@ -1,18 +1,22 @@
 import React, { useState } from 'react';
-
+import { useSelector, useDispatch } from 'react-redux';
 import './market-app-sign-in.module.scss';
+import { dispatchSignInUser } from './market-app-sign-in.slice';
 
 /* eslint-disable-next-line */
 export interface MarketAppSignInProps {}
 
 export function MarketAppSignIn(props: MarketAppSignInProps) {
+  const dispatch = useDispatch();
+
   const [login, setLogin] = useState({
     email: '',
     password: '',
   });
 
   const handleUserLogin = (event) => {
-    console.log(login);
+    event.preventDefault();
+    dispatch(dispatchSignInUser({ login }));
   };
 
   const handleUserChange = (event) => {

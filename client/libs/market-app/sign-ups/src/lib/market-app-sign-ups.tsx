@@ -2,6 +2,8 @@ import React from 'react';
 import { useState } from 'react';
 import { Switch } from '@headlessui/react';
 import './market-app-sign-ups.module.scss';
+import { dispatchSignUpUser } from './market-app-sign-ups.slice';
+import { useDispatch } from 'react-redux';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -11,7 +13,34 @@ function classNames(...classes) {
 export interface MarketAppSignUpsProps {}
 
 export function MarketAppSignUps(props: MarketAppSignUpsProps) {
+  const dispatch = useDispatch();
   const [enabled, setEnabled] = useState(false);
+
+  const [signup, setSignUp] = useState({
+    first_name: '',
+    last_name: '',
+    username: '',
+    email: '',
+    password: '',
+  });
+
+  const handleUserSignUp = (event) => {
+    event.preventDefault();
+    dispatch(dispatchSignUpUser(signup));
+  };
+
+  const handleUserSignUpChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+
+    setSignUp((prevalue) => {
+      return {
+        ...prevalue, // Spread Operator
+        [name]: value,
+      };
+    });
+    //console.log(signup);
+  };
 
   return (
     <div className="min-h-screen bg-white flex">
@@ -42,15 +71,54 @@ export function MarketAppSignUps(props: MarketAppSignUpsProps) {
               <form action="#" method="POST" className="space-y-6">
                 <div>
                   <label
-                    htmlFor="email"
+                    htmlFor="first_name"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    First name
+                  </label>
+                  <div className="mt-1">
+                    <input
+                      id="first_name"
+                      name="first_name"
+                      type="text"
+                      autoComplete="text"
+                      onChange={handleUserSignUpChange}
+                      required
+                      className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label
+                    htmlFor="last_name"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Last name
+                  </label>
+                  <div className="mt-1">
+                    <input
+                      onChange={handleUserSignUpChange}
+                      id="last_name"
+                      name="last_name"
+                      type="text"
+                      autoComplete="text"
+                      required
+                      className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label
+                    htmlFor="username"
                     className="block text-sm font-medium text-gray-700"
                   >
                     Username
                   </label>
                   <div className="mt-1">
                     <input
+                      onChange={handleUserSignUpChange}
                       id="username"
-                      name="text"
+                      name="username"
                       type="text"
                       autoComplete="text"
                       required
@@ -67,6 +135,7 @@ export function MarketAppSignUps(props: MarketAppSignUpsProps) {
                   </label>
                   <div className="mt-1">
                     <input
+                      onChange={handleUserSignUpChange}
                       id="email"
                       name="email"
                       type="email"
@@ -86,6 +155,7 @@ export function MarketAppSignUps(props: MarketAppSignUpsProps) {
                   </label>
                   <div className="mt-1">
                     <input
+                      onChange={handleUserSignUpChange}
                       id="password"
                       name="password"
                       type="password"
@@ -98,18 +168,6 @@ export function MarketAppSignUps(props: MarketAppSignUpsProps) {
 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center">
-                    {/* <input
-                      id="remember_me"
-                      name="remember_me"
-                      type="checkbox"
-                      className="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
-                    />
-                    <label
-                      htmlFor="remember_me"
-                      className="ml-2 block text-sm text-gray-900"
-                    >
-                      Accept terms & conditions
-                    </label> */}
                     <Switch.Group as="div" className="flex items-center">
                       <Switch
                         checked={enabled}
@@ -128,9 +186,13 @@ export function MarketAppSignUps(props: MarketAppSignUpsProps) {
                         />
                       </Switch>
                       <Switch.Label as="span" className="ml-2">
-                        <span className="text-xs font-medium text-gray-600">
+                        <a
+                          target="blank"
+                          href="#"
+                          className="text-xs font-medium text-gray-600"
+                        >
                           Accept terms & conditions
-                        </span>
+                        </a>
                       </Switch.Label>
                     </Switch.Group>
                   </div>
@@ -147,7 +209,8 @@ export function MarketAppSignUps(props: MarketAppSignUpsProps) {
 
                 <div>
                   <button
-                    type="submit"
+                    onClick={handleUserSignUp}
+                    type="button"
                     className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   >
                     Sign up
