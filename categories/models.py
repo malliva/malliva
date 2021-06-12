@@ -1,14 +1,17 @@
 from django.db import models
-import uuid
+
+from translations.models import Translatable
 
 # Create your models here.
-class Category(models.Model):
+class Category(Translatable):
     """
-    TODO: Remember to set a default category
+    TODO: Remember to create a default category with fixtures
     """
 
-    category_id = models.UUIDField(
-        primary_key=True, default=uuid.uuid4(), editable=False
-    )
+    id = models.BigAutoField(primary_key=True)
     category_name = models.CharField(max_length=200)
     created_at = models.DateField(auto_now_add=True)
+
+    class TranslatableMeta:
+
+        fields = ["category_name"]

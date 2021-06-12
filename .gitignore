@@ -131,5 +131,4 @@ dmypy.json
 .mongodb/
 malliva/environments/production_settings
 
-keep/
 media/

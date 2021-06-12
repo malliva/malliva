@@ -1,3 +1,4 @@
+from enum import unique
 from django.db import models
 import uuid
 from threadlocals.threadlocals import get_request_variable
@@ -12,8 +13,8 @@ def listing_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/domain/<username>/listings/<filename>
     return "{0}/{1}/{2}/{3}".format(
         get_request_variable("malliva_domain"),
-        instance.username,
         "listings",
+        instance.listing.id,
         filename,
     )
 
@@ -23,27 +24,23 @@ class Listing(Translatable):
     Listings should belong to more than one categories
     """
 
-    listing_id = models.UUIDField(
-        primary_key=True, default=uuid.uuid4(), editable=False
-    )
-    listing_name = models.CharField(max_length=200)
+    id = models.BigAutoField(primary_key=True)
+    title = models.CharField(max_length=200)
     price = models.IntegerField(blank=False)
-    posted_by = models.ForeignKey(User, on_delete=models.CASCADE)
-    # category = models.ForeignKey(
-    #    "categories.category", on_delete=models.SET_DEFAULT, default="general"
-    # )
-    description = models.CharField(max_length=500)
+    posted_by = models.ForeignKey(
+        User, related_name="posted_by", on_delete=models.CASCADE, blank=False
+    )
+
+    # TODO: remember to set default category
+    category = models.ForeignKey(
+        "categories.category", on_delete=models.SET_DEFAULT, default="1"
+    )
+    description = models.CharField(max_length=500, default="")
     created_at = models.DateTimeField(auto_now_add=True)
 
     class TranslatableMeta:
-        fields = ["category", "description"]
 
-    @property
-    def set_posted_by(self, user):
-        """
-        set author of this listing
-        """
-        self.posted_by = user
+        fields = ["category", "description"]
 
 
 class ListingImage(models.Model):
@@ -54,11 +51,5 @@ class ListingImage(models.Model):
     listing = models.ForeignKey(
         Listing, on_delete=models.CASCADE, related_name="listing_images"
     )
-    images = models.ImageField(upload_to=listing_directory_path, default="")
+    image = models.ImageField(upload_to=listing_directory_path, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
-
-    @property
-    def set_listing(self):
-        """
-        set listing for this image
-        """

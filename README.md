@@ -8,7 +8,10 @@ or
 
 $env:DJANGO_SETTINGS_MODULE='malliva.environments.development_settings'
 
+python .\manage.py makemigrations
 python manage.py migrate
+
+python .\manage.py loaddata categories.json
 
 python manage.py createsuperuser
 

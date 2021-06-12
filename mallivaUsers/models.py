@@ -12,8 +12,8 @@ def user_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/domain/<username>/profile_images/<filename>
     return "{0}/{1}/{2}/{3}".format(
         get_request_variable("malliva_domain"),
+        "users",
         instance.username,
-        "profile_images",
         filename,
     )
 
@@ -26,7 +26,7 @@ class User(AbstractUser):
     email = models.EmailField(max_length=200, unique=True)
     user_context = models.CharField(max_length=200)
     role = models.CharField(max_length=200, default="")
-    profile_picture = models.ImageField(upload_to=user_directory_path, default="")
+    profile_picture = models.ImageField(upload_to=user_directory_path, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
 
