@@ -154,23 +154,23 @@ DATABASES = {
     "default": {
         "ENGINE": "djongo",
         "NAME": "malliva21_db",
-        "HOST": "malliva33y21_db",
-        "USER": "mallivay21",
-        "PASSWORD": "P@123Maliva",
         "tz_aware": True,  # if you using timezones in django (USE_TZ = True)
         "CLIENT": {
             "host": "malliva33y21_db",
+            "port": 27017,
+            "username": "mallivay21",
+            "password": "P@123Maliva",
         },
     },
     "audit_db": {
         "ENGINE": "djongo",
         "NAME": "malliva21_auditdb",
-        "HOST": "malliva33y21_db",
-        "USER": "mallivay21",
-        "PASSWORD": "P@123Maliva",
         "tz_aware": True,
         "CLIENT": {
             "host": "malliva33y21_db",
+            "port": 27017,
+            "username": "mallivay21",
+            "password": "P@123Maliva",
         },
     },
 }

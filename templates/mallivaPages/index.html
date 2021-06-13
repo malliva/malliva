@@ -5,19 +5,20 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>List of API endpoints on Malliva</title>
+    <title>Home - List of API endpoints on Malliva</title>
 </head>
 
 <body>
-    <h1>Hi, welcome to Django Level two!</h1>
-    <h2>Here are your access records:</h2>
+    <h1 style="text-align: center;">HURAAY!!! IT WORKS!</h1>
+    <h1 style="text-align: center;">WELCOME TO MALLIVA API ENDPOINTS!</h1>
+    <h2 style="text-align: center;">Here are the endpoints to connect to:</h2>
 
-    <div class="djangotwo">
+    <div class="djangotwo" style="display: block; margin-left: auto; margin-right: auto; width: 30%;">
         {% if url_patterns %}
         <table>
             <thead>
-                <th>Site Name</th>
-                <th>Date accessed</th>
+                <th>Endpoints</th>
+                <th>Method</th>
             </thead>
 
             {% for acc in url_patterns %}

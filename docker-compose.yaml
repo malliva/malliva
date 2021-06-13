@@ -2,13 +2,40 @@ version: '3.8'
 services:
     malliva33y21_api:
         container_name: malliva33y21_api
-        build:
-            context: .
-            dockerfile: Dockerfile
+        image: malliva_api_image
+        restart: always
+        command: python manage.py runserver 0.0.0.0:8000
         volumes:
             - .:/app
         ports:
             - 8000:8000
+        links: 
+            - malliva33y21_db
+        depends_on:
+            - malliva_migration
+
+    malliva_migration:
+        container_name: malliva_migration
+        image: malliva_api_image
+        command: python manage.py migrate
+        volumes:
+            - .:/app
+        links:
+            - malliva33y21_db
+        depends_on:
+            - malliva_make_migrations
+
+    malliva_make_migrations:
+        container_name: malliva_make_migrations
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: malliva_api_image
+        command: python manage.py makemigrations
+        volumes:
+            - .:/app
+        links:
+            - malliva33y21_db
         depends_on:
             - malliva33y21_db
     

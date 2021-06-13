@@ -8,6 +8,10 @@ or
 
 $env:DJANGO_SETTINGS_MODULE='malliva.environments.development_settings'
 
+
+docker-compose up -d
+
+# when you want to rebuild image otherwise just run the above
 docker-compose up -d --build
 
 python .\manage.py makemigrations
