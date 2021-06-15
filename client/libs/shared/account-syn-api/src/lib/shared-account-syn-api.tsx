@@ -25,7 +25,7 @@ export interface SignInState {
   error: SignInError;
 }
 
-const API_URL = 'http://localhost:5000/';
+const API_URL = 'http://localhost:8000/';
 
 export function SharedAccountSynApi(props: SharedAccountSynApiProps) {
   return;
@@ -34,14 +34,25 @@ export function SharedAccountSynApi(props: SharedAccountSynApiProps) {
 export const postSignUpUser = createAsyncThunk(
   'malliva/register',
   async (payload: SignUpState) => {
-    const response = await fetch(
-      API_URL + 'api/v1/user/register' + JSON.stringify(payload)
-    );
-    if (response.ok) {
-      const serverResponse = response.json();
-      return { serverResponse };
-    }
-    return response.json();
+    const response = await fetch(API_URL + 'api/v1/users/register', {
+      body: JSON.stringify(payload),
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        if (response) {
+          console.error('Error:', response);
+          const serverResponse = response.json();
+          return { serverResponse };
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        return response.json();
+      });
   }
 );
 
@@ -49,7 +60,7 @@ export const getSingInUser = createAsyncThunk(
   'malliva/login',
   async (payload: SignInState) => {
     const response = await fetch(
-      API_URL + 'api/v1/user/login' + JSON.stringify(payload.login)
+      API_URL + 'api/v1/users/login' + JSON.stringify(payload.login)
     );
     if (response.ok) {
       const serverResponse = response.json();

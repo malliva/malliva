@@ -22,6 +22,9 @@ export function MarketAppSignUps(props: MarketAppSignUpsProps) {
     username: '',
     email: '',
     password: '',
+    password_confirm: '',
+    market_context: '',
+    user_context: '',
   });
 
   const handleUserSignUp = (event) => {
@@ -128,6 +131,46 @@ export function MarketAppSignUps(props: MarketAppSignUpsProps) {
                 </div>
                 <div>
                   <label
+                    htmlFor="user_context"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    User context
+                  </label>
+                  <div className="mt-1">
+                    <input
+                      onChange={handleUserSignUpChange}
+                      id="user_context"
+                      name="user_context"
+                      type="text"
+                      autoComplete="text"
+                      required
+                      className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="market_context"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Market context
+                  </label>
+                  <div className="mt-1">
+                    <input
+                      onChange={handleUserSignUpChange}
+                      id="market_context"
+                      name="market_context"
+                      type="text"
+                      autoComplete="text"
+                      required
+                      className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label
                     htmlFor="email"
                     className="block text-sm font-medium text-gray-700"
                   >
@@ -159,6 +202,25 @@ export function MarketAppSignUps(props: MarketAppSignUpsProps) {
                       id="password"
                       name="password"
                       type="password"
+                      autoComplete="current-password"
+                      required
+                      className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    />
+                  </div>
+                </div>
+                <div className="space-y-1">
+                  <label
+                    htmlFor="password_confirm"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Confirm Password
+                  </label>
+                  <div className="mt-1">
+                    <input
+                      onChange={handleUserSignUpChange}
+                      id="password_confirm"
+                      name="password_confirm"
+                      type="password_confirm"
                       autoComplete="current-password"
                       required
                       className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
