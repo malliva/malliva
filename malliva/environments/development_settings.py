@@ -64,13 +64,13 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "corsheaders.middleware.CorsMiddleware",
     "malliva.databaseResolver.getSubdomainMiddleware",
 ]
 
@@ -185,6 +185,17 @@ AUTH_USER_MODEL = "mallivaUsers.User"
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
+
+# CORS_ALLOWED_ORIGIN_REGEXES = [
+#     r"^https://\w+\.example\.com$",
+# ]
+
+# CORS_ALLOWED_ORIGINS = [
+#     "https://example.com",
+#     "https://sub.example.com",
+#     "http://localhost:8080",
+#     "http://127.0.0.1:9000",
+# ]
 
 MALLIVA_DOMAIN = "localhost:8000"
 MALLIVA_SUB = "help"
@@ -339,3 +350,5 @@ LANGUAGES_BIDI = ["he", "ar", "ar-dz", "fa", "ur"]
 # location of translation files
 LOCALE_DIR = os.path.join(BASE_DIR, "malliva", "locale")
 LOCALE_PATHS = [LOCALE_DIR]
+
+# REST_FRAMEWORK = {"DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema"}
