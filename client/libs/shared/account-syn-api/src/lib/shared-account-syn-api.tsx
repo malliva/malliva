@@ -1,11 +1,17 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import {
+  getSignUpSuccess,
+  getSignUpFailure,
+} from 'libs/market-app/sign-ups/src/index';
 
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 
 /* eslint-disable-next-line */
 export interface SharedAccountSynApiProps {}
 
-export type SignInError = any;
+export type Error = any;
 
 export interface SignUpState {
   first_name: string;
@@ -13,6 +19,9 @@ export interface SignUpState {
   username: string;
   email: string;
   password: string;
+  password_confirm: string;
+  market_context: string;
+  user_context: string;
 }
 
 export interface SignInState {
@@ -22,11 +31,10 @@ export interface SignInState {
   };
   token: string;
   authorised: boolean;
-  error: SignInError;
+  error: Error;
 }
 
 const API_URL = 'http://localhost:8000/';
-
 export function SharedAccountSynApi(props: SharedAccountSynApiProps) {
   return;
 }
@@ -34,25 +42,12 @@ export function SharedAccountSynApi(props: SharedAccountSynApiProps) {
 export const postSignUpUser = createAsyncThunk(
   'malliva/register',
   async (payload: SignUpState) => {
-    const response = await fetch(API_URL + 'api/v1/users/register', {
-      body: JSON.stringify(payload),
-      method: 'POST',
-      mode: 'no-cors',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => {
-        if (response) {
-          console.error('Error:', response);
-          const serverResponse = response.json();
-          return { serverResponse };
-        }
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-        return response.json();
-      });
+    const formData = JSON.stringify(payload);
+    let response = null;
+    response = await axios.post(API_URL + 'api/v1/users/register', formData, {
+      headers: { 'Content-Type': 'application/json' },
+    });
+    return await response.data;
   }
 );
 

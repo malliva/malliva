@@ -2,8 +2,12 @@ import React from 'react';
 import { useState } from 'react';
 import { Switch } from '@headlessui/react';
 import './market-app-sign-ups.module.scss';
-import { dispatchSignUpUser } from './market-app-sign-ups.slice';
 import { useDispatch } from 'react-redux';
+import {
+  getSignUpFailure,
+  getSignUpSuccess,
+} from './market-app-sign-ups.slice';
+import { postSignUpUser } from '@client/shared/account-syn-api';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -27,9 +31,15 @@ export function MarketAppSignUps(props: MarketAppSignUpsProps) {
     user_context: '',
   });
 
-  const handleUserSignUp = (event) => {
+  const handleUserSignUp = async (event) => {
     event.preventDefault();
-    dispatch(dispatchSignUpUser(signup));
+
+    try {
+      const data = await dispatch(postSignUpUser(signup));
+      dispatch(getSignUpSuccess(data));
+    } catch (err) {
+      dispatch(getSignUpFailure(err));
+    }
   };
 
   const handleUserSignUpChange = (event) => {
@@ -42,7 +52,6 @@ export function MarketAppSignUps(props: MarketAppSignUpsProps) {
         [name]: value,
       };
     });
-    //console.log(signup);
   };
 
   return (
@@ -220,7 +229,7 @@ export function MarketAppSignUps(props: MarketAppSignUpsProps) {
                       onChange={handleUserSignUpChange}
                       id="password_confirm"
                       name="password_confirm"
-                      type="password_confirm"
+                      type="text"
                       autoComplete="current-password"
                       required
                       className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
