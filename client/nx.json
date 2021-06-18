@@ -74,6 +74,9 @@
     },
     "shared-account-syn-api": {
       "tags": []
+    },
+    "shared-auth-guard": {
+      "tags": []
     }
   }
 }

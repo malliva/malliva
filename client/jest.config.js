@@ -16,5 +16,6 @@ module.exports = {
     '<rootDir>/libs/market-app/top-bar-settings',
     '<rootDir>/libs/market-app/item-details',
     '<rootDir>/libs/shared/account-syn-api',
+    '<rootDir>/libs/shared/auth-guard',
   ],
 };

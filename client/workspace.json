@@ -538,6 +538,27 @@
           }
         }
       }
+    },
+    "shared-auth-guard": {
+      "root": "libs/shared/auth-guard",
+      "sourceRoot": "libs/shared/auth-guard/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/shared/auth-guard/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared/auth-guard"],
+          "options": {
+            "jestConfig": "libs/shared/auth-guard/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   }
 }
