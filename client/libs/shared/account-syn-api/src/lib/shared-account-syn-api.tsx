@@ -51,8 +51,10 @@ export const getSingInUser = createAsyncThunk(
   'malliva/login',
   async (payload: SignInState, thunkApi) => {
     try {
-      const response = await axios.get(
-        API_URL + 'api/v1/users/login' + JSON.stringify(payload),
+      const formData = JSON.stringify(payload);
+      const response = await axios.post(
+        API_URL + 'api/v1/users/login',
+        formData,
         { headers: { 'Content-Type': 'application/json' } }
       );
       const data = await response.data;
