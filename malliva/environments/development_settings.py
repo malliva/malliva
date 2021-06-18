@@ -155,23 +155,23 @@ DATABASES = {
         "ENGINE": "djongo",
         "NAME": "malliva21_db",
         "tz_aware": True,  # if you using timezones in django (USE_TZ = True)
-        "CLIENT": {
-            "host": "malliva33y21_db",
-            "port": 27017,
-            "username": "mallivay21",
-            "password": "P@123Maliva",
-        },
+        # "CLIENT": {
+        #     "host": "malliva33y21_db",
+        #     "port": 27017,
+        #     "username": "mallivay21",
+        #     "password": "P@123Maliva",
+        # },
     },
     "audit_db": {
         "ENGINE": "djongo",
         "NAME": "malliva21_auditdb",
         "tz_aware": True,
-        "CLIENT": {
-            "host": "malliva33y21_db",
-            "port": 27017,
-            "username": "mallivay21",
-            "password": "P@123Maliva",
-        },
+        # "CLIENT": {
+        #     "host": "malliva33y21_db",
+        #     "port": 27017,
+        #     "username": "mallivay21",
+        #     "password": "P@123Maliva",
+        # },
     },
 }
 
@@ -242,6 +242,7 @@ STATICFILES_DIRS = [
 
 
 # language settings
+# TODO: let's tidy this setting file, move this to a new file and load from there
 
 from django.utils.translation import gettext_lazy as _
 
@@ -352,3 +353,11 @@ LOCALE_DIR = os.path.join(BASE_DIR, "malliva", "locale")
 LOCALE_PATHS = [LOCALE_DIR]
 
 # REST_FRAMEWORK = {"DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema"}
+
+
+# "facebook_connect_id",
+# "facebook_connect_secret",
+# "google_analytics_key",
+# "google_maps_key",
+# "recaptcha_site_key",
+# "recaptcha_secret_key"
