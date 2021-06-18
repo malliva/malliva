@@ -1,9 +1,4 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import {
-  getSignUpSuccess,
-  getSignUpFailure,
-} from 'libs/market-app/sign-ups/src/index';
 
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
@@ -11,7 +6,7 @@ import axios from 'axios';
 /* eslint-disable-next-line */
 export interface SharedAccountSynApiProps {}
 
-export type Error = any;
+export type UserError = any;
 
 export interface SignUpState {
   first_name: string;
@@ -31,23 +26,29 @@ export interface SignInState {
   };
   token: string;
   authorised: boolean;
-  error: Error;
+  error: UserError;
 }
 
 const API_URL = 'http://localhost:8000/';
+
 export function SharedAccountSynApi(props: SharedAccountSynApiProps) {
   return;
 }
 
 export const postSignUpUser = createAsyncThunk(
   'malliva/register',
-  async (payload: SignUpState) => {
-    const formData = JSON.stringify(payload);
-    let response = null;
-    response = await axios.post(API_URL + 'api/v1/users/register', formData, {
-      headers: { 'Content-Type': 'application/json' },
-    });
-    return await response.data;
+  async (payload: SignUpState, thunkApi) => {
+    try {
+      const formData = JSON.stringify(payload);
+      let response = null;
+      response = await axios.post(API_URL + 'api/v1/users/register', formData, {
+        headers: { 'Content-Type': 'application/json' },
+      });
+      const data = await response.data;
+      return { data };
+    } catch (error) {
+      return thunkApi.rejectWithValue({ error: error.message });
+    }
   }
 );
 

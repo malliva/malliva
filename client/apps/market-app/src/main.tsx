@@ -1,6 +1,6 @@
 import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom';
-
+import thunk from 'redux-thunk';
 import { BrowserRouter } from 'react-router-dom';
 
 import {
@@ -10,17 +10,26 @@ import {
 
 import {
   SIGNUP_USER_KEY,
-  getSignUpUserDetails,
+  signUpSliceReducer,
 } from '@client/market-app/sign-ups';
 
 import App from './app/app';
 import { configureStore } from '@reduxjs/toolkit';
 
+const logger = (store) => (next) => (action) => {
+  console.log('dispatching', action);
+  const result = next(action);
+  console.log('next state', store.getState());
+  return result;
+};
+
 const store = configureStore({
   reducer: {
     [SIGNIN_USER_KEY]: getSignInUserDetails,
-    [SIGNUP_USER_KEY]: getSignUpUserDetails,
+    [SIGNUP_USER_KEY]: signUpSliceReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({ serializableCheck: false }).concat(logger),
 });
 
 ReactDOM.render(
