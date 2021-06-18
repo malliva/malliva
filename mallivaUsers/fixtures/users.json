@@ -1,0 +1,15 @@
+[
+    {
+        "model": "mallivaUsers.user",
+        "pk": "1",
+        "fields": {
+            "first_name": "mallivamin",
+            "username": "min45y",
+            "last_name": "Wood",
+            "email": "min45y@malliva.com",
+            "is_superuser": true,
+            "is_staff": true,
+            "password": "pbkdf2_sha256$180000$RsvlpMaQUfMK$SLL4KY5ispX8aX2qzO8TcOqOPiLPvRF+5300cGVa8iQ="
+        }
+    }
+]

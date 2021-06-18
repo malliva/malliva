@@ -176,7 +176,8 @@ class ListingViewSet(viewsets.ViewSet):
             response.status_code = status.HTTP_404_NOT_FOUND
             return response
 
-        listing.delete()
+        # listing.delete()
+        print(dir(listing))
 
         response = Response()
         response.data = {"message": "Listing was successfully deleted"}

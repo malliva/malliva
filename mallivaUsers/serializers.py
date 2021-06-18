@@ -1,10 +1,53 @@
 # middleware to handle user operations before saving in the database
 
 from rest_framework import serializers
-from .models import User
+from .models import User, Permission, Role
+
+from customFields.serializers import CustomFieldSerializer, CustomFieldItemSerializer
+
+
+class PermissionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Permission
+        fields = "__all__"
+
+
+class PermissionRelatedField(serializers.StringRelatedField):
+    def to_representation(self, value):
+        return PermissionSerializer(value).data
+
+    def to_internal_value(self, data):
+        return data
+
+
+class RoleSerializer(serializers.ModelSerializer):
+    permissions = PermissionRelatedField(many=True)
+
+    class Meta:
+        model = Role
+        fields = "__all__"
+
+    def create(self, validated_data):
+        permissions = validated_data.pop("permissions", None)
+        instance = self.Meta.model(**validated_data)
+        instance.save()
+        instance.permissions.add(*permissions)
+        instance.save()
+        return instance
+
+
+class RoleRelatedField(serializers.RelatedField):
+    def to_representation(self, instance):
+        return RoleSerializer(instance).data
+
+    def to_internal_value(self, data):
+        return self.queryset.get(pk=data)
 
 
 class UserSerializer(serializers.ModelSerializer):
+    role = RoleRelatedField(many=False, queryset=Role.objects.all())
+    # customfields = CustomFieldObjectRelatedField()
+
     class Meta:
         model = User
 
@@ -15,9 +58,9 @@ class UserSerializer(serializers.ModelSerializer):
             "last_name",
             "email",
             "password",
-            "role",
-            "user_context",
             "profile_picture",
+            # "custom_fields",
+            "role",
         ]
 
         # Don't show passwords in API responses
@@ -46,9 +89,6 @@ class UserSerializer(serializers.ModelSerializer):
         instance.last_name = validated_data.get("last_name", instance.last_name)
         instance.email = validated_data.get("email", instance.email)
         instance.role = validated_data.get("role", instance.role)
-        instance.user_context = validated_data.get(
-            "user_context", instance.user_context
-        )
         instance.profile_picture = validated_data.get(
             "profile_picture", instance.profile_picture
         )
