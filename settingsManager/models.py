@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 
 
-class Setting(models.Model):
+class Configuration(models.Model):
     """
     Transaction FLow, related to marketplace plans
     """
