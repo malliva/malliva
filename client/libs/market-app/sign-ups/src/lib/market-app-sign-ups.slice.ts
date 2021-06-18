@@ -43,11 +43,9 @@ export const signUpSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const signUpSliceReducer = signUpSlice.reducer;
 
-export const getsignUpState = (stateObj: any) => stateObj[SIGNUP_USER_KEY];
+export const getSignUpState = (stateObj: any) => stateObj[SIGNUP_USER_KEY];
 
 export const selectSignUpStateLoaded = createSelector(
-  getsignUpState,
+  getSignUpState,
   (stateObj) => stateObj
 );
-
-export default signUpSlice.reducer;

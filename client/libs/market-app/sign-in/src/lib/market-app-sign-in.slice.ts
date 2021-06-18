@@ -1,47 +1,50 @@
-import { createSelector } from 'reselect';
-import { ThunkAction } from 'redux-thunk';
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { getSingInUser, SignInState } from '@client/shared/account-syn-api';
+import { getSingInUser } from '@client/shared/account-syn-api';
 
 export const USERS_KEY = 'signin';
-
+type SignInError = any;
 export const SIGNIN_USER_KEY = 'signin';
 
-export const initialSignInState: SignInState = {
-  login: {
-    email: '',
-    password: '',
-  },
-  token: '',
-  authorised: false,
-  error: null,
+export const initialSignInState = {
+  response: {},
+  loading: 'idle',
+  error: {},
 };
 
 export const signInSlice = createSlice({
   name: SIGNIN_USER_KEY,
-  initialState: initialSignInState as SignInState,
-  reducers: {
-    getSignInUserDetails: (state, action: PayloadAction<undefined>) => {
-      //   state.authorised = false;
-      //   state.users.token = '';
-      console.log(state);
-    },
-  },
+  initialState: initialSignInState,
+  reducers: {},
   //Thunk actions here
-  extraReducers: {
-    [getSingInUser.fulfilled.type]: (state, action) => {
-      console.log(state);
-      //state.myAsyncResponse = action.payload;
-    },
+  extraReducers: (builder) => {
+    builder.addCase(
+      getSingInUser.pending,
+      (state, action: PayloadAction<undefined>) => {
+        state.loading = 'pending';
+        state.response = [];
+      }
+    );
+    builder.addCase(getSingInUser.fulfilled, (state, { payload }) => {
+      state.response = payload.data;
+      state.loading = 'succeeded';
+      state.error = '';
+    });
+    builder.addCase(
+      getSingInUser.rejected,
+      (state, action: PayloadAction<SignInError>) => {
+        state.error = action.payload.error;
+        state.loading = 'failed';
+      }
+    );
   },
 });
 // Action creators are generated for each case reducer function
-export const { getSignInUserDetails } = signInSlice.actions;
+export const signInSliceReducer = signInSlice.reducer;
 
-export default signInSlice.reducer;
+export const getSignInState = (stateObj: any) => stateObj[SIGNIN_USER_KEY];
 
-// Define a thunk that dispatches those action creators
-export const dispatchSignInUser = (login) => async (dispatch) => {
-  dispatch(getSingInUser(login));
-};
+export const selectSignInStateLoaded = createSelector(
+  getSignInState,
+  (stateObj) => stateObj
+);

@@ -272,7 +272,7 @@ export function MarketAppSignUps(props: MarketAppSignUpsProps) {
 
                   <div className="text-sm">
                     <a
-                      href="#"
+                      href="/sign-in"
                       className="font-medium text-xs text-gray-600 hover:text-indigo-500"
                     >
                       Already have an account?

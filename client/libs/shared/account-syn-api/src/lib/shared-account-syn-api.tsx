@@ -20,13 +20,8 @@ export interface SignUpState {
 }
 
 export interface SignInState {
-  login: {
-    email: string;
-    password: string;
-  };
-  token: string;
-  authorised: boolean;
-  error: UserError;
+  email: string;
+  password: string;
 }
 
 const API_URL = 'http://localhost:8000/';
@@ -54,14 +49,16 @@ export const postSignUpUser = createAsyncThunk(
 
 export const getSingInUser = createAsyncThunk(
   'malliva/login',
-  async (payload: SignInState) => {
-    const response = await fetch(
-      API_URL + 'api/v1/users/login' + JSON.stringify(payload.login)
-    );
-    if (response.ok) {
-      const serverResponse = response.json();
-      return { serverResponse };
+  async (payload: SignInState, thunkApi) => {
+    try {
+      const response = await axios.get(
+        API_URL + 'api/v1/users/login' + JSON.stringify(payload),
+        { headers: { 'Content-Type': 'application/json' } }
+      );
+      const data = await response.data;
+      return { data };
+    } catch (error) {
+      return thunkApi.rejectWithValue({ error: error.message });
     }
-    return response.json();
   }
 );

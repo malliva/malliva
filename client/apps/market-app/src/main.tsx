@@ -4,8 +4,8 @@ import thunk from 'redux-thunk';
 import { BrowserRouter } from 'react-router-dom';
 
 import {
+  signInSliceReducer,
   SIGNIN_USER_KEY,
-  getSignInUserDetails,
 } from '@client/market-app/sign-in';
 
 import {
@@ -25,7 +25,7 @@ const logger = (store) => (next) => (action) => {
 
 const store = configureStore({
   reducer: {
-    [SIGNIN_USER_KEY]: getSignInUserDetails,
+    [SIGNIN_USER_KEY]: signInSliceReducer,
     [SIGNUP_USER_KEY]: signUpSliceReducer,
   },
   middleware: (getDefaultMiddleware) =>
