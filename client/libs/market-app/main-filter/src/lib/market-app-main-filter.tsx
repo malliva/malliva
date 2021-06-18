@@ -56,7 +56,7 @@ export function MarketAppMainFilter(props: MarketAppMainFilterProps) {
             >
               Filters
             </h2>
-            <div className="flow-root mt-6">
+            <div className="flow-root">
               <ul className="my-5 divide-y divide-gray-200">
                 {filters.map((announcement) => (
                   <li key={announcement.id} className="py-5">
