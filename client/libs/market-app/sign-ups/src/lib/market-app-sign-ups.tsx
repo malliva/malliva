@@ -32,13 +32,12 @@ export function MarketAppSignUps(props: MarketAppSignUpsProps) {
   });
 
   useEffect(() => {
-    console.log(signUpDetailsLoaded);
-    if (signUpDetailsLoaded.loading == 'succeeded') {
+    if (signUpDetailsLoaded.loading === 'succeeded') {
       location.push('/');
-    } else if (signUpDetailsLoaded.loading == 'failed') {
+    } else if (signUpDetailsLoaded.loading === 'failed') {
       location.push('/sign-up');
     }
-  }, [signUpDetailsLoaded]);
+  }, [location, signUpDetailsLoaded]);
 
   const handleUserSignUp = async (event) => {
     event.preventDefault();
