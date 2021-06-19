@@ -27,6 +27,7 @@ class User(AbstractUser):
     user_context = models.CharField(max_length=200)
     role = models.CharField(max_length=200, default="")
     profile_picture = models.ImageField(upload_to=user_directory_path, blank=True)
+    terms_of_service_accepted = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
 
