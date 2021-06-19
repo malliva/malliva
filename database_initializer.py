@@ -13,7 +13,7 @@ if __name__ == "__main__":
     print("Migrations now running")
 
     # manage makemigrations
-    os.system("python manage.py makemigrations")
+    # os.system("python manage.py makemigrations")
 
     os.system("python manage.py migrate")
 

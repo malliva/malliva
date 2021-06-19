@@ -22,10 +22,12 @@ def user_directory_path(instance, filename):
 
 
 class Permission(models.Model):
+    id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=200)
 
 
 class Role(models.Model):
+    id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=200)
     permissions = models.ManyToManyField(Permission)
 
