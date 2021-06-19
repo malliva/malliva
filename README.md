@@ -17,8 +17,6 @@ docker-compose up -d --build
 python .\manage.py makemigrations
 python manage.py migrate
 
-python .\manage.py loaddata categories.json
-
 python manage.py createsuperuser
 
 python .\manage.py runserver

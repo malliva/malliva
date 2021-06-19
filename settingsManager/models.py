@@ -65,7 +65,7 @@ class Configuration(Translatable):
     country = models.CharField(max_length=200)
     currency = models.CharField(max_length=200)
     templatestyle = models.ForeignKey(
-        TemplateStyling, on_delete=models.SET_DEFAULT, default="1"
+        TemplateStyling, on_delete=models.SET_DEFAULT, default="1", null=True
     )
     malliva_terms_consent = models.BooleanField(
         default=False,
@@ -86,7 +86,7 @@ class Configuration(Translatable):
     # TODO: decide which field to use for transaction flow settings later
     transaction_flow = models.CharField(max_length=200)
     default_payment_processor = models.ForeignKey(
-        PaymentGateway, on_delete=models.SET_DEFAULT, default="1"
+        PaymentGateway, on_delete=models.SET_DEFAULT, default="1", null=True
     )
     show_location = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)

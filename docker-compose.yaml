@@ -17,7 +17,7 @@ services:
     malliva_migration:
         container_name: malliva_migration
         image: malliva_api_image
-        command: python manage.py migrate
+        command: python database_initializer.py
         volumes:
             - .:/app
         links:

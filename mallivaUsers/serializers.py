@@ -1,28 +1,76 @@
 # middleware to handle user operations before saving in the database
 
 from rest_framework import serializers
-from .models import User
+from .models import User, Permission, Role
+from listings.models import Listing
+from listings.serializers import ListingSerializer
+
+# from customFields.serializers import AssociatedModelRelatedField
+
+
+class PermissionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Permission
+        fields = "__all__"
+
+
+class PermissionRelatedField(serializers.StringRelatedField):
+    def to_representation(self, value):
+        return PermissionSerializer(value).data
+
+    def to_internal_value(self, data):
+        return data
+
+
+class RoleSerializer(serializers.ModelSerializer):
+    permissions = PermissionRelatedField(many=True)
+
+    class Meta:
+        model = Role
+        fields = "__all__"
+
+    def create(self, validated_data):
+        permissions = validated_data.pop("permissions", None)
+        instance = self.Meta.model(**validated_data)
+        instance.save()
+        instance.permissions.add(*permissions)
+        instance.save()
+        return instance
+
+
+class RoleRelatedField(serializers.RelatedField):
+    def to_representation(self, instance):
+        return RoleSerializer(instance).data
+
+    def to_internal_value(self, data):
+        return self.queryset.get(pk=data)
 
 
 class UserSerializer(serializers.ModelSerializer):
+    # role = RoleRelatedField(many=False, queryset=Role.objects.all())
+    # customfields = CustomFieldSerializer(many=True)
+
     class Meta:
         model = User
 
-        # fields = '__all__'
         # allow only selected inputs
         fields = [
+            "username",
             "first_name",
             "last_name",
             "email",
             "password",
-            "role",
-            "user_context",
             "profile_picture",
+            "custom_fields",
+            # "role",
             "terms_of_service_accepted",
         ]
 
         # Don't show passwords in API responses
-        extra_kwargs = {"password": {"write_only": True}}
+        extra_kwargs = {
+            "password": {"write_only": True},
+            "username": {"required": False},
+        }
 
     def create(self, validated_data):
 
@@ -34,7 +82,8 @@ class UserSerializer(serializers.ModelSerializer):
         if password is not None:
             user.set_password(password)
 
-        user.set_username
+        if user.username is None:
+            user.set_username
 
         user.save()
         return user
@@ -46,10 +95,7 @@ class UserSerializer(serializers.ModelSerializer):
         instance.first_name = validated_data.get("first_name", instance.first_name)
         instance.last_name = validated_data.get("last_name", instance.last_name)
         instance.email = validated_data.get("email", instance.email)
-        instance.role = validated_data.get("role", instance.role)
-        instance.user_context = validated_data.get(
-            "user_context", instance.user_context
-        )
+        # instance.role = validated_data.get("role", instance.role)
         instance.profile_picture = validated_data.get(
             "profile_picture", instance.profile_picture
         )

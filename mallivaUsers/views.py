@@ -4,16 +4,12 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
-
-# from .models import User
-# from django.contrib.auth.models import User
-from django.contrib.auth import get_user_model
-
-User = get_user_model()
 from rest_framework.views import APIView
 
 from .authentication import generate_access_token, jwtAuthentication
-from .serializers import UserSerializer
+from .serializers import UserSerializer, PermissionSerializer, RoleSerializer
+from .models import User, Permission, Role
+from .permissions import ViewPermissions
 
 
 @api_view(["POST"])
@@ -46,7 +42,7 @@ def login(request):
 
     user = User.objects.filter(email=email).first()
 
-    if user is None:
+    if user is None or user.is_active is False:
         raise exceptions.AuthenticationFailed("User not found!")
 
     if not user.check_password(password):
@@ -73,6 +69,9 @@ def logout(request):
     """
     API endpoint for user logout
     """
+    authentication_classes = [jwtAuthentication]
+    permission_classes = [IsAuthenticated]
+
     response = Response()
     response.delete_cookie(key="jwt")
 
@@ -147,24 +146,24 @@ def forgot_password(request):
     return Response(serializer.data)
 
 
-class ListUsers(APIView):
-    """
-    View to list all users in the marketplace.
+# class ListUsers(APIView):
+#     """
+#     View to list all users in the marketplace.
 
-    * Requires token authentication.
-    * Only admin users are able to access this view.
-    """
+#     * Requires token authentication.
+#     * Only admin users are able to access this view.
+#     """
 
-    authentication_classes = [jwtAuthentication]
-    permission_classes = [IsAuthenticated]
+#     authentication_classes = [jwtAuthentication]
+#     permission_classes = [IsAuthenticated]
 
-    def get(self, request, format=None):
-        """
-        Return a list of all users.
-        """
-        queryset = User.objects.all()
-        serializer = UserSerializer(queryset, many=True)
-        return Response(serializer.data)
+#     def get(self, request, format=None):
+#         """
+#         Return a list of all users.
+#         """
+#         queryset = User.objects.all()
+#         serializer = UserSerializer(queryset, many=True)
+#         return Response(serializer.data)
 
 
 class UserViewSet(viewsets.ViewSet):
@@ -182,34 +181,109 @@ class UserViewSet(viewsets.ViewSet):
         MultiPartParser,
     ]
 
+    queryset = User.objects.filter(is_active=True).all()
+
     def retrieve(self, request, pk=None):
 
-        user = request.user
-
-        queryset = User.objects.all()
-        user = get_object_or_404(queryset, pk=pk)
-        serializer = UserSerializer(user)
-        return Response(serializer.data)
+        if pk:
+            try:
+                user = User.objects.get(username=pk, is_active=True)
+                serializer = UserSerializer(user)
+                return Response(serializer.data)
+            except:
+                response = Response()
+                response.data = {"message": "User does not exist"}
+                response.status_code = status.HTTP_404_NOT_FOUND
+                return response
+        else:
+            serializer = UserSerializer(self.queryset, many=True)
+            return Response(serializer.data)
 
     def update_user(self, request, pk=None):
 
-        user = request.user
+        data = request.data
+
+        try:
+            user = User.objects.get(username=pk, is_active=True)
+        except:
+            response = Response()
+            response.data = {"message": "User does not exist"}
+            response.status_code = status.HTTP_404_NOT_FOUND
+            return response
 
         # initialize the serializer
-        serializer = UserSerializer(user, data=request.data, partial=True)
+        serializer = UserSerializer(user, data=data, partial=True)
         serializer.is_valid(raise_exception=True)
 
         # call the serializer
-        serializer.save(owner=user)
+        serializer.save()
 
         return Response(serializer.data)
 
     def destroy_user(self, request, pk=None):
 
-        user = request.user
-        user.delete()
+        try:
+            user = User.objects.get(username=pk, is_active=True)
+            user.soft_delete()
+            user.save()
+        except:
+            response = Response()
+            response.data = {"message": "User does not exist"}
+            response.status_code = status.HTTP_404_NOT_FOUND
+            return response
 
         response = Response()
+        if request.user == user:
+            response.delete_cookie(key="jwt")
         response.data = {"message": "User was successfully deleted"}
-
         return response
+
+
+class PermissionAPIView(APIView):
+    """
+    View all available permissions
+    """
+
+    authentication_classes = [jwtAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        serializer = PermissionSerializer(Permission.objects.all(), many=True)
+
+        return Response({"data": serializer.data})
+
+
+class RoleViewSet(viewsets.ViewSet):
+    authentication_classes = [jwtAuthentication]
+    permission_classes = [IsAuthenticated & ViewPermissions]
+    permission_object = "roles"
+
+    def list(self, request):
+        serializer = RoleSerializer(Role.objects.all(), many=True)
+
+        return Response({"data": serializer.data})
+
+    def create(self, request):
+        serializer = RoleSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({"data": serializer.data}, status=status.HTTP_201_CREATED)
+
+    def retrieve(self, request, pk=None):
+        role = Role.objects.get(id=pk)
+        serializer = RoleSerializer(role)
+
+        return Response({"data": serializer.data})
+
+    def update(self, request, pk=None):
+        role = Role.objects.get(id=pk)
+        serializer = RoleSerializer(instance=role, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response({"data": serializer.data}, status=status.HTTP_202_ACCEPTED)
+
+    def destroy(self, request, pk=None):
+        role = Role.objects.get(id=pk)
+        role.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
