@@ -61,6 +61,7 @@ class UserSerializer(serializers.ModelSerializer):
             "profile_picture",
             # "custom_fields",
             "role",
+            "terms_of_service_accepted",
         ]
 
         # Don't show passwords in API responses
@@ -91,6 +92,9 @@ class UserSerializer(serializers.ModelSerializer):
         instance.role = validated_data.get("role", instance.role)
         instance.profile_picture = validated_data.get(
             "profile_picture", instance.profile_picture
+        )
+        instance.terms_of_service_accepted = validated_data.get(
+            "terms_of_service_accepted", instance.terms_of_service_accepted
         )
 
         if password is not None:

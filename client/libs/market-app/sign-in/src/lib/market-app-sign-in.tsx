@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
+import { getSingInUser } from '@client/shared/account-syn-api';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import './market-app-sign-in.module.scss';
-import { dispatchSignInUser } from './market-app-sign-in.slice';
+import { selectSignInStateLoaded } from './market-app-sign-in.slice';
 
 /* eslint-disable-next-line */
 export interface MarketAppSignInProps {}
 
 export function MarketAppSignIn(props: MarketAppSignInProps) {
   const dispatch = useDispatch();
-
+  const signInDetailsLoaded = useSelector(selectSignInStateLoaded);
+  const location = useHistory();
   const [login, setLogin] = useState({
     email: '',
     password: '',
@@ -16,8 +19,16 @@ export function MarketAppSignIn(props: MarketAppSignInProps) {
 
   const handleUserLogin = (event) => {
     event.preventDefault();
-    dispatch(dispatchSignInUser({ login }));
+    dispatch(getSingInUser(login));
   };
+
+  useEffect(() => {
+    if (signInDetailsLoaded.loading === 'succeeded') {
+      location.push('/');
+    } else if (signInDetailsLoaded.loading === 'failed') {
+      location.push('/sign-in');
+    }
+  }, [location, signInDetailsLoaded]);
 
   const handleUserChange = (event) => {
     const name = event.target.name;

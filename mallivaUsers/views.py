@@ -53,7 +53,12 @@ def login(request):
     token = generate_access_token(user)
     response.set_cookie(key="jwt", value=token, httponly=True)
 
-    response.data = {"jwt": token}
+    serializer = UserSerializer(user, many=False)
+
+    response.data = {
+        "jwt": token,
+        "user": serializer.data,
+    }
 
     return response
 

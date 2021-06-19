@@ -1,13 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Switch } from '@headlessui/react';
 import './market-app-sign-ups.module.scss';
-import { useDispatch } from 'react-redux';
-import {
-  getSignUpFailure,
-  getSignUpSuccess,
-} from './market-app-sign-ups.slice';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { postSignUpUser } from '@client/shared/account-syn-api';
+import { selectSignUpStateLoaded } from './market-app-sign-ups.slice';
+import { useHistory } from 'react-router-dom';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -18,8 +17,9 @@ export interface MarketAppSignUpsProps {}
 
 export function MarketAppSignUps(props: MarketAppSignUpsProps) {
   const dispatch = useDispatch();
+  const signUpDetailsLoaded = useSelector(selectSignUpStateLoaded);
   const [enabled, setEnabled] = useState(false);
-
+  const location = useHistory();
   const [signup, setSignUp] = useState({
     first_name: '',
     last_name: '',
@@ -31,15 +31,17 @@ export function MarketAppSignUps(props: MarketAppSignUpsProps) {
     user_context: '',
   });
 
+  useEffect(() => {
+    if (signUpDetailsLoaded.loading === 'succeeded') {
+      location.push('/');
+    } else if (signUpDetailsLoaded.loading === 'failed') {
+      location.push('/sign-up');
+    }
+  }, [location, signUpDetailsLoaded]);
+
   const handleUserSignUp = async (event) => {
     event.preventDefault();
-
-    try {
-      const data = await dispatch(postSignUpUser(signup));
-      dispatch(getSignUpSuccess(data));
-    } catch (err) {
-      dispatch(getSignUpFailure(err));
-    }
+    dispatch(postSignUpUser(signup));
   };
 
   const handleUserSignUpChange = (event) => {
@@ -270,7 +272,7 @@ export function MarketAppSignUps(props: MarketAppSignUpsProps) {
 
                   <div className="text-sm">
                     <a
-                      href="#"
+                      href="/sign-in"
                       className="font-medium text-xs text-gray-600 hover:text-indigo-500"
                     >
                       Already have an account?

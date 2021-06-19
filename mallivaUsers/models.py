@@ -42,6 +42,8 @@ class User(AbstractUser, Translatable):
     profile_picture = models.ImageField(upload_to=user_directory_path, blank=True)
     role = models.ForeignKey(Role, on_delete=models.SET_NULL, null=True, blank=True)
     custom_fields = GenericRelation(CustomField)
+    terms_of_service_accepted = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
 
     USERNAME_FIELD = "email"

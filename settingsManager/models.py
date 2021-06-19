@@ -1,124 +1,96 @@
 from django.db import models
+from paymentGateways.models import PaymentGateway
+from customCodes.models import CustomCode
+from translations.models import Translatable
 
 # Create your models here.
 
 
-class Setting(models.Model):
+def image_directory_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/domain/template_images/<filename>
+    return "{0}/{1}/{2}".format(
+        get_request_variable("malliva_domain"),
+        "template_images",
+        filename,
+    )
+
+
+class TemplateStyling(models.Model):
+    """
+    Contains all configurations for the frontend view of marketplace.
+    """
+
+    id = models.BigAutoField(primary_key=True)
+    # TODO: remember to set resolutions for the images below on the fields
+    favicon = models.ImageField(upload_to=image_directory_path, blank=True)
+    logo = models.ImageField(upload_to=image_directory_path, blank=True)
+    wide_logo = models.ImageField(upload_to=image_directory_path, blank=True)
+    cover_photo = models.ImageField(upload_to=image_directory_path, blank=True)
+    small_cover_photo = models.ImageField(
+        upload_to=image_directory_path, blank=True, help_text="cover photo for mobile"
+    )
+    theme_color = models.CharField(max_length=200)
+    # TODO: remember to change django to 3.2 in requirements and change this JSON field
+    landing_page_settings = models.CharField(max_length=200)
+    custom_codes = models.OneToOneField(
+        CustomCode, on_delete=models.SET_NULL, null=True
+    )
+    footer_background = models.CharField(max_length=200)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
+
+
+class SocialMediaPage(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    facebook_page = models.URLField()
+    twitter_page = models.URLField()
+    instagram_page = models.URLField()
+    github_page = models.URLField()
+    linkedin_page = models.URLField()
+    tiktok_page = models.URLField()
+
+
+class Configuration(Translatable):
     """
     Transaction FLow, related to marketplace plans
+    TODO: remember to create default configuration fixure for new marketplaces
+    should be run for every new marketplace accounts.
     """
 
+    id = models.BigAutoField(primary_key=True)
+    slogan = models.CharField(max_length=200)
+    description = models.CharField(max_length=500)
     language = models.CharField(max_length=200)
+    # TODO: remember to create a new file and add all countries and make this field a choice field
     country = models.CharField(max_length=200)
     currency = models.CharField(max_length=200)
+    templatestyle = models.ForeignKey(
+        TemplateStyling, on_delete=models.SET_DEFAULT, default="1"
+    )
+    malliva_terms_consent = models.BooleanField(
+        default=False,
+        help_text="track clients agreement of Malliva's latest terms of service",
+    )
+    transaction_agreement_in_use = models.BooleanField(default=False)
+    notify_admins_about_new_members = models.BooleanField(default=False)
+    notify_admins_about_new_transactions = models.BooleanField(default=False)
+    require_verification_to_post_listings = models.BooleanField(default=False)
+    private_marketplace = models.BooleanField(default=True)
+    automatic_newsletters = models.BooleanField(default=False)
+    invite_only_marketplace = models.BooleanField(default=False)
+    send_emails_from = models.EmailField(max_length=200)
+    preapprove_listing = models.BooleanField(
+        default=False, help_text="listings are public by default in the marketplace"
+    )
+    show_date_in_listing_view = models.BooleanField(default=False)
+    # TODO: decide which field to use for transaction flow settings later
+    transaction_flow = models.CharField(max_length=200)
+    default_payment_processor = models.ForeignKey(
+        PaymentGateway, on_delete=models.SET_DEFAULT, default="1"
+    )
+    show_location = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
 
-    print("hello")
-
-
-# "id",
-# "uuid",
-# "ident",
-# "domain",
-# "use_domain",
-# "created_at",
-# "updated_at",
-# "settings",
-# "consent",
-# "transaction_agreement_in_use",
-# "email_admins_about_new_members",
-# "use_fb_like",
-# "real_name_required",
-# "automatic_newsletters",
-# "join_with_invite_only",
-# "allowed_emails",
-# "users_can_invite_new_users",
-# "private", "label",
-# "show_date_in_listings_list",
-# "all_users_can_add_news",
-# "custom_frontpage_sidebar",
-# "event_feed_enabled",
-# "slogan",
-# "description",
-# "country",
-# "members_count",
-# "user_limit",
-# "monthly_price_in_euros",
-# "logo_file_name",
-# "logo_content_type",
-# "logo_file_size",
-# "logo_updated_at",
-# "cover_photo_file_name",
-# "cover_photo_content_type",
-# "cover_photo_file_size",
-# "cover_photo_updated_at",
-# "small_cover_photo_file_name",
-# "small_cover_photo_content_type",
-# "small_cover_photo_file_size",
-# "small_cover_photo_updated_at",
-# "custom_color1",
-# "custom_color2",
-# "slogan_color",
-# "description_color",
-# "stylesheet_url",
-# "stylesheet_needs_recompile",
-# "service_logo_style",
-# "currency",
-# "facebook_connect_enabled",
-# "minimum_price_cents",
-# "hide_expiration_date",
-# "facebook_connect_id",
-# "facebook_connect_secret",
-# "google_analytics_key",
-# "google_maps_key",
-# "name_display_type",
-# "twitter_handle",
-# "use_community_location_as_default",
-# "preproduction_stylesheet_url",
-# "show_category_in_listing_list",
-# "default_browse_view",
-# "wide_logo_file_name",
-# "wide_logo_content_type",
-# "wide_logo_file_size",
-# "wide_logo_updated_at",
-# "listing_comments_in_use",
-# "show_listing_publishing_date",
-# "require_verification_to_post_listings",
-# "show_price_filter",
-# "price_filter_min",
-# "price_filter_max",
-# "automatic_confirmation_after_days",
-# "favicon_file_name",
-# "favicon_content_type",
-# "favicon_file_size",
-# "favicon_updated_at",
-# "default_min_days_between_community_updates",
-# "listing_location_required",
-# "custom_head_script",
-# "follow_in_use",
-# "logo_processing",
-# "wide_logo_processing",
-# "cover_photo_processing",
-# "small_cover_photo_processing",
-# "favicon_processing",
-# "deleted",
-# "end_user_analytics",
-# "show_slogan",
-# "show_description",
-# "hsts_max_age",
-# "footer_theme",
-# "footer_copyright",
-# "footer_enabled",
-# "logo_link",
-# "google_connect_enabled",
-# "google_connect_id",
-# "google_connect_secret",
-# "linkedin_connect_enabled",
-# "linkedin_connect_id",
-# "linkedin_connect_secret",
-# "pre_approved_listings",
-# "allow_free_conversations",
-# "email_admins_about_new_transactions",
-# "show_location",
-# "fuzzy_location",
-# "recaptcha_site_key",
-# "recaptcha_secret_key"
+    class TranslatableMeta:
+        fields = ["slogan", "description"]
