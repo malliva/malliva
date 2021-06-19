@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "mallivaUsers",
     "marketplaceAccounts",
-    "customFields",
+    # "custom",
     "transactions",
     "listings",
     "categories",
