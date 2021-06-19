@@ -1,13 +1,14 @@
 from rest_framework import serializers
 from .models import CustomField, CustomFieldItem
+
 from mallivaUsers.models import User
 from listings.models import Listing
 
-# from listings.serializers import ListingSerializer
-# from mallivaUsers.serializers import UserSerializer
+from listings.serializers import ListingSerializer
+from mallivaUsers.serializers import UserSerializer
 
 
-# class CustomFieldRelatedField(serializers.RelatedField):
+# class AssociatedModelRelatedField(serializers.RelatedField):
 #     """
 #     A custom field to use for the `tagged_object` generic relationship.
 #     """
@@ -27,14 +28,6 @@ from listings.models import Listing
 #         return serializer.data
 
 
-# class CustomFieldItemSerializer(serializers.ModelSerializer):
-#     tags = CustomFieldObjectRelatedField(many=True, queryset=CustomField.objects.all())
-
-#     class Meta:
-#         model = CustomFieldItem
-#         fields = ("pk", "url", "tags")
-
-
 class CustomFieldItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomFieldItem
@@ -44,8 +37,10 @@ class CustomFieldItemSerializer(serializers.ModelSerializer):
 class CustomFieldSerializer(serializers.ModelSerializer):
     custom_field_items = CustomFieldItemSerializer(many=True, required=False)
 
+    assoc
+
     class Meta:
-        model = Listing
+        model = CustomField
 
         # allow only selected inputs
         fields = [
@@ -53,7 +48,7 @@ class CustomFieldSerializer(serializers.ModelSerializer):
             "field_type",
             "options",
             "content_type",
-            "associatedModel",
+            "associated_mModel",
             "is_required",
             "visible",
             "custom_field_items",

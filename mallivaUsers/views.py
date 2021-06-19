@@ -42,7 +42,7 @@ def login(request):
 
     user = User.objects.filter(email=email).first()
 
-    if user is None or user.is_active is not True:
+    if user is None or user.is_active is False:
         raise exceptions.AuthenticationFailed("User not found!")
 
     if not user.check_password(password):
@@ -69,6 +69,9 @@ def logout(request):
     """
     API endpoint for user logout
     """
+    authentication_classes = [jwtAuthentication]
+    permission_classes = [IsAuthenticated]
+
     response = Response()
     response.delete_cookie(key="jwt")
 
@@ -178,18 +181,18 @@ class UserViewSet(viewsets.ViewSet):
         MultiPartParser,
     ]
 
-    queryset = User.objects.all()
+    queryset = User.objects.filter(is_active=True).all()
 
     def retrieve(self, request, pk=None):
 
         if pk:
             try:
-                user = User.objects.get(pk=pk)
+                user = User.objects.get(username=pk, is_active=True)
                 serializer = UserSerializer(user)
                 return Response(serializer.data)
             except:
                 response = Response()
-                response.data = {"message": "wrong user id provided"}
+                response.data = {"message": "User does not exist"}
                 response.status_code = status.HTTP_404_NOT_FOUND
                 return response
         else:
@@ -198,27 +201,41 @@ class UserViewSet(viewsets.ViewSet):
 
     def update_user(self, request, pk=None):
 
-        user = request.user
+        data = request.data
+
+        try:
+            user = User.objects.get(username=pk, is_active=True)
+        except:
+            response = Response()
+            response.data = {"message": "User does not exist"}
+            response.status_code = status.HTTP_404_NOT_FOUND
+            return response
 
         # initialize the serializer
-        serializer = UserSerializer(user, data=request.data, partial=True)
+        serializer = UserSerializer(user, data=data, partial=True)
         serializer.is_valid(raise_exception=True)
 
         # call the serializer
-        serializer.save(owner=user)
+        serializer.save()
 
         return Response(serializer.data)
 
     def destroy_user(self, request, pk=None):
 
-        user = request.user
-        user.soft_delete()
-        user.save()
+        try:
+            user = User.objects.get(username=pk, is_active=True)
+            user.soft_delete()
+            user.save()
+        except:
+            response = Response()
+            response.data = {"message": "User does not exist"}
+            response.status_code = status.HTTP_404_NOT_FOUND
+            return response
 
         response = Response()
-        response.delete_cookie(key="jwt")
+        if request.user == user:
+            response.delete_cookie(key="jwt")
         response.data = {"message": "User was successfully deleted"}
-
         return response
 
 

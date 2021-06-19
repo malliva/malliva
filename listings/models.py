@@ -2,9 +2,6 @@ from django.db import models
 from threadlocals.threadlocals import get_request_variable
 from translations.models import Translatable
 from django.contrib.auth import get_user_model
-from django.contrib.contenttypes.fields import GenericRelation
-from customFields.models import CustomField
-from datetime import datetime
 
 User = get_user_model()
 
@@ -34,7 +31,6 @@ class Listing(Translatable):
         "categories.category", on_delete=models.SET_DEFAULT, default="1"
     )
     description = models.CharField(max_length=500, default="")
-    custom_fields = GenericRelation(CustomField)
     visible = models.BooleanField(
         default=True, help_text="Is this listing visible to the public?"
     )

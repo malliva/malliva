@@ -1,8 +1,8 @@
 from django.db import models
 from translations.models import Translatable
 from threadlocals.threadlocals import get_request_variable
-from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes.fields import GenericForeignKey
+from mallivaUsers.models import User
+from listings.models import Listing
 
 # Create your models here.
 
@@ -16,7 +16,7 @@ def field_directory_path(instance, filename):
     )
 
 
-class CustomField(models.Model):
+class CustomField(Translatable):
     """
     This will allow users create new custom fields for User or listing models
     """
@@ -33,9 +33,8 @@ class CustomField(models.Model):
         max_length=200, choices=customFieldType.choices, blank=False
     )
     options = models.CharField(max_length=1000, default="")
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.PositiveIntegerField()
-    associatedModel = GenericForeignKey("content_type", "object_id")
+    user_field = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
+    listing_field = models.OneToOneField(Listing, on_delete=models.CASCADE, null=True)
     is_required = models.BooleanField(default=False)
     visible = models.BooleanField(
         default=True, help_text="Is this field visible to the public?"
@@ -46,6 +45,10 @@ class CustomField(models.Model):
         # return description of field
         return self.field_name
 
+    class TranslatableMeta:
+
+        fields = ["field_name"]
+
 
 class CustomFieldItem(Translatable):
     """
@@ -55,12 +58,10 @@ class CustomFieldItem(Translatable):
 
     id = models.BigAutoField(primary_key=True)
     custom_field = models.ForeignKey(CustomField, on_delete=models.CASCADE)
-    field_content = models.CharField(
-        max_length=500,
-    )
-    field_upload = models.FileField(upload_to=field_directory_path, blank=True)
+    content = models.CharField(max_length=500)
+    file_upload = models.FileField(upload_to=field_directory_path, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class TranslatableMeta:
 
-        fields = ["field_content"]
+        fields = ["content"]

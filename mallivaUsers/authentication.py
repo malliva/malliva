@@ -35,7 +35,7 @@ class jwtAuthentication(BaseAuthentication):
             get_user_model().objects.filter(username=payload["user_username"]).first()
         )
 
-        if user is None or user.is_active is not True:
+        if user is None or user.is_active is False:
             raise exceptions.AuthenticationFailed("User not found")
 
         return (user, None)

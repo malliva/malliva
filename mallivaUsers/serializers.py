@@ -2,8 +2,10 @@
 
 from rest_framework import serializers
 from .models import User, Permission, Role
+from listings.models import Listing
+from listings.serializers import ListingSerializer
 
-from customFields.serializers import CustomFieldSerializer, CustomFieldItemSerializer
+# from customFields.serializers import AssociatedModelRelatedField
 
 
 class PermissionSerializer(serializers.ModelSerializer):
@@ -45,27 +47,30 @@ class RoleRelatedField(serializers.RelatedField):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    role = RoleRelatedField(many=False, queryset=Role.objects.all())
-    # customfields = CustomFieldObjectRelatedField()
+    # role = RoleRelatedField(many=False, queryset=Role.objects.all())
+    # customfields = CustomFieldSerializer(many=True)
 
     class Meta:
         model = User
 
-        # fields = '__all__'
         # allow only selected inputs
         fields = [
+            "username",
             "first_name",
             "last_name",
             "email",
             "password",
             "profile_picture",
-            # "custom_fields",
-            "role",
+            "custom_fields",
+            # "role",
             "terms_of_service_accepted",
         ]
 
         # Don't show passwords in API responses
-        extra_kwargs = {"password": {"write_only": True}}
+        extra_kwargs = {
+            "password": {"write_only": True},
+            "username": {"required": False},
+        }
 
     def create(self, validated_data):
 
@@ -77,7 +82,8 @@ class UserSerializer(serializers.ModelSerializer):
         if password is not None:
             user.set_password(password)
 
-        user.set_username
+        if user.username is None:
+            user.set_username
 
         user.save()
         return user
@@ -89,7 +95,7 @@ class UserSerializer(serializers.ModelSerializer):
         instance.first_name = validated_data.get("first_name", instance.first_name)
         instance.last_name = validated_data.get("last_name", instance.last_name)
         instance.email = validated_data.get("email", instance.email)
-        instance.role = validated_data.get("role", instance.role)
+        # instance.role = validated_data.get("role", instance.role)
         instance.profile_picture = validated_data.get(
             "profile_picture", instance.profile_picture
         )
