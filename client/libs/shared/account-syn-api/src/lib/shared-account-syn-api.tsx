@@ -15,8 +15,7 @@ export interface SignUpState {
   email: string;
   password: string;
   password_confirm: string;
-  market_context: string;
-  user_context: string;
+  terms_of_service_accepted: boolean;
 }
 
 export interface SignInState {
