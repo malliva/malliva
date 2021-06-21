@@ -1,0 +1,10 @@
+[
+    {
+        "model": "mallivaUsers.role",
+        "pk": "1",
+        "fields": {
+            "id": 1,
+            "name": ""
+        }
+    }
+]

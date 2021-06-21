@@ -9,11 +9,11 @@ class MallivaDatabaseRouter:
         database_name = get_request_variable("database_name")
 
         try:
-            settings.DATABASES["default"]["NAME"] = database_name
+            settings.DATABASES["malliva_maindb"]["NAME"] = database_name
         except:
-            return "default"
+            return "malliva_maindb"
 
-        return "default"
+        return "malliva_maindb"
 
     def db_for_write(self, model, **hints):
         # site_name = get_current_site(request)
@@ -21,9 +21,9 @@ class MallivaDatabaseRouter:
         # change the database name for this request
         database_name = get_request_variable("database_name")
 
-        settings.DATABASES["default"]["NAME"] = database_name
+        settings.DATABASES["malliva_maindb"]["NAME"] = database_name
 
-        return "default"
+        return "malliva_maindb"
 
     def allow_relation(self, obj1, obj2, **hints):
         """
@@ -42,5 +42,5 @@ class MallivaDatabaseRouter:
         # if 'target_db' in hints:
         #     return db == hints['target_db']
 
-        return db == "default"
+        return db == "malliva_maindb"
         return True

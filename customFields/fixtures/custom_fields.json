@@ -1,0 +1,17 @@
+[
+    {
+        "model": "customFields.customfield",
+        "pk": "1",
+        "fields": {
+            "id": 1,
+            "field_name": "",
+            "field_type": "",
+            "options": "",
+            "user_field_id": null,
+            "listing_field_id": null,
+            "is_required": false,
+            "visible": true,
+            "created_at": null
+        }
+    }
+]

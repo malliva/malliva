@@ -1,0 +1,20 @@
+[
+    {
+        "model": "marketplaceAccounts.marketplaceaccount",
+        "pk": "1",
+        "fields": {
+            "id": 1,
+            "marketplace_name": "Renvery Marketplace",
+            "owner_id": 1,
+            "database_name": "",
+            "subdomain": "",
+            "domain": "artlovo.com",
+            "use_domain": false,
+            "configuration_id": null,
+            "curent_mode": "DEVELOPMENT",
+            "subscription_id": null,
+            "created_at": "2021-06-21T16:48:10.051Z",
+            "updated_at": "2021-06-21T16:48:10.051Z"
+        }
+    }
+]

@@ -15,10 +15,9 @@ if __name__ == "__main__":
     # manage makemigrations
     # os.system("python manage.py makemigrations")
 
-    os.system("python manage.py migrate")
+    os.system("python manage.py migrate --database=malliva_maindb")
 
-    os.system("python manage.py loaddata users.json")
-    print("default super user data loaded")
-
-    os.system("python manage.py loaddata categories.json")
-    print("default category data loaded")
+    os.system(
+        "python manage.py loaddata users permissions roles categories plans subscriptions configurations template_stylings social_media_pages marketplace_accounts listings custom_fields --database=malliva_maindb"
+    )
+    print("default initial data loaded")

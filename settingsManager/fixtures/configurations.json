@@ -1,0 +1,31 @@
+[
+    {
+        "model": "settingsManager.configuration",
+        "pk": "1",
+        "fields": {
+            "id": 1,
+            "slogan": "",
+            "description": "",
+            "language": "en",
+            "country": "",
+            "currency": "",
+            "templatestyle_id": 1,
+            "malliva_terms_consent": false,
+            "transaction_agreement_in_use": false,
+            "notify_admins_about_new_members": false,
+            "notify_admins_about_new_transactions": false,
+            "require_verification_to_post_listings": false,
+            "private_marketplace": true,
+            "automatic_newsletters": false,
+            "invite_only_marketplace": false,
+            "send_emails_from": "",
+            "preapprove_listing": false,
+            "show_date_in_listing_view": false,
+            "transaction_flow": "",
+            "active_payment_processor_id": 1,
+            "show_location": false,
+            "created_at": null,
+            "updated_at": null
+        }
+    }
+]

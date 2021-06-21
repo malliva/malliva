@@ -1,0 +1,15 @@
+[
+    {
+        "model": "settingsManager.socialmediapage",
+        "pk": "1",
+        "fields": {
+            "id": 1,
+            "facebook_page": "",
+            "twitter_page": "",
+            "instagram_page": "",
+            "github_page": "",
+            "linkedin_page": "",
+            "tiktok_page": ""
+        }
+    }
+]
