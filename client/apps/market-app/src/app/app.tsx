@@ -15,6 +15,7 @@ import { MarketAppSignIn } from 'libs/market-app/sign-in/src/index';
 import { MarketAppSignUps } from 'libs/market-app/sign-ups/src/index';
 import { MarketAppItemDetails } from 'libs/market-app/item-details/src/index';
 import { SharedAuthGuard } from 'libs/shared/auth-guard/src/index';
+import { MarketAppDashboard } from 'libs/market-app/dashboard/src/index';
 
 export function App(props: { store: Store }) {
   return (
@@ -26,9 +27,9 @@ export function App(props: { store: Store }) {
           </Route>
           {/* Dashboard should be here */}
           <SharedAuthGuard
-            path="/protected"
-            component={MarketAppItemDetails}
-            auth={false}
+            path="/dashboard"
+            component={MarketAppDashboard}
+            auth={true}
           />
           <Route path="/sign-up">
             <MarketAppSignUps />
