@@ -159,7 +159,7 @@ DATABASES = {
             "host": "malliva33y21_db",
             "port": 27017,
             "username": "mallivay21",
-            "password": "P@123Maliva",
+            "password": "P123Malliva",
         },
     },
     "audit_db": {
@@ -170,7 +170,7 @@ DATABASES = {
             "host": "malliva33y21_db",
             "port": 27017,
             "username": "mallivay21",
-            "password": "P@123Maliva",
+            "password": "P123Malliva",
         },
     },
 }

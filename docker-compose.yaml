@@ -7,10 +7,10 @@ services:
         command: python manage.py runserver 0.0.0.0:8000
         volumes:
             - .:/app
+        networks: 
+            - mallivaplat_net
         ports:
             - 8000:8000
-        links: 
-            - malliva33y21_db
         depends_on:
             - malliva_migration
 
@@ -20,8 +20,8 @@ services:
         command: python database_initializer.py
         volumes:
             - .:/app
-        links:
-            - malliva33y21_db
+        networks: 
+            - mallivaplat_net
         depends_on:
             - malliva_make_migrations
 
@@ -34,8 +34,8 @@ services:
         command: python manage.py makemigrations
         volumes:
             - .:/app
-        links:
-            - malliva33y21_db
+        networks: 
+            - mallivaplat_net
         depends_on:
             - malliva33y21_db
     
@@ -45,11 +45,16 @@ services:
         restart: always
         environment:
             MONGO_INITDB_ROOT_USERNAME: mallivay21
-            MONGO_INITDB_ROOT_PASSWORD: P@123Maliva
+            MONGO_INITDB_ROOT_PASSWORD: P123Malliva
             MONGO_INITDB_DATABASE: malliva21_db
         volumes:
             - .mongodb/home/mongodb:/home/mongodb
             - .mongodb/database/migrations:/docker-entrypoint-initdb.d
             - .mongodb/malliva_dbdata:/data/malliva21_db
+        networks: 
+            - mallivaplat_net
         ports:
             - 27017:27017
+            
+networks:
+    mallivaplat_net:
