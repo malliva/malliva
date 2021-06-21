@@ -17,9 +17,11 @@ export interface MarketAppSignUpsProps {}
 
 export function MarketAppSignUps(props: MarketAppSignUpsProps) {
   const dispatch = useDispatch();
-  const signUpDetailsLoaded = useSelector(selectSignUpStateLoaded);
-  const [enabled, setEnabled] = useState(false);
   const location = useHistory();
+
+  const signUpDetailsLoaded = useSelector(selectSignUpStateLoaded);
+  const [terms_of_service_accepted, setEnabled] = useState(false);
+
   const [signup, setSignUp] = useState({
     first_name: '',
     last_name: '',
@@ -27,8 +29,8 @@ export function MarketAppSignUps(props: MarketAppSignUpsProps) {
     email: '',
     password: '',
     password_confirm: '',
-    market_context: '',
-    user_context: '',
+    // market_context: '',
+    // user_context: '',
   });
 
   useEffect(() => {
@@ -41,7 +43,16 @@ export function MarketAppSignUps(props: MarketAppSignUpsProps) {
 
   const handleUserSignUp = async (event) => {
     event.preventDefault();
-    dispatch(postSignUpUser(signup));
+    const formData = {
+      first_name: signup.first_name,
+      last_name: signup.last_name,
+      username: signup.username,
+      email: signup.email,
+      password: signup.password,
+      password_confirm: signup.password_confirm,
+      terms_of_service_accepted: terms_of_service_accepted,
+    };
+    dispatch(postSignUpUser(formData));
   };
 
   const handleUserSignUpChange = (event) => {
@@ -140,45 +151,6 @@ export function MarketAppSignUps(props: MarketAppSignUpsProps) {
                     />
                   </div>
                 </div>
-                <div>
-                  <label
-                    htmlFor="user_context"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    User context
-                  </label>
-                  <div className="mt-1">
-                    <input
-                      onChange={handleUserSignUpChange}
-                      id="user_context"
-                      name="user_context"
-                      type="text"
-                      autoComplete="text"
-                      required
-                      className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="market_context"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Market context
-                  </label>
-                  <div className="mt-1">
-                    <input
-                      onChange={handleUserSignUpChange}
-                      id="market_context"
-                      name="market_context"
-                      type="text"
-                      autoComplete="text"
-                      required
-                      className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    />
-                  </div>
-                </div>
 
                 <div>
                   <label
@@ -231,7 +203,7 @@ export function MarketAppSignUps(props: MarketAppSignUpsProps) {
                       onChange={handleUserSignUpChange}
                       id="password_confirm"
                       name="password_confirm"
-                      type="text"
+                      type="password"
                       autoComplete="current-password"
                       required
                       className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -243,17 +215,22 @@ export function MarketAppSignUps(props: MarketAppSignUpsProps) {
                   <div className="flex items-center">
                     <Switch.Group as="div" className="flex items-center">
                       <Switch
-                        checked={enabled}
+                        //type="terms_of_service_accepted"
+                        checked={terms_of_service_accepted}
                         onChange={setEnabled}
                         className={classNames(
-                          enabled ? 'bg-green-600' : 'bg-gray-200',
+                          terms_of_service_accepted
+                            ? 'bg-green-600'
+                            : 'bg-gray-200',
                           'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-300'
                         )}
                       >
                         <span
                           aria-hidden="true"
                           className={classNames(
-                            enabled ? 'translate-x-5' : 'translate-x-0',
+                            terms_of_service_accepted
+                              ? 'translate-x-5'
+                              : 'translate-x-0',
                             'pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200'
                           )}
                         />
