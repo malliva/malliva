@@ -5,15 +5,25 @@ import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
 import { PlusIcon } from '@heroicons/react/solid';
 
 import './market-app-top-menu.module.scss';
+import { Link } from 'react-router-dom';
 
 /* eslint-disable-next-line */
-export interface MarketAppTopMenuProps {}
+export interface MarketAppTopMenuProps {
+  menu: any;
+}
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
+const dropDownTopNavigation = [
+  { name: 'Your Profile', link: '#', type: '' },
+  { name: 'Settings', link: '#', type: '' },
+  { name: 'Sign out', link: '#', type: '' },
+];
+
 export function MarketAppTopMenu(props: MarketAppTopMenuProps) {
+  const { menu } = props;
   return (
     <Disclosure as="nav" className="bg-white shadow">
       {({ open }) => (
@@ -45,38 +55,48 @@ export function MarketAppTopMenu(props: MarketAppTopMenuProps) {
                   />
                 </div>
                 <div className="hidden md:ml-6 md:flex md:space-x-8">
-                  {/* Current: "border-indigo-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" */}
-                  <a
-                    href="#"
-                    className="border-green-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-                  >
-                    Dashboard
-                  </a>
-                  <a
-                    href="#"
-                    className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-                  >
-                    About us
-                  </a>
-                  <a
-                    href="#"
-                    className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-                  >
-                    Contact us
-                  </a>
-                  <a
-                    href="#"
-                    className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-                  >
-                    <PlusIcon
-                      className="-ml-1 mr-2 h-5 w-5"
-                      aria-hidden="true"
-                    />
-                    Invite new members
-                  </a>
+                  {/*DASHBOARD MENU DESKTOP */}
+                  {menu &&
+                    menu.map((menuItem, index) => {
+                      if (menuItem.type === 'admin') {
+                        return (
+                          <Link
+                            key={index}
+                            to="/"
+                            className="border-green-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                          >
+                            {menuItem.name}
+                          </Link>
+                        );
+                      } else {
+                        return (
+                          <Link
+                            key={index}
+                            to="/"
+                            className={classNames(
+                              index === 0
+                                ? 'border-green-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium'
+                                : 'text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium'
+                            )}
+                          >
+                            {menuItem.name}
+                          </Link>
+                        );
+                      }
+                    })}
                 </div>
               </div>
               <div className="flex items-center">
+                <Link
+                  to="/"
+                  className={classNames(
+                    menu[0].type === ''
+                      ? 'hidden'
+                      : 'block border-transparent  text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium'
+                  )}
+                >
+                  Go to your Marketplace
+                </Link>
                 <div className="hidden md:ml-4 md:flex-shrink-0 md:flex md:items-center">
                   <button className="bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
                     <span className="sr-only">View notifications</span>
@@ -109,47 +129,26 @@ export function MarketAppTopMenu(props: MarketAppTopMenuProps) {
                         >
                           <Menu.Items
                             static
-                            className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                            className="origin-top-right z-10 absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
                           >
-                            <Menu.Item>
-                              {({ active }) => (
-                                <a
-                                  href="#"
-                                  className={classNames(
-                                    active ? 'bg-gray-100' : '',
-                                    'block px-4 py-2 text-sm text-gray-700'
-                                  )}
-                                >
-                                  Your Profile
-                                </a>
-                              )}
-                            </Menu.Item>
-                            <Menu.Item>
-                              {({ active }) => (
-                                <a
-                                  href="#"
-                                  className={classNames(
-                                    active ? 'bg-gray-100' : '',
-                                    'block px-4 py-2 text-sm text-gray-700'
-                                  )}
-                                >
-                                  Settings
-                                </a>
-                              )}
-                            </Menu.Item>
-                            <Menu.Item>
-                              {({ active }) => (
-                                <a
-                                  href="#"
-                                  className={classNames(
-                                    active ? 'bg-gray-100' : '',
-                                    'block px-4 py-2 text-sm text-gray-700'
-                                  )}
-                                >
-                                  Sign out
-                                </a>
-                              )}
-                            </Menu.Item>
+                            {dropDownTopNavigation &&
+                              dropDownTopNavigation.map((menuItem, index) => {
+                                return (
+                                  <Menu.Item key={index}>
+                                    {({ active }) => (
+                                      <Link
+                                        to="/"
+                                        className={classNames(
+                                          active ? 'bg-gray-100' : '',
+                                          'block px-4 py-2 text-sm text-gray-700'
+                                        )}
+                                      >
+                                        {menuItem.name}
+                                      </Link>
+                                    )}
+                                  </Menu.Item>
+                                );
+                              })}
                           </Menu.Items>
                         </Transition>
                       </>
@@ -162,34 +161,19 @@ export function MarketAppTopMenu(props: MarketAppTopMenuProps) {
 
           <Disclosure.Panel className="md:hidden">
             <div className="pt-2 pb-3 space-y-1">
-              {/* Current: "bg-indigo-50 border-indigo-500 text-indigo-700", Default: "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700" */}
-              <a
-                href="#"
-                className="bg-indigo-50 border-indigo-500 text-indigo-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium sm:pl-5 sm:pr-6"
-              >
-                Dashboard
-              </a>
-              <a
-                href="#"
-                className="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium sm:pl-5 sm:pr-6"
-              >
-                About us
-              </a>
-              <a
-                href="#"
-                className="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium sm:pl-5 sm:pr-6"
-              >
-                Contact us
-              </a>
-              <a
-                href="#"
-                className="flex border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium sm:pl-5 sm:pr-6"
-              >
-                <span>
-                  <PlusIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
-                </span>
-                <span>Invite new members</span>
-              </a>
+              {/*DASHBOARD MENU MOBILE */}
+              {menu &&
+                menu.map((menuItem, index) => {
+                  return (
+                    <Link
+                      key={index}
+                      to="/"
+                      className="bg-indigo-50 border-indigo-500 text-indigo-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium sm:pl-5 sm:pr-6"
+                    >
+                      {menuItem.name}
+                    </Link>
+                  );
+                })}
             </div>
             <div className="pt-4 pb-3 border-t border-gray-200">
               <div className="flex items-center px-4 sm:px-6">
@@ -214,24 +198,18 @@ export function MarketAppTopMenu(props: MarketAppTopMenuProps) {
                 </button>
               </div>
               <div className="mt-3 space-y-1">
-                <a
-                  href="#"
-                  className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100 sm:px-6"
-                >
-                  Your Profile
-                </a>
-                <a
-                  href="#"
-                  className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100 sm:px-6"
-                >
-                  Settings
-                </a>
-                <a
-                  href="#"
-                  className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100 sm:px-6"
-                >
-                  Sign out
-                </a>
+                {dropDownTopNavigation &&
+                  dropDownTopNavigation.map((menuItem, index) => {
+                    return (
+                      <Link
+                        key={index}
+                        to="/"
+                        className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100 sm:px-6"
+                      >
+                        {menuItem.name}
+                      </Link>
+                    );
+                  })}
               </div>
             </div>
           </Disclosure.Panel>

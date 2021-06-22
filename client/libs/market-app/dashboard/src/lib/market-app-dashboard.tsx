@@ -35,24 +35,20 @@ const user = {
 };
 const navigation = [
   { name: 'Home', href: '#', icon: HomeIcon, current: true },
-  { name: 'Popular', href: '#', icon: FireIcon, current: false },
-  { name: 'Communities', href: '#', icon: UserGroupIcon, current: false },
-  { name: 'Trending', href: '#', icon: TrendingUpIcon, current: false },
+  { name: 'General', href: '#', icon: FireIcon, current: false },
+  { name: 'Design', href: '#', icon: UserGroupIcon, current: false },
 ];
-const userNavigation = [
-  { name: 'Your Profile', href: '#' },
-  { name: 'Settings', href: '#' },
-  { name: 'Sign out', href: '#' },
-];
+const userNavigation = [{ name: 'Admin panel', href: '#', type: 'admin' }];
 const communities = [
-  { name: 'Movies', href: '#' },
-  { name: 'Food', href: '#' },
-  { name: 'Sports', href: '#' },
-  { name: 'Animals', href: '#' },
-  { name: 'Science', href: '#' },
-  { name: 'Dinosaurs', href: '#' },
-  { name: 'Talents', href: '#' },
-  { name: 'Gaming', href: '#' },
+  { name: 'Users', href: '#' },
+  { name: 'Listings', href: '#' },
+  { name: 'Transaction and Reviews', href: '#' },
+  { name: 'Payment system', href: '#' },
+  { name: 'Email', href: '#' },
+  { name: 'Social media', href: '#' },
+  { name: 'SEO', href: '#' },
+  { name: 'Analytics', href: '#' },
+  { name: 'Advanced', href: '#' },
 ];
 const tabs = [
   { name: 'Recent', href: '#', current: true },
@@ -115,7 +111,7 @@ export interface MarketAppDashboardProps {}
 export function MarketAppDashboard(props: MarketAppDashboardProps) {
   return (
     <div className="min-h-screen bg-gray-100">
-      <MarketAppTopMenu />
+      <MarketAppTopMenu menu={userNavigation} />
       <div className="py-10">
         <div className="max-w-3xl mx-auto sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-12 lg:gap-8">
           <div className="hidden lg:block lg:col-span-3 xl:col-span-2">
