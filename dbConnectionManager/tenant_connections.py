@@ -3,7 +3,6 @@
 from mongoengine import (
     connect,
     context_managers,
-    register_connection,
     disconnect,
     disconnect_all,
 )
@@ -19,7 +18,7 @@ class connect_to_database:
         # self.port = port
 
     def initiate_db_connection():
-        register_connection(
+        connect(
             alias=self.alias,
             db=self.database,
             host=self.host,
