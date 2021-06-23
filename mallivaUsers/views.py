@@ -174,8 +174,8 @@ class UserViewSet(viewsets.ViewSet):
     user delete requests
     """
 
-    authentication_classes = [jwtAuthentication]
-    permission_classes = [IsAuthenticated]
+    #authentication_classes = [jwtAuthentication]
+    #permission_classes = [IsAuthenticated]
 
     parser_classes = [
         MultiPartParser,

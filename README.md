@@ -17,6 +17,8 @@ docker-compose up -d --build
 python .\manage.py makemigrations
 python manage.py migrate
 
+mongo $MONGO_INITDB_DATABASE -u $MONGO_INITDB_ROOT_USERNAME -p $MONGO_INITDB_ROOT_PASSWORD
+
 python manage.py createsuperuser
 
 python .\manage.py runserver

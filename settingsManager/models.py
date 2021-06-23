@@ -20,8 +20,8 @@ class TemplateStyling(models.Model):
     Contains all configurations for the frontend view of marketplace.
     """
 
-    id = models.BigAutoField(primary_key=True)
     # TODO: remember to set resolutions for the images below on the fields
+    id = models.BigAutoField(primary_key=True)
     favicon = models.ImageField(upload_to=image_directory_path, blank=True)
     logo = models.ImageField(upload_to=image_directory_path, blank=True)
     wide_logo = models.ImageField(upload_to=image_directory_path, blank=True)

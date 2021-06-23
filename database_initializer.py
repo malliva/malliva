@@ -8,12 +8,15 @@
 # https://docs.djangoproject.com/en/3.2/topics/db/multi-db/#topics-db-multi-db-hints
 
 import os
+from mongoengine import connect
 
 if __name__ == "__main__":
     print("Migrations now running")
 
     # manage makemigrations
     # os.system("python manage.py makemigrations")
+    connect("malliva21_db")
+    print("connected")
 
     os.system("python manage.py migrate --database=malliva_maindb")
 

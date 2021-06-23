@@ -21,7 +21,7 @@ importlib-metadata==4.5.0
 importlib-resources==5.1.4
 jmespath==0.10.0
 mongo-connector==3.1.1
-mongoengine
+mongoengine==0.23.1
 Pillow==8.2.0
 pycparser==2.20
 pycryptodome==3.10.1

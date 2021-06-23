@@ -11,6 +11,8 @@ services:
             - mallivaplat_net
         ports:
             - 8000:8000
+        links:
+            - malliva33y21_db
         depends_on:
             - malliva_migration
 
@@ -22,6 +24,8 @@ services:
             - .:/app
         networks: 
             - mallivaplat_net
+        links:
+            - malliva33y21_db
         depends_on:
             - malliva_make_migrations
 
@@ -36,6 +40,8 @@ services:
             - .:/app
         networks: 
             - mallivaplat_net
+        links:
+            - malliva33y21_db
         depends_on:
             - malliva33y21_db
     
@@ -48,13 +54,19 @@ services:
             MONGO_INITDB_ROOT_PASSWORD: P123Malliva
             MONGO_INITDB_DATABASE: malliva21_db
         volumes:
-            - .mongodb/home/mongodb:/home/mongodb
-            - .mongodb/database/migrations:/docker-entrypoint-initdb.d
-            - .mongodb/malliva_dbdata:/data/malliva21_db
-        networks: 
+            # named volumes
+            - ./mongodbEntrypoint/initdb.js:/docker-entrypoint-initdb.d/initdb.js
+            - mongodb_configdb_volume:/data/configdb
+            - mongodb_data_volume:/data/db
+        networks:  
             - mallivaplat_net
         ports:
             - 27017:27017
-            
+
+volumes:
+    mongodb_data_volume:
+    mongodb_configdb_volume:
+
 networks:
     mallivaplat_net:
+        driver: bridge

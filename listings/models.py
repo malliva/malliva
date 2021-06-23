@@ -46,6 +46,7 @@ class ListingImage(models.Model):
     Store listing images
     """
 
+    id = models.BigAutoField(primary_key=True)
     listing = models.ForeignKey(
         Listing, on_delete=models.CASCADE, related_name="listing_images"
     )

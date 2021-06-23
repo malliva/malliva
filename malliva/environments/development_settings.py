@@ -150,29 +150,37 @@ STATIC_URL = "/static/"
 # Default Mongo database settings
 # remember to change host to database container if you're using docker
 
+# use big autofield for primary keys
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
 DATABASES = {
     "default": {},
     "malliva_maindb": {
         "ENGINE": "djongo",
-        "NAME": "malliva21_db",
-        "tz_aware": True,  # if you using timezones in django (USE_TZ = True)
-        # "CLIENT": {
-        #     "host": "malliva33y21_db",
-        #     "port": 27017,
-        #     "username": "mallivay21",
-        #     "password": "P123Malliva",
-        # },
+        "NAME": "djongo_test",
+        "ENFORCE_SCHEMA": True,
+        "tz_aware": True,
+        "CLIENT": {
+            "host": "malliva33y21_db",
+            "port": 27017,
+            "username": "mallivay21",
+            "password": "P123Malliva",
+            "authMechanism": "SCRAM-SHA-1",
+        },
     },
     "audit_db": {
         "ENGINE": "djongo",
         "NAME": "malliva21_auditdb",
+        "ENFORCE_SCHEMA": True,
         "tz_aware": True,
-        # "CLIENT": {
-        #     "host": "malliva33y21_db",
-        #     "port": 27017,
-        #     "username": "mallivay21",
-        #     "password": "P123Malliva",
-        # },
+        "CLIENT": {
+            "host": "malliva33y21_db",
+            "port": 27017,
+            "username": "mallivay21",
+            "password": "P123Malliva",
+            "authSource": "malliva21_auditdb",
+            "authMechanism": "SCRAM-SHA-1",
+        },
     },
 }
 

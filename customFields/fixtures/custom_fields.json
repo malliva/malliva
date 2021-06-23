@@ -3,7 +3,6 @@
         "model": "customFields.customfield",
         "pk": "1",
         "fields": {
-            "id": 1,
             "field_name": "",
             "field_type": "",
             "options": "",

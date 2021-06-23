@@ -3,7 +3,6 @@
         "model": "settingsManager.configuration",
         "pk": "1",
         "fields": {
-            "id": 1,
             "slogan": "",
             "description": "",
             "language": "en",

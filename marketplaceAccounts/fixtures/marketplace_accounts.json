@@ -3,7 +3,6 @@
         "model": "marketplaceAccounts.marketplaceaccount",
         "pk": "1",
         "fields": {
-            "id": 1,
             "marketplace_name": "Renvery Marketplace",
             "owner_id": 1,
             "database_name": "",

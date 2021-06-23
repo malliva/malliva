@@ -3,7 +3,6 @@
         "model": "settingsManager.templatestyling",
         "pk": "1",
         "fields": {
-            "id": 1,
             "favicon": "",
             "logo": "",
             "wide_logo": "",

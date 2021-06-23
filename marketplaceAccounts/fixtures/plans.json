@@ -3,7 +3,6 @@
         "model": "marketplaceAccounts.plan",
         "pk": "1",
         "fields": {
-            "id": 1,
             "plan_name": "",
             "features": "",
             "duration": null,

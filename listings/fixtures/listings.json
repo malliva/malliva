@@ -3,7 +3,6 @@
         "model": "listings.listing",
         "pk": "1",
         "fields": {
-            "id": 1,
             "title": "",
             "price": null,
             "posted_by_id": null,

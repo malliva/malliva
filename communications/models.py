@@ -6,5 +6,6 @@ User = get_user_model()
 
 # Create your models here.
 class Message(models.Model):
+    id = models.BigAutoField(primary_key=True)
     initiated_by = models.ForeignKey(User, on_delete=DO_NOTHING, blank=False)
     # received_by = models.ForeignKey(User, on_delete=DO_NOTHING, blank=False)

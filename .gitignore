@@ -129,6 +129,7 @@ dmypy.json
 
 # custom additions
 .mongodb/
+.mallivaDB/
 malliva/environments/production_settings
 
 media/
