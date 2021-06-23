@@ -42,23 +42,24 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "rest_framework_mongoengine",
     "corsheaders",
-    "mallivaUsers",
-    "customFields",
-    "listings",
-    "marketplaceAccounts",
-    "transactions",
-    "categories",
-    "settingsManager",
-    "mallivaEmails",
-    "communications",
-    "calendars",
-    "customCodes",
-    "orders",
-    "reviewRatings",
-    "paymentGateways",
     "storages",
     "translations",
+    "mallivaUsers",
+    "customFields",
+    "categories",
+    "listings",
+    # "marketplaceAccounts",
+    # "transactions",
+    # "settingsManager",
+    # "mallivaEmails",
+    # "communications",
+    # "calendars",
+    # "customCodes",
+    # "orders",
+    # "reviewRatings",
+    # "paymentGateways",
 ]
 
 MIDDLEWARE = [
@@ -153,42 +154,43 @@ STATIC_URL = "/static/"
 # use big autofield for primary keys
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-DATABASES = {
-    "default": {},
-    "malliva_maindb": {
-        "ENGINE": "djongo",
-        "NAME": "djongo_test",
-        "ENFORCE_SCHEMA": True,
-        "tz_aware": True,
-        "CLIENT": {
-            "host": "malliva33y21_db",
-            "port": 27017,
-            "username": "mallivay21",
-            "password": "P123Malliva",
-            "authMechanism": "SCRAM-SHA-1",
-        },
-    },
-    "audit_db": {
-        "ENGINE": "djongo",
-        "NAME": "malliva21_auditdb",
-        "ENFORCE_SCHEMA": True,
-        "tz_aware": True,
-        "CLIENT": {
-            "host": "malliva33y21_db",
-            "port": 27017,
-            "username": "mallivay21",
-            "password": "P123Malliva",
-            "authSource": "malliva21_auditdb",
-            "authMechanism": "SCRAM-SHA-1",
-        },
-    },
-}
+# DATABASES = {
+#     "default": {},
+#     "malliva_maindb": {
+#         "ENGINE": "djongo",
+#         "NAME": "djongo_test",
+#         "ENFORCE_SCHEMA": True,
+#         "tz_aware": True,
+#         "CLIENT": {
+#             "host": "malliva33y21_db",
+#             "port": 27017,
+#             "username": "mallivay21",
+#             "password": "P123Malliva",
+#             "authMechanism": "SCRAM-SHA-1",
+#         },
+#     },
+#     "audit_db": {
+#         "ENGINE": "djongo",
+#         "NAME": "malliva21_auditdb",
+#         "ENFORCE_SCHEMA": True,
+#         "tz_aware": True,
+#         "CLIENT": {
+#             "host": "malliva33y21_db",
+#             "port": 27017,
+#             "username": "mallivay21",
+#             "password": "P123Malliva",
+#             "authSource": "malliva21_auditdb",
+#             "authMechanism": "SCRAM-SHA-1",
+#         },
+#     },
+# }
 
 # close database connection after every request
 
 CONN_MAX_AGE = 0
 
-DATABASE_ROUTERS = ["malliva.marketplaceRouter.MallivaDatabaseRouter"]
+# Database router
+# DATABASE_ROUTERS = ["malliva.marketplaceRouter.MallivaDatabaseRouter"]
 
 AUTH_USER_MODEL = "mallivaUsers.User"
 
