@@ -13,7 +13,6 @@ export interface MarketAppLandingPageProps {}
 export function MarketAppLandingPage(props: MarketAppLandingPageProps) {
   return (
     <div>
-      <MarketAppTopMenu />
       <MarketAppTopBanner />
       {/* <MarketAppTopBarSettings /> */}
       <div className="flex justify-center space-between flex-wrap">

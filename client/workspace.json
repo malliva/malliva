@@ -559,6 +559,29 @@
           }
         }
       }
+    },
+    "market-app-dashboard": {
+      "root": "libs/market-app/dashboard",
+      "sourceRoot": "libs/market-app/dashboard/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/market-app/dashboard/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/market-app/dashboard"],
+          "options": {
+            "jestConfig": "libs/market-app/dashboard/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   }
 }

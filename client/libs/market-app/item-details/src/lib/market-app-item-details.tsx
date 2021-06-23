@@ -33,7 +33,7 @@ export function MarketAppItemDetails(props: MarketAppItemDetailsProps) {
 
   return (
     <div>
-      <MarketAppTopMenu />
+      {/* <MarketAppTopMenu /> */}
 
       <div className="bg-gray-50">
         <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-8 lg:px-4 lg:flex lg:items-center lg:justify-between">
