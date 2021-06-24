@@ -8,12 +8,15 @@ or
 
 $env:DJANGO_SETTINGS_MODULE='malliva.environments.development_settings'
 
+Python 3.8 required 
+Django 3.2
 
 docker-compose up -d
 
 # when you want to rebuild image otherwise just run the above
 docker-compose up -d --build
 
+mongoengine_migrate --log-level=debug makemigrations -m mallivaUsers
 python .\manage.py makemigrations
 python manage.py migrate
 

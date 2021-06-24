@@ -1,5 +1,7 @@
 # This will manage all Malliva mongodb database connections
 
+from django.conf import settings
+
 from mongoengine import (
     connect,
     context_managers,
@@ -9,15 +11,15 @@ from mongoengine import (
 
 
 class connect_to_database:
-    def __init__(self, alias, database, username, password, host):
+    def __init__(self, database, alias):
         self.alias = alias
         self.database = database
-        self.username = username
-        self.password = password
-        self.host = host
-        # self.port = port
+        self.port = "27017"
+        self.host = settings.PLATFORM_DB_HOST
+        self.username = settings.DB_USERNAME
+        self.password = settings.DB_PASSWORD
 
-    def initiate_db_connection():
+    def initiate_db_connection(self):
         connect(
             alias=self.alias,
             db=self.database,
@@ -29,7 +31,7 @@ class connect_to_database:
     def switch_database(new_database):
         context_managers.switch_db()
 
-    def switch_collection(collection):
+    def switch_collection(new_collection):
         context_managers.switch_collection(collection)
 
     def end_db_connection():

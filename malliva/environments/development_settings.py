@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+from dbConnectionManager.tenant_connections import connect_to_database
+from malliva.locale.alllanguages import LANGUAGE_OPTIONS, LANGUAGE_BIDI_OPTIONS
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -47,9 +49,9 @@ INSTALLED_APPS = [
     "storages",
     "translations",
     "mallivaUsers",
-    "customFields",
     "categories",
     "listings",
+    # "customFields",
     # "marketplaceAccounts",
     # "transactions",
     # "settingsManager",
@@ -148,17 +150,34 @@ STATIC_URL = "/static/"
 
 # Custom settings for this project
 
+# use big autofield for primary keys
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
 # Default Mongo database settings
 # remember to change host to database container if you're using docker
 
-# use big autofield for primary keys
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+DB_USERNAME = "mallivay21"
+DB_PASSWORD = "P123Malliva"
+PLATFORM_DB = "malliva21_db"
+PLATFORM_DB_CONN_ALIAS = "MALLIVA0000001"
+PLATFORM_DB_HOST = "localhost"  # "malliva33y21_db"
+
+# Setting up default database connection - To be used for the platform CRUD operations
+connection1 = connect_to_database(database="malliva21_db", alias="default")
+connection1.initiate_db_connection()
+
+# Setting up marketplace database connection - To be used for the marketplace accounts CRUD operations
+# make database option dynamic
+connection2 = connect_to_database(
+    database="malliva_marketplaces_db", alias="marketplace_dbs"
+)
+connection2.initiate_db_connection()
 
 # DATABASES = {
 #     "default": {},
 #     "malliva_maindb": {
 #         "ENGINE": "djongo",
-#         "NAME": "djongo_test",
+#         "NAME": "malliva21_db",
 #         "ENFORCE_SCHEMA": True,
 #         "tz_aware": True,
 #         "CLIENT": {
@@ -192,7 +211,7 @@ CONN_MAX_AGE = 0
 # Database router
 # DATABASE_ROUTERS = ["malliva.marketplaceRouter.MallivaDatabaseRouter"]
 
-AUTH_USER_MODEL = "mallivaUsers.User"
+# AUTH_USER_MODEL = "mallivaUsers.User"
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
@@ -257,7 +276,6 @@ STATICFILES_DIRS = [
 LOCALE_DIR = os.path.join(BASE_DIR, "malliva", "locale")
 LOCALE_PATHS = [LOCALE_DIR]
 
-from malliva.locale.alllanguages import LANGUAGE_OPTIONS, LANGUAGE_BIDI_OPTIONS
 
 LANGUAGES = LANGUAGE_OPTIONS
 LANGUAGES_BIDI = LANGUAGE_BIDI_OPTIONS
