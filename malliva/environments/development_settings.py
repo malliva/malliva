@@ -160,7 +160,7 @@ DB_USERNAME = "mallivay21"
 DB_PASSWORD = "P123Malliva"
 PLATFORM_DB = "malliva21_db"
 PLATFORM_DB_CONN_ALIAS = "MALLIVA0000001"
-PLATFORM_DB_HOST = "localhost"  # "malliva33y21_db"
+PLATFORM_DB_HOST = "malliva33y21_db" #"localhost"  # 
 
 # Setting up default database connection - To be used for the platform CRUD operations
 connection1 = connect_to_database(database="malliva21_db", alias="default")

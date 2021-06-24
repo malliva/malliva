@@ -56,16 +56,10 @@ services:
         volumes:
             # named volumes
             - ./mongodbEntrypoint/initdb.js:/docker-entrypoint-initdb.d/initdb.js
-            - mongodb_configdb_volume:/data/configdb
-            - mongodb_data_volume:/data/db
         networks:  
             - mallivaplat_net
         ports:
             - 27017:27017
-
-volumes:
-    mongodb_data_volume:
-    mongodb_configdb_volume:
 
 networks:
     mallivaplat_net:
