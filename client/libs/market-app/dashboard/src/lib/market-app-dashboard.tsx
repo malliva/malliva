@@ -13,6 +13,7 @@ import {
   ShareIcon,
   StarIcon,
   ThumbUpIcon,
+  AtSymbolIcon,
 } from '@heroicons/react/solid';
 import {
   BellIcon,
@@ -21,7 +22,18 @@ import {
   MenuIcon,
   TrendingUpIcon,
   UserGroupIcon,
+  ChartPieIcon,
+  PresentationChartLineIcon,
+  AdjustmentsIcon,
+  PuzzleIcon,
+  TemplateIcon,
+  InboxIcon,
+  CreditCardIcon,
   XIcon,
+  DocumentDuplicateIcon,
+  CogIcon,
+  ArrowSmDownIcon,
+  ArrowSmUpIcon,
 } from '@heroicons/react/outline';
 
 import './market-app-dashboard.module.scss';
@@ -35,25 +47,153 @@ const user = {
 };
 const navigation = [
   { name: 'Home', href: '#', icon: HomeIcon, current: true },
-  { name: 'General', href: '#', icon: FireIcon, current: false },
-  { name: 'Design', href: '#', icon: UserGroupIcon, current: false },
+  {
+    name: 'General',
+    href: '#',
+    icon: AdjustmentsIcon,
+    current: false,
+    submenu: [
+      {
+        name: 'Essentials',
+        current: false,
+        link: '#',
+      },
+      {
+        name: 'Domain',
+        current: false,
+        link: '#',
+      },
+      {
+        name: 'Privacy',
+        current: false,
+        link: '#',
+      },
+      {
+        name: 'Admin notifications',
+        current: false,
+        link: '#',
+      },
+    ],
+  },
+  {
+    name: 'Design',
+    href: '#',
+    icon: TemplateIcon,
+    current: false,
+    submenu: [
+      {
+        name: 'Logos & Colors',
+        current: false,
+        link: '#',
+      },
+      {
+        name: 'Cover Photo',
+        current: false,
+        link: '#',
+      },
+      {
+        name: 'Landing page',
+        current: false,
+        link: '#',
+      },
+      {
+        name: 'Top bar',
+        current: false,
+        link: '#',
+      },
+      {
+        name: 'Footer',
+        current: false,
+        link: '#',
+      },
+    ],
+  },
 ];
+
+const navigationTwo = [
+  {
+    name: 'Users',
+    href: '#',
+    icon: UserGroupIcon,
+    current: false,
+    submenu: [
+      {
+        name: 'Manage users',
+        current: false,
+        link: '#',
+      },
+      {
+        name: 'User rights',
+        current: false,
+        link: '#',
+      },
+      {
+        name: 'View invitations',
+        current: false,
+        link: '#',
+      },
+      {
+        name: 'Signup & Login',
+        current: false,
+        link: '#',
+      },
+    ],
+  },
+  {
+    name: 'Listings',
+    href: '#',
+    icon: DocumentDuplicateIcon,
+    current: false,
+    submenu: [
+      {
+        name: 'Manage listings',
+        current: false,
+        link: '#',
+      },
+      {
+        name: 'Categories',
+        current: false,
+        link: '#',
+      },
+      {
+        name: 'Order Types',
+        current: false,
+        link: '#',
+      },
+      {
+        name: 'Listings Approvals',
+        current: false,
+        link: '#',
+      },
+    ],
+  },
+  {
+    name: 'Transaction and Reviews',
+    href: '#',
+    icon: UserGroupIcon,
+    current: false,
+  },
+];
+const navigationThree = [
+  { name: 'Payment system', href: '#', icon: CreditCardIcon, current: false },
+  { name: 'Email', href: '#', icon: InboxIcon, current: false },
+  {
+    name: 'Social media',
+    href: '#',
+    icon: AtSymbolIcon,
+    current: false,
+  },
+  { name: 'SEO', href: '#', icon: PresentationChartLineIcon, current: false },
+  { name: 'Analytics', href: '#', icon: ChartPieIcon, current: false },
+  { name: 'Advanced', href: '#', icon: CogIcon, current: false },
+];
+
 const userNavigation = [{ name: 'Admin panel', href: '#', type: 'admin' }];
-const communities = [
-  { name: 'Users', href: '#' },
-  { name: 'Listings', href: '#' },
-  { name: 'Transaction and Reviews', href: '#' },
-  { name: 'Payment system', href: '#' },
-  { name: 'Email', href: '#' },
-  { name: 'Social media', href: '#' },
-  { name: 'SEO', href: '#' },
-  { name: 'Analytics', href: '#' },
-  { name: 'Advanced', href: '#' },
-];
+
 const tabs = [
-  { name: 'Recent', href: '#', current: true },
-  { name: 'Most Liked', href: '#', current: false },
-  { name: 'Most Answers', href: '#', current: false },
+  { name: 'Top listings', href: '#', current: true },
+  { name: 'Recent listings', href: '#', current: false },
+  { name: 'Recent orders', href: '#', current: false },
 ];
 const questions = [
   {
@@ -74,7 +214,6 @@ const questions = [
     body:
       '\n          <p>\n            Jurassic Park was an incredible idea and a magnificent feat of engineering, but poor protocols and a disregard for human safety killed what could have otherwise been one of the best businesses of our generation.\n          </p>\n          <p>\n            Ultimately, I think that if you wanted to run the park successfully and keep visitors safe, the most important thing to prioritize would be&hellip;\n          </p>\n        ',
   },
-  // More questions...
 ];
 const whoToFollow = [
   {
@@ -119,8 +258,50 @@ export function MarketAppDashboard(props: MarketAppDashboardProps) {
               aria-label="Sidebar"
               className="sticky top-4 divide-y divide-gray-300"
             >
-              <div className="pb-8 space-y-1">
+              <div className="pb-4 space-y-1">
                 {navigation.map((item) => (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    // className={classNames(
+                    //   item.current
+                    //     ? 'bg-gray-200 text-gray-900'
+                    //     : 'text-gray-600 hover:bg-gray-50',
+                    //   'group flex items-center px-3 py-2 text-sm font-medium rounded-md'
+                    // )}
+                    aria-current={item.current ? 'page' : undefined}
+                  >
+                    <div
+                      className={classNames(
+                        item.current
+                          ? 'bg-gray-200 text-gray-900'
+                          : 'text-gray-600 hover:bg-gray-50',
+                        'group flex items-center px-3 py-2 text-sm font-medium rounded-md'
+                      )}
+                    >
+                      <item.icon
+                        className={classNames(
+                          item.current
+                            ? 'text-gray-500'
+                            : 'text-gray-400 group-hover:text-gray-500',
+                          'flex-shrink-0 -ml-1 mr-3 h-6 w-6'
+                        )}
+                        aria-hidden="true"
+                      />
+                      <span className="truncate">{item.name}</span>
+                    </div>
+                    <ul className="pl-12">
+                      {item.submenu &&
+                        item.submenu.map((subMenu) => {
+                          return <li>{subMenu.name}</li>;
+                        })}
+                    </ul>
+                  </a>
+                ))}
+              </div>
+
+              <div className="pb-4 pt-4 space-y-1">
+                {navigationTwo.map((item) => (
                   <a
                     key={item.name}
                     href={item.href}
@@ -145,27 +326,32 @@ export function MarketAppDashboard(props: MarketAppDashboardProps) {
                   </a>
                 ))}
               </div>
-              <div className="pt-10">
-                <p
-                  className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider"
-                  id="communities-headline"
-                >
-                  My communities
-                </p>
-                <div
-                  className="mt-3 space-y-2"
-                  aria-labelledby="communities-headline"
-                >
-                  {communities.map((community) => (
-                    <a
-                      key={community.name}
-                      href={community.href}
-                      className="group flex items-center px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50"
-                    >
-                      <span className="truncate">{community.name}</span>
-                    </a>
-                  ))}
-                </div>
+
+              <div className="pb-4 pt-4 space-y-1">
+                {navigationThree.map((item) => (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    className={classNames(
+                      item.current
+                        ? 'bg-gray-200 text-gray-900'
+                        : 'text-gray-600 hover:bg-gray-50',
+                      'group flex items-center px-3 py-2 text-sm font-medium rounded-md'
+                    )}
+                    aria-current={item.current ? 'page' : undefined}
+                  >
+                    <item.icon
+                      className={classNames(
+                        item.current
+                          ? 'text-gray-500'
+                          : 'text-gray-400 group-hover:text-gray-500',
+                        'flex-shrink-0 -ml-1 mr-3 h-6 w-6'
+                      )}
+                      aria-hidden="true"
+                    />
+                    <span className="truncate">{item.name}</span>
+                  </a>
+                ))}
               </div>
             </nav>
           </div>
@@ -488,7 +674,7 @@ export function MarketAppDashboard(props: MarketAppDashboardProps) {
                       id="trending-heading"
                       className="text-base font-medium text-gray-900"
                     >
-                      Trending
+                      Recent signups
                     </h2>
                     <div className="mt-6 flow-root">
                       <ul className="-my-4 divide-y divide-gray-200">

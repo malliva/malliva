@@ -63,7 +63,7 @@ export function MarketAppTopMenu(props: MarketAppTopMenuProps) {
                           <Link
                             key={index}
                             to="/"
-                            className="border-green-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                            className="border-green-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium hover:text-gray-500"
                           >
                             {menuItem.name}
                           </Link>
