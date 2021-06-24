@@ -1,0 +1,12 @@
+[
+    {
+        "model": "marketplaceAccounts.plan",
+        "pk": "1",
+        "fields": {
+            "plan_name": "",
+            "features": "",
+            "duration": null,
+            "price": 0
+        }
+    }
+]

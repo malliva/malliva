@@ -1,4 +1,5 @@
-from rest_framework import exceptions, viewsets, status
+from rest_framework import exceptions, status
+from rest_framework_mongoengine import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser
@@ -7,14 +8,13 @@ from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 
 from .authentication import generate_access_token, jwtAuthentication
-from .serializers import UserSerializer, PermissionSerializer, RoleSerializer
-from .models import User, Permission, Role
+from .serializers import UserSerializer, MarketplaceUserSerializer, PermissionSerializer, RoleSerializer
+from .models import User, Permission, Role, MarketplaceUser
 from .permissions import ViewPermissions
 
 
 @api_view(["POST"])
 def register(request):
-
     """
     API endpoint for user account registrations
     """
@@ -32,7 +32,6 @@ def register(request):
 
 @api_view(["POST"])
 def login(request):
-
     """
     API endpoint for user authentication
     """
@@ -42,8 +41,11 @@ def login(request):
 
     user = User.objects.filter(email=email).first()
 
-    if user is None or user.is_active is False:
+    if user is None or user.is_deleted is True:
         raise exceptions.AuthenticationFailed("User not found!")
+
+    if user is None or user.is_active is False:
+        raise exceptions.AuthenticationFailed("User has been banned!")
 
     if not user.check_password(password):
         raise exceptions.AuthenticationFailed("Incorrect Password!")
@@ -65,7 +67,6 @@ def login(request):
 
 @api_view(["POST"])
 def logout(request):
-
     """
     API endpoint for user logout
     """
@@ -130,7 +131,6 @@ class PasswordUpdateAPIView(APIView):
 
 @api_view(["POST"])
 def forgot_password(request):
-
     """
     API endpoint for users that want to remember password
     """
@@ -166,7 +166,7 @@ def forgot_password(request):
 #         return Response(serializer.data)
 
 
-class UserViewSet(viewsets.ViewSet):
+class UserViewSet(viewsets.ModelViewSet):
     """
     This viewset api requires authentication and will handle all
     user profile update requests
@@ -181,13 +181,16 @@ class UserViewSet(viewsets.ViewSet):
         MultiPartParser,
     ]
 
-    queryset = User.objects.filter(is_active=True).all()
+    serializer_class = UserSerializer
+
+    queryset = User.objects.filter(is_active=True, is_deleted=False).all()
 
     def retrieve(self, request, pk=None):
 
         if pk:
             try:
-                user = User.objects.get(username=pk, is_active=True)
+                user = User.objects.get(
+                    username=pk, is_active=True, is_deleted=False)
                 serializer = UserSerializer(user)
                 return Response(serializer.data)
             except:
@@ -239,6 +242,82 @@ class UserViewSet(viewsets.ViewSet):
         return response
 
 
+class MarketplaceUserViewSet(viewsets.ModelViewSet):
+    """
+    This viewset api requires authentication and will handle all
+    user profile update requests
+    user profile view requests,
+    user delete requests
+    """
+
+    authentication_classes = [jwtAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    parser_classes = [
+        MultiPartParser,
+    ]
+
+    serializer_class = MarketplaceUserSerializer
+
+    queryset = User.objects.filter(is_active=True, is_deleted=False).all()
+
+    def retrieve(self, request, pk=None):
+
+        if pk:
+            try:
+                user = MarketplaceUser.objects.get(
+                    username=pk, is_active=True, is_deleted=False)
+                serializer = MarketplaceUserSerializer(user)
+                return Response(serializer.data)
+            except:
+                response = Response()
+                response.data = {"message": "User does not exist"}
+                response.status_code = status.HTTP_404_NOT_FOUND
+                return response
+        else:
+            serializer = MarketplaceUserSerializer(self.queryset, many=True)
+            return Response(serializer.data)
+
+    def update_user(self, request, pk=None):
+
+        data = request.data
+
+        try:
+            user = MarketplaceUser.objects.get(username=pk, is_active=True)
+        except:
+            response = Response()
+            response.data = {"message": "User does not exist"}
+            response.status_code = status.HTTP_404_NOT_FOUND
+            return response
+
+        # initialize the serializer
+        serializer = MarketplaceUserSerializer(user, data=data, partial=True)
+        serializer.is_valid(raise_exception=True)
+
+        # call the serializer
+        serializer.save()
+
+        return Response(serializer.data)
+
+    def destroy_user(self, request, pk=None):
+
+        try:
+            user = MarketplaceUser.objects.get(username=pk, is_active=True)
+            user.soft_delete()
+            user.save()
+        except:
+            response = Response()
+            response.data = {"message": "User does not exist"}
+            response.status_code = status.HTTP_404_NOT_FOUND
+            return response
+
+        response = Response()
+        if request.user == user:
+            response.delete_cookie(key="jwt")
+        response.data = {"message": "User was successfully deleted"}
+        return response
+
+
 class PermissionAPIView(APIView):
     """
     View all available permissions
@@ -253,7 +332,7 @@ class PermissionAPIView(APIView):
         return Response({"data": serializer.data})
 
 
-class RoleViewSet(viewsets.ViewSet):
+class RoleViewSet(viewsets.ModelViewSet):
     authentication_classes = [jwtAuthentication]
     permission_classes = [IsAuthenticated & ViewPermissions]
     permission_object = "roles"

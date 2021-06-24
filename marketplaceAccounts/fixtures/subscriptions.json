@@ -1,0 +1,14 @@
+[
+    {
+        "model": "marketplaceAccounts.subscription",
+        "pk": "1",
+        "fields": {
+            "current_plan_id": null,
+            "owner_id": 1,
+            "first_subscription_date": null,
+            "last_subscription_date": null,
+            "next_expiration_date": null,
+            "is_active": false
+        }
+    }
+]

@@ -1,0 +1,9 @@
+[
+    {
+        "model": "mallivaUsers.permission",
+        "pk": "1",
+        "fields": {
+            "name": ""
+        }
+    }
+]

@@ -1,0 +1,15 @@
+[
+    {
+        "model": "listings.listing",
+        "pk": "1",
+        "fields": {
+            "title": "",
+            "price": null,
+            "posted_by_id": null,
+            "category_id": 1,
+            "description": "",
+            "visible": true,
+            "created_at": null
+        }
+    }
+]

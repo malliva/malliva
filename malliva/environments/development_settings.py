@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+from dbConnectionManager.tenant_connections import connect_to_database
+from malliva.locale.alllanguages import LANGUAGE_OPTIONS, LANGUAGE_BIDI_OPTIONS
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -42,23 +44,24 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "rest_framework_mongoengine",
     "corsheaders",
-    "mallivaUsers",
-    "customFields",
-    "listings",
-    "marketplaceAccounts",
-    "transactions",
-    "categories",
-    "settingsManager",
-    "mallivaEmails",
-    "communications",
-    "calendars",
-    "customCodes",
-    "orders",
-    "reviewRatings",
-    "paymentGateways",
     "storages",
     "translations",
+    "mallivaUsers",
+    "categories",
+    "listings",
+    # "customFields",
+    # "marketplaceAccounts",
+    # "transactions",
+    # "settingsManager",
+    # "mallivaEmails",
+    # "communications",
+    # "calendars",
+    # "customCodes",
+    # "orders",
+    # "reviewRatings",
+    # "paymentGateways",
 ]
 
 MIDDLEWARE = [
@@ -147,41 +150,68 @@ STATIC_URL = "/static/"
 
 # Custom settings for this project
 
+# use big autofield for primary keys
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
 # Default Mongo database settings
 # remember to change host to database container if you're using docker
 
-DATABASES = {
-    "default": {
-        "ENGINE": "djongo",
-        "NAME": "malliva21_db",
-        "tz_aware": True,  # if you using timezones in django (USE_TZ = True)
-        "CLIENT": {
-            "host": "malliva33y21_db",
-            "port": 27017,
-            "username": "mallivay21",
-            "password": "P123Malliva",
-        },
-    },
-    "audit_db": {
-        "ENGINE": "djongo",
-        "NAME": "malliva21_auditdb",
-        "tz_aware": True,
-        "CLIENT": {
-            "host": "malliva33y21_db",
-            "port": 27017,
-            "username": "mallivay21",
-            "password": "P123Malliva",
-        },
-    },
-}
+DB_USERNAME = "mallivay21"
+DB_PASSWORD = "P123Malliva"
+PLATFORM_DB = "malliva21_db"
+PLATFORM_DB_CONN_ALIAS = "MALLIVA0000001"
+PLATFORM_DB_HOST = "malliva33y21_db" #"localhost"  # 
+
+# Setting up default database connection - To be used for the platform CRUD operations
+connection1 = connect_to_database(database="malliva21_db", alias="default")
+connection1.initiate_db_connection()
+
+# Setting up marketplace database connection - To be used for the marketplace accounts CRUD operations
+# make database option dynamic
+connection2 = connect_to_database(
+    database="malliva_marketplaces_db", alias="marketplace_dbs"
+)
+connection2.initiate_db_connection()
+
+# DATABASES = {
+#     "default": {},
+#     "malliva_maindb": {
+#         "ENGINE": "djongo",
+#         "NAME": "malliva21_db",
+#         "ENFORCE_SCHEMA": True,
+#         "tz_aware": True,
+#         "CLIENT": {
+#             "host": "malliva33y21_db",
+#             "port": 27017,
+#             "username": "mallivay21",
+#             "password": "P123Malliva",
+#             "authMechanism": "SCRAM-SHA-1",
+#         },
+#     },
+#     "audit_db": {
+#         "ENGINE": "djongo",
+#         "NAME": "malliva21_auditdb",
+#         "ENFORCE_SCHEMA": True,
+#         "tz_aware": True,
+#         "CLIENT": {
+#             "host": "malliva33y21_db",
+#             "port": 27017,
+#             "username": "mallivay21",
+#             "password": "P123Malliva",
+#             "authSource": "malliva21_auditdb",
+#             "authMechanism": "SCRAM-SHA-1",
+#         },
+#     },
+# }
 
 # close database connection after every request
 
 CONN_MAX_AGE = 0
 
-DATABASE_ROUTERS = ["malliva.marketplaceRouter.MallivaDatabaseRouter"]
+# Database router
+# DATABASE_ROUTERS = ["malliva.marketplaceRouter.MallivaDatabaseRouter"]
 
-AUTH_USER_MODEL = "mallivaUsers.User"
+# AUTH_USER_MODEL = "mallivaUsers.User"
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
@@ -230,7 +260,7 @@ AWS_S3_OBJECT_PARAMETERS = {
 AWS_LOCATION = "static"
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "mysite/static"),
+    os.path.join(BASE_DIR, "static"),
 ]
 # STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
 # STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
@@ -240,117 +270,15 @@ STATICFILES_DIRS = [
 # AWS_PRIVATE_MEDIA_LOCATION = "media/private"
 # PRIVATE_FILE_STORAGE = "mysite.storage_backends.PrivateMediaStorage"
 
-
 # language settings
-# TODO: let's tidy this setting file, move this to a new file and load from there
-
-from django.utils.translation import gettext_lazy as _
-
-LANGUAGES = [
-    ("af", _("Afrikaans")),
-    ("ar", _("Arabic")),
-    ("ar-dz", _("Algerian Arabic")),
-    ("ast", _("Asturian")),
-    ("az", _("Azerbaijani")),
-    ("bg", _("Bulgarian")),
-    ("be", _("Belarusian")),
-    ("bn", _("Bengali")),
-    ("br", _("Breton")),
-    ("bs", _("Bosnian")),
-    ("ca", _("Catalan")),
-    ("cs", _("Czech")),
-    ("cy", _("Welsh")),
-    ("da", _("Danish")),
-    ("de", _("German")),
-    ("dsb", _("Lower Sorbian")),
-    ("el", _("Greek")),
-    ("en", _("English")),
-    ("en-au", _("Australian English")),
-    ("en-gb", _("British English")),
-    ("eo", _("Esperanto")),
-    ("es", _("Spanish")),
-    ("es-ar", _("Argentinian Spanish")),
-    ("es-co", _("Colombian Spanish")),
-    ("es-mx", _("Mexican Spanish")),
-    ("es-ni", _("Nicaraguan Spanish")),
-    ("es-ve", _("Venezuelan Spanish")),
-    ("et", _("Estonian")),
-    ("eu", _("Basque")),
-    ("fa", _("Persian")),
-    ("fi", _("Finnish")),
-    ("fr", _("French")),
-    ("fy", _("Frisian")),
-    ("ga", _("Irish")),
-    ("gd", _("Scottish Gaelic")),
-    ("gl", _("Galician")),
-    ("he", _("Hebrew")),
-    ("hi", _("Hindi")),
-    ("hr", _("Croatian")),
-    ("hsb", _("Upper Sorbian")),
-    ("hu", _("Hungarian")),
-    ("hy", _("Armenian")),
-    ("ia", _("Interlingua")),
-    ("id", _("Indonesian")),
-    ("ig", _("Igbo")),
-    ("io", _("Ido")),
-    ("is", _("Icelandic")),
-    ("it", _("Italian")),
-    ("ja", _("Japanese")),
-    ("ka", _("Georgian")),
-    ("kab", _("Kabyle")),
-    ("kk", _("Kazakh")),
-    ("km", _("Khmer")),
-    ("kn", _("Kannada")),
-    ("ko", _("Korean")),
-    ("ky", _("Kyrgyz")),
-    ("lb", _("Luxembourgish")),
-    ("lt", _("Lithuanian")),
-    ("lv", _("Latvian")),
-    ("mk", _("Macedonian")),
-    ("ml", _("Malayalam")),
-    ("mn", _("Mongolian")),
-    ("mr", _("Marathi")),
-    ("my", _("Burmese")),
-    ("nb", _("Norwegian Bokmål")),
-    ("ne", _("Nepali")),
-    ("nl", _("Dutch")),
-    ("nn", _("Norwegian Nynorsk")),
-    ("os", _("Ossetic")),
-    ("pa", _("Punjabi")),
-    ("pl", _("Polish")),
-    ("pt", _("Portuguese")),
-    ("pt-br", _("Brazilian Portuguese")),
-    ("ro", _("Romanian")),
-    ("ru", _("Russian")),
-    ("sk", _("Slovak")),
-    ("sl", _("Slovenian")),
-    ("sq", _("Albanian")),
-    ("sr", _("Serbian")),
-    ("sr-latn", _("Serbian Latin")),
-    ("sv", _("Swedish")),
-    ("sw", _("Swahili")),
-    ("ta", _("Tamil")),
-    ("te", _("Telugu")),
-    ("tg", _("Tajik")),
-    ("th", _("Thai")),
-    ("tk", _("Turkmen")),
-    ("tr", _("Turkish")),
-    ("tt", _("Tatar")),
-    ("udm", _("Udmurt")),
-    ("uk", _("Ukrainian")),
-    ("ur", _("Urdu")),
-    ("uz", _("Uzbek")),
-    ("vi", _("Vietnamese")),
-    ("zh-hans", _("Simplified Chinese")),
-    ("zh-hant", _("Traditional Chinese")),
-]
-
-# A list of all language codes that are written right-to-left.
-LANGUAGES_BIDI = ["he", "ar", "ar-dz", "fa", "ur"]
 
 # location of translation files
 LOCALE_DIR = os.path.join(BASE_DIR, "malliva", "locale")
 LOCALE_PATHS = [LOCALE_DIR]
+
+
+LANGUAGES = LANGUAGE_OPTIONS
+LANGUAGES_BIDI = LANGUAGE_BIDI_OPTIONS
 
 # REST_FRAMEWORK = {"DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema"}
 
@@ -361,3 +289,9 @@ LOCALE_PATHS = [LOCALE_DIR]
 # "google_maps_key",
 # "recaptcha_site_key",
 # "recaptcha_secret_key"
+
+# fixtures
+
+FIXTURE_DIRS = [
+    os.path.join(BASE_DIR, "fixtures"),
+]

@@ -4,6 +4,7 @@ from .views import (
     login,
     logout,
     UserViewSet,
+    MarketplaceUserViewSet,
     PasswordUpdateAPIView,
 )
 
@@ -15,6 +16,12 @@ urlpatterns = [
     path(
         "<str:pk>",
         UserViewSet.as_view(
+            {"get": "retrieve", "put": "update_user", "delete": "destroy_user"}
+        ),
+    ),
+    path(
+        "<str:pk>",
+        MarketplaceUserViewSet.as_view(
             {"get": "retrieve", "put": "update_user", "delete": "destroy_user"}
         ),
     ),

@@ -20,8 +20,8 @@ class TemplateStyling(models.Model):
     Contains all configurations for the frontend view of marketplace.
     """
 
-    id = models.BigAutoField(primary_key=True)
     # TODO: remember to set resolutions for the images below on the fields
+    id = models.BigAutoField(primary_key=True)
     favicon = models.ImageField(upload_to=image_directory_path, blank=True)
     logo = models.ImageField(upload_to=image_directory_path, blank=True)
     wide_logo = models.ImageField(upload_to=image_directory_path, blank=True)
@@ -60,11 +60,11 @@ class Configuration(Translatable):
     id = models.BigAutoField(primary_key=True)
     slogan = models.CharField(max_length=200)
     description = models.CharField(max_length=500)
-    language = models.CharField(max_length=200)
+    language = models.CharField(max_length=200, default="en")
     # TODO: remember to create a new file and add all countries and make this field a choice field
     country = models.CharField(max_length=200)
     currency = models.CharField(max_length=200)
-    templatestyle = models.ForeignKey(
+    templatestyle = models.OneToOneField(
         TemplateStyling, on_delete=models.SET_DEFAULT, default="1", null=True
     )
     malliva_terms_consent = models.BooleanField(
@@ -85,8 +85,8 @@ class Configuration(Translatable):
     show_date_in_listing_view = models.BooleanField(default=False)
     # TODO: decide which field to use for transaction flow settings later
     transaction_flow = models.CharField(max_length=200)
-    default_payment_processor = models.ForeignKey(
-        PaymentGateway, on_delete=models.SET_DEFAULT, default="1", null=True
+    active_payment_processor = models.ForeignKey(
+        PaymentGateway, on_delete=models.SET_DEFAULT, default="1"
     )
     show_location = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)

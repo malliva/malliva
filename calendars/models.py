@@ -6,4 +6,5 @@ User = get_user_model()
 
 # Create your models here.
 class Availability(models.Model):
+    id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=CASCADE)

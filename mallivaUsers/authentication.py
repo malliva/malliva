@@ -5,7 +5,7 @@ import datetime
 from django.conf import settings
 from rest_framework.authentication import BaseAuthentication
 from rest_framework import exceptions
-from django.contrib.auth import get_user_model
+from mallivaUsers.models import User, MarketplaceUser
 
 
 def generate_access_token(user):
@@ -27,15 +27,17 @@ class jwtAuthentication(BaseAuthentication):
             return None
 
         try:
-            payload = jwt.decode(token, settings.SECRET_KEY, algorithms=["HS256"])
+            payload = jwt.decode(
+                token, settings.SECRET_KEY, algorithms=["HS256"])
         except:
             raise exceptions.AuthenticationFailed("unauthenticated")
 
-        user = (
-            get_user_model().objects.filter(username=payload["user_username"]).first()
-        )
+        user = User.objects.filter(username=payload["user_username"]).first()
+
+        if user is None or user.is_deleted is True:
+            raise exceptions.AuthenticationFailed("User not found!")
 
         if user is None or user.is_active is False:
-            raise exceptions.AuthenticationFailed("User not found")
+            raise exceptions.AuthenticationFailed("User has been banned!")
 
         return (user, None)

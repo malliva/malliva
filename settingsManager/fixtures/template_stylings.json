@@ -1,0 +1,19 @@
+[
+    {
+        "model": "settingsManager.templatestyling",
+        "pk": "1",
+        "fields": {
+            "favicon": "",
+            "logo": "",
+            "wide_logo": "",
+            "cover_photo": "",
+            "small_cover_photo": "",
+            "theme_color": "",
+            "landing_page_settings": "",
+            "custom_codes_id": null,
+            "footer_background": "",
+            "created_at": null,
+            "updated_at": null
+        }
+    }
+]
