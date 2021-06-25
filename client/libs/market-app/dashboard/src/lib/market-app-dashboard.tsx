@@ -188,12 +188,14 @@ const navigationThree = [
     icon: InboxIcon,
     current: false,
     changeType: 'hidden',
+    //submenu: [],
   },
   {
     name: 'Social media',
     href: '#',
     icon: AtSymbolIcon,
     current: false,
+    changeType: 'hidden',
   },
   { name: 'SEO', href: '#', icon: PresentationChartLineIcon, current: false },
   { name: 'Analytics', href: '#', icon: ChartPieIcon, current: false },
@@ -329,7 +331,7 @@ export function MarketAppDashboard(props: MarketAppDashboardProps) {
                       <span className="truncate" id={item.name}>
                         {item.name}
                       </span>
-                      {item.submenu !== undefined &&
+                      {item['submenu'] !== undefined &&
                       item.changeType === 'hidden' && (
                         <span className="pl-2">
                           <ChevronUpIcon
@@ -346,7 +348,7 @@ export function MarketAppDashboard(props: MarketAppDashboardProps) {
                         </span>
                       ) : (
                         item.changeType === 'block' &&
-                        item.submenu !== undefined && (
+                        item['submenu'] !== undefined && (
                           <span className="pl-2">
                             <ChevronUpIcon
                               className="self-center flex-shrink-0 h-5 w-5 text-green-500"
@@ -357,8 +359,8 @@ export function MarketAppDashboard(props: MarketAppDashboardProps) {
                       )}
                     </div>
                     <div className={classNames(`${item.changeType} pl-8`)}>
-                      {item.submenu &&
-                        item.submenu.map((subMenu) => {
+                      {item['submenu'] &&
+                        item['submenu'].map((subMenu) => {
                           return (
                             <div
                               onClick={($event) => goTo($event, subMenu)}
@@ -408,7 +410,7 @@ export function MarketAppDashboard(props: MarketAppDashboardProps) {
                       <span className="truncate" id={item.name}>
                         {item.name}
                       </span>
-                      {item.submenu !== undefined &&
+                      {item['submenu'] !== undefined &&
                       item.changeType === 'hidden' && (
                         <span className="pl-2">
                           <ChevronUpIcon
@@ -425,7 +427,7 @@ export function MarketAppDashboard(props: MarketAppDashboardProps) {
                         </span>
                       ) : (
                         item.changeType === 'block' &&
-                        item.submenu !== undefined && (
+                        item['submenu'] !== undefined && (
                           <span className="pl-2">
                             <ChevronUpIcon
                               className="self-center flex-shrink-0 h-5 w-5 text-green-500"
@@ -436,8 +438,8 @@ export function MarketAppDashboard(props: MarketAppDashboardProps) {
                       )}
                     </div>
                     <div className={classNames(`${item.changeType} pl-8`)}>
-                      {item.submenu &&
-                        item.submenu.map((subMenu) => {
+                      {item['submenu'] &&
+                        item['submenu'].map((subMenu) => {
                           return (
                             <div
                               onClick={($event) => goTo($event, subMenu)}
@@ -487,7 +489,7 @@ export function MarketAppDashboard(props: MarketAppDashboardProps) {
                       <span className="truncate" id={item.name}>
                         {item.name}
                       </span>
-                      {item.submenu !== undefined &&
+                      {item['submenu'] !== undefined &&
                       item.changeType === 'hidden' && (
                         <span className="pl-2">
                           <ChevronUpIcon
@@ -504,7 +506,7 @@ export function MarketAppDashboard(props: MarketAppDashboardProps) {
                         </span>
                       ) : (
                         item.changeType === 'block' &&
-                        item.submenu !== undefined && (
+                        item['submenu'] !== undefined && (
                           <span className="pl-2">
                             <ChevronUpIcon
                               className="self-center flex-shrink-0 h-5 w-5 text-green-500"
@@ -515,8 +517,8 @@ export function MarketAppDashboard(props: MarketAppDashboardProps) {
                       )}
                     </div>
                     <div className={classNames(`${item.changeType} pl-8`)}>
-                      {item.submenu &&
-                        item.submenu.map((subMenu) => {
+                      {item['submenu'] &&
+                        item['submenu'].map((subMenu) => {
                           return (
                             <div
                               onClick={($event) => goTo($event, subMenu)}
