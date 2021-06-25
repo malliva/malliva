@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useCallback, useEffect } from 'react';
 
 import { MarketAppTopMenu } from '@client/market-app/top-menu';
 
@@ -32,12 +32,14 @@ import {
   XIcon,
   DocumentDuplicateIcon,
   CogIcon,
-  ArrowSmDownIcon,
-  ArrowSmUpIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
 } from '@heroicons/react/outline';
 
 import './market-app-dashboard.module.scss';
 import { Menu, Popover, Transition } from '@headlessui/react';
+import { Link, useHistory } from 'react-router-dom';
+import { useState } from 'react';
 
 const user = {
   name: 'Chelsea Hagon',
@@ -50,13 +52,14 @@ const navigation = [
   {
     name: 'General',
     href: '#',
+    changeType: 'hidden',
     icon: AdjustmentsIcon,
     current: false,
     submenu: [
       {
         name: 'Essentials',
         current: false,
-        link: '#',
+        link: '/item-id',
       },
       {
         name: 'Domain',
@@ -80,11 +83,12 @@ const navigation = [
     href: '#',
     icon: TemplateIcon,
     current: false,
+    changeType: 'hidden',
     submenu: [
       {
         name: 'Logos & Colors',
         current: false,
-        link: '#',
+        link: '/item-id',
       },
       {
         name: 'Cover Photo',
@@ -116,6 +120,7 @@ const navigationTwo = [
     href: '#',
     icon: UserGroupIcon,
     current: false,
+    changeType: 'hidden',
     submenu: [
       {
         name: 'Manage users',
@@ -144,6 +149,7 @@ const navigationTwo = [
     href: '#',
     icon: DocumentDuplicateIcon,
     current: false,
+    changeType: 'hidden',
     submenu: [
       {
         name: 'Manage listings',
@@ -176,7 +182,13 @@ const navigationTwo = [
 ];
 const navigationThree = [
   { name: 'Payment system', href: '#', icon: CreditCardIcon, current: false },
-  { name: 'Email', href: '#', icon: InboxIcon, current: false },
+  {
+    name: 'Email',
+    href: '#',
+    icon: InboxIcon,
+    current: false,
+    changeType: 'hidden',
+  },
   {
     name: 'Social media',
     href: '#',
@@ -237,7 +249,6 @@ const trendingPosts = [
       'What books do you have on your bookshelf just to look smarter than you actually are?',
     comments: 291,
   },
-  // More posts...
 ];
 
 function classNames(...classes) {
@@ -248,27 +259,54 @@ function classNames(...classes) {
 export interface MarketAppDashboardProps {}
 
 export function MarketAppDashboard(props: MarketAppDashboardProps) {
+  const [menuObject, setMenuObject] = useState({
+    index: 0,
+    item: null,
+  });
+  const [triggerEff, setTriggerEff] = useState(false);
+
+  const location = useHistory();
+  const handleToggleSubMenu = (event, index, item) => {
+    event.preventDefault();
+    setMenuObject({ index, item });
+    setTriggerEff(true);
+  };
+
+  const goTo = (event, subItem) => {
+    event.preventDefault();
+    subItem.current = true;
+    location.push(subItem.link);
+  };
+
+  useEffect(() => {
+    if (triggerEff) {
+      const { item } = menuObject;
+      if (item.changeType === 'hidden') {
+        item.changeType = 'block';
+      } else {
+        item.changeType = 'hidden';
+      }
+      setTriggerEff(false);
+    }
+  }, [menuObject, triggerEff]);
+
   return (
     <div className="min-h-screen bg-gray-100">
       <MarketAppTopMenu menu={userNavigation} />
       <div className="py-10">
         <div className="max-w-3xl mx-auto sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-12 lg:gap-8">
-          <div className="hidden lg:block lg:col-span-3 xl:col-span-2">
+          <div className="hidden lg:block lg:col-span-3 xl:col-span-3">
             <nav
               aria-label="Sidebar"
               className="sticky top-4 divide-y divide-gray-300"
             >
               <div className="pb-4 space-y-1">
-                {navigation.map((item) => (
-                  <a
+                {navigation.map((item, index) => (
+                  <div
                     key={item.name}
-                    href={item.href}
-                    // className={classNames(
-                    //   item.current
-                    //     ? 'bg-gray-200 text-gray-900'
-                    //     : 'text-gray-600 hover:bg-gray-50',
-                    //   'group flex items-center px-3 py-2 text-sm font-medium rounded-md'
-                    // )}
+                    onClick={($event) =>
+                      handleToggleSubMenu($event, index, item)
+                    }
                     aria-current={item.current ? 'page' : undefined}
                   >
                     <div
@@ -288,69 +326,214 @@ export function MarketAppDashboard(props: MarketAppDashboardProps) {
                         )}
                         aria-hidden="true"
                       />
-                      <span className="truncate">{item.name}</span>
+                      <span className="truncate" id={item.name}>
+                        {item.name}
+                      </span>
+                      {item.submenu !== undefined &&
+                      item.changeType === 'hidden' && (
+                        <span className="pl-2">
+                          <ChevronUpIcon
+                            className="self-center flex-shrink-0 h-4 w-4 text-green-500"
+                            aria-hidden="true"
+                          />
+                        </span>
+                      ) ? (
+                        <span className="pl-2">
+                          <ChevronDownIcon
+                            className="self-center flex-shrink-0 h-5 w-5 text-green-500"
+                            aria-hidden="true"
+                          />
+                        </span>
+                      ) : (
+                        item.changeType === 'block' &&
+                        item.submenu !== undefined && (
+                          <span className="pl-2">
+                            <ChevronUpIcon
+                              className="self-center flex-shrink-0 h-5 w-5 text-green-500"
+                              aria-hidden="true"
+                            />
+                          </span>
+                        )
+                      )}
                     </div>
-                    <ul className="pl-12">
+                    <div className={classNames(`${item.changeType} pl-8`)}>
                       {item.submenu &&
                         item.submenu.map((subMenu) => {
-                          return <li>{subMenu.name}</li>;
+                          return (
+                            <div
+                              onClick={($event) => goTo($event, subMenu)}
+                              key={subMenu.name}
+                              className={classNames(
+                                item.current
+                                  ? 'bg-gray-200 text-gray-900'
+                                  : 'text-gray-500 hover:bg-gray-50',
+                                'group flex items-center px-3 py-2 text-sm font-medium rounded-md'
+                              )}
+                            >
+                              {subMenu.name}
+                            </div>
+                          );
                         })}
-                    </ul>
-                  </a>
+                    </div>
+                  </div>
                 ))}
               </div>
 
               <div className="pb-4 pt-4 space-y-1">
-                {navigationTwo.map((item) => (
-                  <a
+                {navigationTwo.map((item, index) => (
+                  <div
                     key={item.name}
-                    href={item.href}
-                    className={classNames(
-                      item.current
-                        ? 'bg-gray-200 text-gray-900'
-                        : 'text-gray-600 hover:bg-gray-50',
-                      'group flex items-center px-3 py-2 text-sm font-medium rounded-md'
-                    )}
+                    onClick={($event) =>
+                      handleToggleSubMenu($event, index, item)
+                    }
                     aria-current={item.current ? 'page' : undefined}
                   >
-                    <item.icon
+                    <div
                       className={classNames(
                         item.current
-                          ? 'text-gray-500'
-                          : 'text-gray-400 group-hover:text-gray-500',
-                        'flex-shrink-0 -ml-1 mr-3 h-6 w-6'
+                          ? 'bg-gray-200 text-gray-900'
+                          : 'text-gray-600 hover:bg-gray-50',
+                        'group flex items-center px-3 py-2 text-sm font-medium rounded-md'
                       )}
-                      aria-hidden="true"
-                    />
-                    <span className="truncate">{item.name}</span>
-                  </a>
+                    >
+                      <item.icon
+                        className={classNames(
+                          item.current
+                            ? 'text-gray-500'
+                            : 'text-gray-400 group-hover:text-gray-500',
+                          'flex-shrink-0 -ml-1 mr-3 h-6 w-6'
+                        )}
+                        aria-hidden="true"
+                      />
+                      <span className="truncate" id={item.name}>
+                        {item.name}
+                      </span>
+                      {item.submenu !== undefined &&
+                      item.changeType === 'hidden' && (
+                        <span className="pl-2">
+                          <ChevronUpIcon
+                            className="self-center flex-shrink-0 h-4 w-4 text-green-500"
+                            aria-hidden="true"
+                          />
+                        </span>
+                      ) ? (
+                        <span className="pl-2">
+                          <ChevronDownIcon
+                            className="self-center flex-shrink-0 h-5 w-5 text-green-500"
+                            aria-hidden="true"
+                          />
+                        </span>
+                      ) : (
+                        item.changeType === 'block' &&
+                        item.submenu !== undefined && (
+                          <span className="pl-2">
+                            <ChevronUpIcon
+                              className="self-center flex-shrink-0 h-5 w-5 text-green-500"
+                              aria-hidden="true"
+                            />
+                          </span>
+                        )
+                      )}
+                    </div>
+                    <div className={classNames(`${item.changeType} pl-8`)}>
+                      {item.submenu &&
+                        item.submenu.map((subMenu) => {
+                          return (
+                            <div
+                              onClick={($event) => goTo($event, subMenu)}
+                              key={subMenu.name}
+                              className={classNames(
+                                item.current
+                                  ? 'bg-gray-200 text-gray-900'
+                                  : 'text-gray-500 hover:bg-gray-50',
+                                'group flex items-center px-3 py-2 text-sm font-medium rounded-md'
+                              )}
+                            >
+                              {subMenu.name}
+                            </div>
+                          );
+                        })}
+                    </div>
+                  </div>
                 ))}
               </div>
 
               <div className="pb-4 pt-4 space-y-1">
-                {navigationThree.map((item) => (
-                  <a
+                {navigationThree.map((item, index) => (
+                  <div
                     key={item.name}
-                    href={item.href}
-                    className={classNames(
-                      item.current
-                        ? 'bg-gray-200 text-gray-900'
-                        : 'text-gray-600 hover:bg-gray-50',
-                      'group flex items-center px-3 py-2 text-sm font-medium rounded-md'
-                    )}
+                    onClick={($event) =>
+                      handleToggleSubMenu($event, index, item)
+                    }
                     aria-current={item.current ? 'page' : undefined}
                   >
-                    <item.icon
+                    <div
                       className={classNames(
                         item.current
-                          ? 'text-gray-500'
-                          : 'text-gray-400 group-hover:text-gray-500',
-                        'flex-shrink-0 -ml-1 mr-3 h-6 w-6'
+                          ? 'bg-gray-200 text-gray-900'
+                          : 'text-gray-600 hover:bg-gray-50',
+                        'group flex items-center px-3 py-2 text-sm font-medium rounded-md'
                       )}
-                      aria-hidden="true"
-                    />
-                    <span className="truncate">{item.name}</span>
-                  </a>
+                    >
+                      <item.icon
+                        className={classNames(
+                          item.current
+                            ? 'text-gray-500'
+                            : 'text-gray-400 group-hover:text-gray-500',
+                          'flex-shrink-0 -ml-1 mr-3 h-6 w-6'
+                        )}
+                        aria-hidden="true"
+                      />
+                      <span className="truncate" id={item.name}>
+                        {item.name}
+                      </span>
+                      {item.submenu !== undefined &&
+                      item.changeType === 'hidden' && (
+                        <span className="pl-2">
+                          <ChevronUpIcon
+                            className="self-center flex-shrink-0 h-4 w-4 text-green-500"
+                            aria-hidden="true"
+                          />
+                        </span>
+                      ) ? (
+                        <span className="pl-2">
+                          <ChevronDownIcon
+                            className="self-center flex-shrink-0 h-5 w-5 text-green-500"
+                            aria-hidden="true"
+                          />
+                        </span>
+                      ) : (
+                        item.changeType === 'block' &&
+                        item.submenu !== undefined && (
+                          <span className="pl-2">
+                            <ChevronUpIcon
+                              className="self-center flex-shrink-0 h-5 w-5 text-green-500"
+                              aria-hidden="true"
+                            />
+                          </span>
+                        )
+                      )}
+                    </div>
+                    <div className={classNames(`${item.changeType} pl-8`)}>
+                      {item.submenu &&
+                        item.submenu.map((subMenu) => {
+                          return (
+                            <div
+                              onClick={($event) => goTo($event, subMenu)}
+                              key={subMenu.name}
+                              className={classNames(
+                                item.current
+                                  ? 'bg-gray-200 text-gray-900'
+                                  : 'text-gray-500 hover:bg-gray-50',
+                                'group flex items-center px-3 py-2 text-sm font-medium rounded-md'
+                              )}
+                            >
+                              {subMenu.name}
+                            </div>
+                          );
+                        })}
+                    </div>
+                  </div>
                 ))}
               </div>
             </nav>
@@ -607,7 +790,7 @@ export function MarketAppDashboard(props: MarketAppDashboardProps) {
               </ul>
             </div>
           </main>
-          <aside className="hidden xl:block xl:col-span-4">
+          <aside className="hidden xl:block xl:col-span-3">
             <div className="sticky top-4 space-y-4">
               <section aria-labelledby="who-to-follow-heading">
                 <div className="bg-white rounded-lg shadow">
