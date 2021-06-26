@@ -2,6 +2,9 @@ import { getSingInUser } from '@client/shared/account-syn-api';
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+
+import { MarketAppToast } from 'libs/market-app/toast/src/index';
+
 import './market-app-sign-in.module.scss';
 import { selectSignInStateLoaded } from './market-app-sign-in.slice';
 
@@ -17,6 +20,11 @@ export function MarketAppSignIn(props: MarketAppSignInProps) {
     password: '',
   });
 
+  const [toastMessage, setToastMessage] = useState({
+    toast: [],
+    showToast: false,
+  });
+
   const handleUserLogin = (event) => {
     event.preventDefault();
     dispatch(getSingInUser(login));
@@ -26,6 +34,8 @@ export function MarketAppSignIn(props: MarketAppSignInProps) {
     if (signInDetailsLoaded.loading === 'succeeded') {
       location.push('/');
     } else if (signInDetailsLoaded.loading === 'failed') {
+      const { error } = signInDetailsLoaded;
+      setToastMessage({ toast: error, showToast: true });
       location.push('/sign-in');
     }
   }, [location, signInDetailsLoaded]);
@@ -43,6 +53,7 @@ export function MarketAppSignIn(props: MarketAppSignInProps) {
   };
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <MarketAppToast message={toastMessage} />
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <img
           className="mx-auto h-12 w-auto"

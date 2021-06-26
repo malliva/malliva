@@ -7,7 +7,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { postSignUpUser } from '@client/shared/account-syn-api';
 import { selectSignUpStateLoaded } from './market-app-sign-ups.slice';
 import { useHistory } from 'react-router-dom';
+import { MarketAppToast } from 'libs/market-app/toast/src/index';
 
+import { strict } from 'node:assert';
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
@@ -21,6 +23,10 @@ export function MarketAppSignUps(props: MarketAppSignUpsProps) {
 
   const signUpDetailsLoaded = useSelector(selectSignUpStateLoaded);
   const [terms_of_service_accepted, setEnabled] = useState(false);
+  const [toastMessage, setToastMessage] = useState({
+    toast: [],
+    showToast: false,
+  });
 
   const [signup, setSignUp] = useState({
     first_name: '',
@@ -29,14 +35,18 @@ export function MarketAppSignUps(props: MarketAppSignUpsProps) {
     email: '',
     password: '',
     password_confirm: '',
-    // market_context: '',
-    // user_context: '',
   });
 
   useEffect(() => {
-    if (signUpDetailsLoaded.loading === 'succeeded') {
+    if (signUpDetailsLoaded && signUpDetailsLoaded.loading === 'succeeded') {
       location.push('/');
-    } else if (signUpDetailsLoaded.loading === 'failed') {
+    } else if (
+      signUpDetailsLoaded &&
+      signUpDetailsLoaded.loading === 'failed'
+    ) {
+      const { error } = signUpDetailsLoaded;
+      setToastMessage({ toast: error, showToast: true });
+
       location.push('/sign-up');
     }
   }, [location, signUpDetailsLoaded]);
@@ -69,6 +79,7 @@ export function MarketAppSignUps(props: MarketAppSignUpsProps) {
 
   return (
     <div className="min-h-screen bg-white flex">
+      <MarketAppToast message={toastMessage} />
       <div className="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
         <div className="mx-auto w-full max-w-sm lg:w-96">
           <div>

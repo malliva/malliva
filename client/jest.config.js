@@ -18,5 +18,6 @@ module.exports = {
     '<rootDir>/libs/shared/account-syn-api',
     '<rootDir>/libs/shared/auth-guard',
     '<rootDir>/libs/market-app/dashboard',
+    '<rootDir>/libs/market-app/toast',
   ],
 };

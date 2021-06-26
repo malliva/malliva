@@ -311,7 +311,8 @@ export function MarketAppDashboard(props: MarketAppDashboardProps) {
                     }
                     aria-current={item.current ? 'page' : undefined}
                   >
-                    <div
+                    <Link
+                      to={item.href}
                       className={classNames(
                         item.current
                           ? 'bg-gray-200 text-gray-900'
@@ -357,7 +358,7 @@ export function MarketAppDashboard(props: MarketAppDashboardProps) {
                           </span>
                         )
                       )}
-                    </div>
+                    </Link>
                     <div className={classNames(`${item.changeType} pl-8`)}>
                       {item['submenu'] &&
                         item['submenu'].map((subMenu) => {

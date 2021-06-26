@@ -582,6 +582,27 @@
           }
         }
       }
+    },
+    "market-app-toast": {
+      "root": "libs/market-app/toast",
+      "sourceRoot": "libs/market-app/toast/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/market-app/toast/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/market-app/toast"],
+          "options": {
+            "jestConfig": "libs/market-app/toast/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   }
 }

@@ -50,7 +50,10 @@
         "libs/shared/account-syn-api/src/index.ts"
       ],
       "@client/shared/auth-guard": ["libs/shared/auth-guard/src/index.ts"],
-      "@client/market-app/dashboard": ["libs/market-app/dashboard/src/index.ts"]
+      "@client/market-app/dashboard": [
+        "libs/market-app/dashboard/src/index.ts"
+      ],
+      "@client/market-app/toast": ["libs/market-app/toast/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

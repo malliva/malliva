@@ -80,6 +80,9 @@
     },
     "market-app-dashboard": {
       "tags": []
+    },
+    "market-app-toast": {
+      "tags": []
     }
   }
 }
