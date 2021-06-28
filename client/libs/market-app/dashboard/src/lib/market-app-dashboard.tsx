@@ -13,7 +13,6 @@ export function MarketAppDashboard(props: MarketAppDashboardProps) {
   const userNavigation = [{ name: 'Admin panel', href: '#', type: 'admin' }];
 
   const { path } = useRouteMatch();
-
   return (
     <Switch>
       <Route path={`${path}/manage-users`}>
