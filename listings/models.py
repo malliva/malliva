@@ -1,9 +1,9 @@
-from django.db import models
+from mongoengine import Document, EmbeddedDocument, fields, queryset
+from datetime import datetime
 from threadlocals.threadlocals import get_request_variable
 from translations.models import Translatable
-from django.contrib.auth import get_user_model
-
-User = get_user_model()
+from mallivaUsers.models import User, MarketplaceUser
+from categories.models import Category
 
 
 def listing_directory_path(instance, filename):
@@ -16,39 +16,29 @@ def listing_directory_path(instance, filename):
     )
 
 
-class Listing(Translatable):
-    """
-    Listings should belong to more than one categories
-    """
-
-    id = models.BigAutoField(primary_key=True)
-    title = models.CharField(max_length=200)
-    price = models.IntegerField(blank=False)
-    posted_by = models.ForeignKey(
-        User, related_name="posted_by", on_delete=models.CASCADE, blank=False
-    )
-    category = models.ForeignKey(
-        "categories.category", on_delete=models.SET_DEFAULT, default="1"
-    )
-    description = models.CharField(max_length=500, default="")
-    visible = models.BooleanField(
-        default=True, help_text="Is this listing visible to the public?"
-    )
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    class TranslatableMeta:
-
-        fields = ["title", "description"]
-
-
-class ListingImage(models.Model):
+class ListingImage(EmbeddedDocument):
     """
     Store listing images
     """
+    image = fields.ImageField()
 
-    id = models.BigAutoField(primary_key=True)
-    listing = models.ForeignKey(
-        Listing, on_delete=models.CASCADE, related_name="listing_images"
+
+class Listing(Document):
+    """
+    Listings should belong to more than one categories
+    """
+    #id = fields.LongField(min_value=1, primary_key=True)
+    title = fields.StringField(max_length=200)
+    price = fields.FloatField(min_value=0.0)
+    posted_by = fields.ReferenceField(
+        User, reverse_delete_rule=queryset.CASCADE)
+    category = fields.ReferenceField(
+        Category, reverse_delete_rule=queryset.DO_NOTHING)
+    description = fields.StringField(max_length=500, default="")
+    listing_images = fields.EmbeddedDocumentListField(
+        ListingImage, required=False)
+    visible = fields.BooleanField(
+        default=True,  # help_text="Is this listing visible to the public?"
     )
-    image = models.ImageField(upload_to=listing_directory_path)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = fields.DateTimeField(default=datetime.utcnow())
+    updated_at = fields.DateTimeField(default=datetime.utcnow())

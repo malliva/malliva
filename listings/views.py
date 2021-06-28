@@ -65,41 +65,67 @@ class ListingViewSet(viewsets.ViewSet):
     TODO: remember to set permissions
     """
 
-    authentication_classes = [jwtAuthentication]
-    permission_classes = [IsAuthenticated]
+    # authentication_classes = [jwtAuthentication]
+    # permission_classes = [IsAuthenticated]
     queryset = Listing.objects.all()
 
     parser_classes = [
         MultiPartParser,
     ]
 
+    serializer_class = ListingSerializer
+
     def create(self, request):
         data = request.data
 
+        serializer = BookCollectionSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        images = data.pop("listing_images", None)
+        data["listing_images"] = {}
+        count = 0
+
+        if images is not None:
+            print("finally worked")
+            for listing_image in images:
+                image = ListingImageSerializer(image=listing_image)
+                data["listing_images"][count] = image
+                count = count + 1
+            listing_image = ListingImageSerializer(data=data["listing_images"])
+            listing_image.is_valid(raise_exception=True)
+            listing_image.save()
+            data.update({"listing_images": listing_image.data})
+
         serializer = ListingSerializer(data=data)
         serializer.is_valid(raise_exception=True)
-        listing = Listing.objects.create(**serializer.validated_data)
-        listing.save()
-        try:
-            images = QueryDict.pop(data, "image")
-            for img in images:
-                imageserializer = ListingImageSerializer(
-                    data={"listing": listing.pk, "image": img}
-                )
-                imageserializer.is_valid(raise_exception=True)
-                imageserializer.save()
 
-            uploaded_images = ListingImage.objects.filter(listing=listing.pk)
-            serialized_images = ListingImageSerializer(uploaded_images, many=True)
-            serialized_listing = serializer.data
-            serialized_listing.update({"listing_images": serialized_images.data})
-            return Response(serialized_listing)
-        except:
-            print("no listing image uploaded")
-            return Response(serializer.data)
+        # listing = Listing.objects.create(**serializer.validated_data)
+        serializer.save()
+        return Response(serializer.data)
+        # try:
+        #     images = QueryDict.pop(data, "image")
+        #     for img in images:
+        #         imageserializer = ListingImageSerializer(
+        #             data={"listing": listing.pk, "image": img}
+        #         )
+        #         imageserializer.is_valid(raise_exception=True)
+        #         imageserializer.save()
+
+        #     uploaded_images = ListingImage.objects.filter(listing=listing.pk)
+        #     serialized_images = ListingImageSerializer(
+        #         uploaded_images, many=True)
+        #     serialized_listing = serializer.data
+        #     serialized_listing.update(
+        #         {"listing_images": serialized_images.data})
+        #     return Response(serialized_listing)
+        # except:
+        #     print("no listing image uploaded")
+        #     return Response(serializer.data)
 
     def retrieve(self, request, pk=None):
-
         """
         Return a list of listings.
         """

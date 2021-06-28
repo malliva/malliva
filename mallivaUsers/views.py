@@ -12,6 +12,9 @@ from .serializers import UserSerializer, MarketplaceUserSerializer, PermissionSe
 from .models import User, Permission, Role, MarketplaceUser
 from .permissions import ViewPermissions
 
+from django.http import QueryDict
+from django.core.files.storage import default_storage
+
 
 @api_view(["POST"])
 def register(request):
@@ -19,7 +22,17 @@ def register(request):
     API endpoint for user account registrations
     """
 
-    data = request.data
+    data = request.data.copy()
+
+    # remove image from request
+    print(data)
+    images = data.pop("profile_picture", None)
+    print(data)
+    if images is not None:
+        file = request.FILES["profile_picture"]
+        file_name = default_storage.save(file.name, file)
+        url = default_storage.url(file_name)
+        data.update({"profile_picture": url})
 
     if data["password"] != data["password_confirm"]:
         raise exceptions.APIException("Passwords do not match")

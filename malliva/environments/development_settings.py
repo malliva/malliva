@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_mongoengine",
     "corsheaders",
+    "imagekit",
     "storages",
     "translations",
     "mallivaUsers",
@@ -74,7 +75,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "malliva.databaseResolver.getSubdomainMiddleware",
+    "dbConnectionManager.databaseResolver.getSubdomainMiddleware",
 ]
 
 ROOT_URLCONF = "malliva.urls"
@@ -101,12 +102,11 @@ WSGI_APPLICATION = "malliva.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.dummy'
+    }
+}
 
 
 # Password validation
@@ -159,8 +159,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 DB_USERNAME = "mallivay21"
 DB_PASSWORD = "P123Malliva"
 PLATFORM_DB = "malliva21_db"
-PLATFORM_DB_CONN_ALIAS = "MALLIVA0000001"
-PLATFORM_DB_HOST = "malliva33y21_db" #"localhost"  # 
+PLATFORM_DB_HOST = "localhost"  # "malliva33y21_db"
 
 # Setting up default database connection - To be used for the platform CRUD operations
 connection1 = connect_to_database(database="malliva21_db", alias="default")
@@ -209,7 +208,7 @@ connection2.initiate_db_connection()
 CONN_MAX_AGE = 0
 
 # Database router
-# DATABASE_ROUTERS = ["malliva.marketplaceRouter.MallivaDatabaseRouter"]
+# DATABASE_ROUTERS = ["dbConnectionManager.marketplaceRouter.MallivaDatabaseRouter"]
 
 # AUTH_USER_MODEL = "mallivaUsers.User"
 
@@ -230,10 +229,6 @@ CORS_ALLOW_CREDENTIALS = True
 MALLIVA_DOMAIN = "localhost:8000"
 MALLIVA_SUB = "help"
 MALLIVA_DEFAULT_DB = "malliva21_db"
-
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-
-MEDIA_URL = "/media/"
 
 DEFAULT_FROM_EMAIL = "administrator@malliva.com"
 EMAIL_HOST = ""
@@ -270,6 +265,15 @@ STATICFILES_DIRS = [
 # AWS_PRIVATE_MEDIA_LOCATION = "media/private"
 # PRIVATE_FILE_STORAGE = "mysite.storage_backends.PrivateMediaStorage"
 
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+MEDIA_URL = "/media/"
+
+# this will store unprocessed images and files untill they are processed.
+# Files should be deleted after processing
+
+TEMPORARY_FILES = os.path.join(BASE_DIR, "temporary_uploads")
+
 # language settings
 
 # location of translation files
@@ -295,3 +299,9 @@ LANGUAGES_BIDI = LANGUAGE_BIDI_OPTIONS
 FIXTURE_DIRS = [
     os.path.join(BASE_DIR, "fixtures"),
 ]
+
+ALLOWED_IMAGE_TYPES = ['gif', 'jpg', 'png']
+
+ALLOWED_FILE_TYPES = ['pdf', 'doc', 'docx', 'gif', 'jpg', 'png']
+
+ADMIN_ENABLED = True

@@ -77,6 +77,7 @@ class UserSerializer(mongodbserializers.DocumentSerializer):
 
         # remove and return password from validated data
         password = validated_data.pop("password", None)
+        print("here i am")
 
         user = self.Meta.model(**validated_data)
 

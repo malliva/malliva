@@ -1,21 +1,23 @@
 from django.contrib.auth import models
-from rest_framework import serializers
+from rest_framework_mongoengine import serializers
 from .models import Listing, ListingImage
 from django.http import QueryDict
 
 
-class ListingImageSerializer(serializers.ModelSerializer):
+class ListingImageSerializer(serializers.EmbeddedDocumentSerializer):
     class Meta:
         model = ListingImage
-        fields = ["image", "listing"]
-        extra_kwargs = {"listing": {"write_only": True}}
+        depth = 2
+        fields = ["image"]
 
 
-class ListingSerializer(serializers.ModelSerializer):
-    listing_images = ListingImageSerializer(many=True, required=False)
+class ListingSerializer(serializers.DocumentSerializer):
+    listing_images = ListingImageSerializer(
+        ListingImage, many=True, required=False)
 
     class Meta:
         model = Listing
+        depth = 2
 
         # allow only selected inputs
         fields = [
@@ -27,18 +29,18 @@ class ListingSerializer(serializers.ModelSerializer):
             "listing_images",
         ]
 
-    # def create(self, validated_data):
-    #     print(validated_data)
-    #     images = validated_data.pop("listing_images", None)
+    def create(self, validated_data):
 
-    #     listing = Listing.objects.create(**validated_data)
+        images = validated_data.pop("listing_images", None)
+        listing = Listing.objects.create(**validated_data)
+        listing.listing_images = []
+        print(images)
+        if images is not None:
+            for image in images:
+                listing.listing_images.append(image)
+        listing.save()
 
-    #     if images is not None:
-    #         print("finally worked")
-    #         for listing_image in images:
-    #             ListingImage.objects.create(listing=listing, **listing_image)
-
-    #     return listing
+        return listing
 
     # def update(self, instance, validated_data):
 

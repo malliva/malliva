@@ -1,23 +1,10 @@
 # User authentication abstraction for all kinds of users
 
-from dbConnectionManager.tenant_connections import connect_to_database
 from mongoengine import Document, EmbeddedDocument, fields, queryset
 from datetime import datetime
-from django.conf import settings
-from threadlocals.threadlocals import get_request_variable
 from django.contrib.auth.hashers import make_password, check_password
 
-
 # TODO Evaluate: create abstract models to separate marketplace users from malliva admin
-
-def user_directory_path(instance, filename):
-    # file will be uploaded to MEDIA_ROOT/domain/users/<username>/<filename>
-    return "{0}/{1}/{2}/{3}".format(
-        get_request_variable("malliva_domain"),
-        "users",
-        instance.username,
-        filename,
-    )
 
 
 class Permission(Document):
@@ -30,20 +17,21 @@ class Role(Document):
 
 
 class User(Document):
+    id = fields.SequenceField(primary_key=True)
     first_name = fields.StringField(max_length=200)
     last_name = fields.StringField(max_length=200)
-    username = fields.StringField(max_length=200, unique=True)
+    username = fields.StringField(max_length=200, unique=True, required=False)
     password = fields.StringField(max_length=200)
     email = fields.EmailField(max_length=200, unique=True)
     is_active = fields.BooleanField(default=True)
     is_superuser = fields.BooleanField(default=False)
     is_deleted = fields.BooleanField(default=False)
     terms_of_service_accepted = fields.BooleanField(default=False)
-    profile_picture = fields.ImageField(required=False)
+    profile_picture = fields.StringField(required=False)
     created_at = fields.DateTimeField(default=datetime.utcnow())
     updated_at = fields.DateTimeField(default=datetime.utcnow())
 
-    meta = {"allow_inheritance": True, "strict": False}
+    meta = {"allow_inheritance": True, "strict": True}
 
     def __str__(self):
         # return description of field

@@ -16,12 +16,6 @@ docker-compose up -d
 # when you want to rebuild image otherwise just run the above
 docker-compose up -d --build
 
-mongoengine_migrate --log-level=debug makemigrations -m mallivaUsers
-python .\manage.py makemigrations
-python manage.py migrate
-
-mongo $MONGO_INITDB_DATABASE -u $MONGO_INITDB_ROOT_USERNAME -p $MONGO_INITDB_ROOT_PASSWORD
-
 python manage.py createsuperuser
 
 python .\manage.py runserver
@@ -44,3 +38,11 @@ nx serve marketing-app or
 npm run nx -- serve marketing-app
 
 Change secret key for production
+
+mongoengine_migrate --log-level=debug -u mongodb://localhost/malliva21_db makemigrations -m mallivaUsers.models
+
+mongoengine_migrate --log-level=debug -u mongodb://localhost/malliva21_db migrate
+
+mongoengine_migrate --log-level=debug -u mongodb://localhost/malliva21_db downgrade 0000_auto_20210626_1748
+
+mongo $MONGO_INITDB_DATABASE -u $MONGO_INITDB_ROOT_USERNAME -p $MONGO_INITDB_ROOT_PASSWORD
