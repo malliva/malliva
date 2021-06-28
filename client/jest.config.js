@@ -19,5 +19,8 @@ module.exports = {
     '<rootDir>/libs/shared/auth-guard',
     '<rootDir>/libs/market-app/dashboard',
     '<rootDir>/libs/market-app/toast',
+    '<rootDir>/libs/market-app/manage-users',
+    '<rootDir>/libs/market-app/dashboard-ui',
+    '<rootDir>/libs/market-app/dashboard/dashboard-menu',
   ],
 };

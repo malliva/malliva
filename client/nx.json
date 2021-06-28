@@ -83,6 +83,15 @@
     },
     "market-app-toast": {
       "tags": []
+    },
+    "market-app-manage-users": {
+      "tags": []
+    },
+    "market-app-dashboard-ui": {
+      "tags": []
+    },
+    "market-app-dashboard-dashboard-menu": {
+      "tags": []
     }
   }
 }

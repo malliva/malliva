@@ -46,7 +46,6 @@ export function MarketAppSignUps(props: MarketAppSignUpsProps) {
     ) {
       const { error } = signUpDetailsLoaded;
       setToastMessage({ toast: error, showToast: true });
-
       location.push('/sign-up');
     }
   }, [location, signUpDetailsLoaded]);

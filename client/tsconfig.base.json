@@ -53,7 +53,16 @@
       "@client/market-app/dashboard": [
         "libs/market-app/dashboard/src/index.ts"
       ],
-      "@client/market-app/toast": ["libs/market-app/toast/src/index.ts"]
+      "@client/market-app/toast": ["libs/market-app/toast/src/index.ts"],
+      "@client/market-app/manage-users": [
+        "libs/market-app/manage-users/src/index.ts"
+      ],
+      "@client/market-app/dashboard-ui": [
+        "libs/market-app/dashboard-ui/src/index.ts"
+      ],
+      "@client/market-app/dashboard/dashboard-menu": [
+        "libs/market-app/dashboard/dashboard-menu/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -16,6 +16,7 @@ import { MarketAppSignUps } from 'libs/market-app/sign-ups/src/index';
 import { MarketAppItemDetails } from 'libs/market-app/item-details/src/index';
 import { SharedAuthGuard } from 'libs/shared/auth-guard/src/index';
 import { MarketAppDashboard } from 'libs/market-app/dashboard/src/index';
+import { MarketAppManageUsers } from 'libs/market-app/manage-users/src/index';
 import { MarketAppTopMenu } from '@client/market-app/top-menu';
 
 const menu = [
@@ -31,15 +32,13 @@ export function App(props: { store: Store }) {
     <Provider store={props.store}>
       <BrowserRouter>
         <Switch>
+          <Route exact path="/">
+            <MarketAppTopMenu menu={menu} />
+            <MarketAppLandingPage />
+          </Route>
           <Route path="/sign-in">
             <MarketAppSignIn />
           </Route>
-          {/* Dashboard should be here */}
-          <SharedAuthGuard
-            path="/dashboard"
-            component={MarketAppDashboard}
-            auth={true}
-          />
           <Route path="/sign-up">
             <MarketAppSignUps />
           </Route>
@@ -47,11 +46,14 @@ export function App(props: { store: Store }) {
             <MarketAppTopMenu menu={menu} />
             <MarketAppItemDetails />
           </Route>
-          <Route path="/">
-            <MarketAppTopMenu menu={menu} />
-            <MarketAppLandingPage />
-          </Route>
-          {/* <Redirect to="/sign-in" /> */}
+          div
+          {/* Dashboard should be here */}
+          <SharedAuthGuard
+            path="/dashboard"
+            component={MarketAppDashboard}
+            auth={true}
+          ></SharedAuthGuard>
+          <Redirect to="/" />
         </Switch>
       </BrowserRouter>
     </Provider>

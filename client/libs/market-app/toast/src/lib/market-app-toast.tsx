@@ -18,7 +18,6 @@ export function MarketAppToast(props: MarketAppToastProps) {
   };
 
   useEffect(() => {
-    console.log(message);
     setShow(message.showToast);
   }, [message]);
 

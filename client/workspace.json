@@ -603,6 +603,75 @@
           }
         }
       }
+    },
+    "market-app-manage-users": {
+      "root": "libs/market-app/manage-users",
+      "sourceRoot": "libs/market-app/manage-users/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/market-app/manage-users/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/market-app/manage-users"],
+          "options": {
+            "jestConfig": "libs/market-app/manage-users/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "market-app-dashboard-ui": {
+      "root": "libs/market-app/dashboard-ui",
+      "sourceRoot": "libs/market-app/dashboard-ui/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/market-app/dashboard-ui/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/market-app/dashboard-ui"],
+          "options": {
+            "jestConfig": "libs/market-app/dashboard-ui/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "market-app-dashboard-dashboard-menu": {
+      "root": "libs/market-app/dashboard/dashboard-menu",
+      "sourceRoot": "libs/market-app/dashboard/dashboard-menu/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/market-app/dashboard/dashboard-menu/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/market-app/dashboard/dashboard-menu"],
+          "options": {
+            "jestConfig": "libs/market-app/dashboard/dashboard-menu/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   }
 }
