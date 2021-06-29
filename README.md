@@ -8,6 +8,8 @@ or
 
 $env:DJANGO_SETTINGS_MODULE='malliva.environments.development_settings'
 
+$env:MALLIVA_ENVIRONMENT='DEVELOPMENT'
+
 Python 3.8 required 
 Django 3.2
 
