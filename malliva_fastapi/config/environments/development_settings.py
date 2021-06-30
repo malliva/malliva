@@ -2,27 +2,83 @@
 Settings for malliva project
 """
 
-from pathlib import Path
-import os
 # from config.locale.alllanguages import LANGUAGE_OPTIONS, LANGUAGE_BIDI_OPTIONS
 
-from pydantic import BaseSettings
+import secrets
+from typing import Any, Dict, List, Optional, Union
+
+from pydantic import AnyHttpUrl, BaseSettings, EmailStr, HttpUrl, validator
 
 
 class Settings(BaseSettings):
 
-    APP_NAME: str = "Malliva Marketplace Platform"
+    PROJECT_NAME: str = "Malliva Marketplace Platform"
 
-    # SECURITY WARNING: keep the secret key used in production secret!
-    SECRET_KEY: str = "dont forget to add a secret key here"
+    API_V1_STR: str = "/api/v1"
+    SECRET_KEY: str = secrets.token_urlsafe(32)
+    # 60 minutes * 24 hours * 8 days = 8 days
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8
+    SERVER_NAME: Optional[str]
+    SERVER_HOST: Optional[AnyHttpUrl]
+    # BACKEND_CORS_ORIGINS is a JSON-formatted list of origins
+    # e.g: '["http://localhost", "http://localhost:4200", "http://localhost:3000", \
+    # "http://localhost:8080", "http://local.dockertoolbox.tiangolo.com"]'
+    BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = []
 
-    DEBUG: bool = True
+    @validator("BACKEND_CORS_ORIGINS", pre=True)
+    def assemble_cors_origins(cls, v: Union[str, List[str]]) -> Union[List[str], str]:
+        if isinstance(v, str) and not v.startswith("["):
+            return [i.strip() for i in v.split(",")]
+        elif isinstance(v, (list, str)):
+            return v
+        raise ValueError(v)
+
+    # Database auth details
 
     DB_USERNAME: str = "mallivay21"
     DB_PASSWORD: str = "P123Malliva"
     PLATFORM_DB: str = "malliva21_db"
     PLATFORM_DB_HOST: str = "localhost"
 
+    SMTP_TLS: bool = True
+    SMTP_PORT: Optional[int] = None
+    SMTP_HOST: Optional[str] = None
+    SMTP_USER: Optional[str] = None
+    SMTP_PASSWORD: Optional[str] = None
+    EMAILS_FROM_EMAIL: Optional[EmailStr] = None
+    EMAILS_FROM_NAME: Optional[str] = None
+
+    # remember to deactivate in production
+    openapi_url: str = "/openapi.json"  # ""
+
+    DEBUG: bool = True
+
+    @validator("EMAILS_FROM_NAME")
+    def get_project_name(cls, v: Optional[str], values: Dict[str, Any]) -> str:
+        if not v:
+            return values["PROJECT_NAME"]
+        return v
+
+    EMAIL_RESET_TOKEN_EXPIRE_HOURS: int = 48
+    EMAIL_TEMPLATES_DIR: str = "/app/app/email-templates/build"
+    EMAILS_ENABLED: bool = False
+
+    @validator("EMAILS_ENABLED", pre=True)
+    def get_emails_enabled(cls, v: bool, values: Dict[str, Any]) -> bool:
+        return bool(
+            values.get("SMTP_HOST")
+            and values.get("SMTP_PORT")
+            and values.get("EMAILS_FROM_EMAIL")
+        )
+
+    EMAIL_TEST_USER: EmailStr = "test@example.com"  # type: ignore
+    FIRST_SUPERUSER: EmailStr = "min45y@malliva.com"
+    FIRST_SUPERUSER_PASSWORD: str = "pbkdf2_sha256$180000$RsvlpMaQUfMK$SLL4KY5ispX8aX2qzO8TcOqOPiLPvRF+5300cGVa8iQ="
+    USERS_OPEN_REGISTRATION: bool = False
+
     ALLOWED_IMAGE_TYPES: list = ['gif', 'jpg', 'png']
 
     ALLOWED_FILE_TYPES: list = ['pdf', 'doc', 'docx', 'gif', 'jpg', 'png']
+
+
+settings = Settings()
