@@ -2,6 +2,8 @@ from fastapi import APIRouter
 from fastapi.encoders import jsonable_encoder
 from pydantic.networks import EmailStr
 from models.mallivaUsers import User
+from services.authentication import generate_access_token, authenticate
+from security.authentication import verify_password, get_password_hash
 
 router = APIRouter()
 

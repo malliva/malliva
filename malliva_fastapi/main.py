@@ -3,7 +3,7 @@ from starlette.middleware.cors import CORSMiddleware
 from config.config_loader import settings
 from dbConnectionManager.tenant_connections import connect_to_database
 from routers.all_routes import malliva_routers
-from routers import index_routes
+from routers import index_routes, sitewide_seo
 
 # initialize FastAPI
 
@@ -22,9 +22,13 @@ if settings.BACKEND_CORS_ORIGINS:
         allow_headers=["*"],
     )
 
+
 malliva_api.include_router(
     index_routes.router, tags=["index"])
+malliva_api.include_router(
+    sitewide_seo.router, tags=["seo_routes"])
 
+# import other routes
 malliva_api.include_router(malliva_routers, prefix=settings.API_V1_STR)
 
 # malliva_routers.include_router(

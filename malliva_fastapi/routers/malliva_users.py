@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from fastapi.encoders import jsonable_encoder
 from pydantic.networks import EmailStr
-from models.mallivaUsers import User
+from schema.mallivaUsers import User
 
 router = APIRouter()
 

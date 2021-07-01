@@ -15,7 +15,12 @@ class Settings(BaseSettings):
     PROJECT_NAME: str = "Malliva Marketplace Platform"
 
     API_V1_STR: str = "/api/v1"
-    SECRET_KEY: str = secrets.token_urlsafe(32)
+
+    # remember to make this static in production
+
+    # SECRET_KEY: str = secrets.token_urlsafe(32)
+    SECRET_KEY: str = "-MmPYkSksyccaQA7fSCNVVHTdFr41IGm3qD70YARmLg"
+
     # 60 minutes * 24 hours * 8 days = 8 days
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8
     SERVER_NAME: Optional[str]
@@ -79,6 +84,8 @@ class Settings(BaseSettings):
     ALLOWED_IMAGE_TYPES: list = ['gif', 'jpg', 'png']
 
     ALLOWED_FILE_TYPES: list = ['pdf', 'doc', 'docx', 'gif', 'jpg', 'png']
+
+    ALGORITHM: str = "HS256"
 
 
 settings = Settings()
