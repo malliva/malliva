@@ -228,7 +228,6 @@ export function MarketAppDashboardDashboardMenu(
   const goTo = (event, subItem) => {
     event.preventDefault();
     subItem.current = true;
-    debugger;
     location.push(subItem.link);
   };
 

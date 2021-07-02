@@ -63,3 +63,18 @@ export const getSingInUser = createAsyncThunk(
     }
   }
 );
+
+export const getRegisteredUsers = createAsyncThunk(
+  'malliva/users',
+  async (payload, thunkApi) => {
+    try {
+      const response = await axios.get(API_URL + 'api/v1/users', {
+        headers: { 'Content-Type': 'application/json' },
+      });
+      const data = await response.data;
+      return { data };
+    } catch (error) {
+      return thunkApi.rejectWithValue({ error: error.message });
+    }
+  }
+);

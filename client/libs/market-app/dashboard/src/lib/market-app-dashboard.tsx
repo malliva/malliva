@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { MarketAppDashboardUi } from 'libs/market-app/dashboard-ui/src/index';
+import { MarketAppDashboardUi } from 'libs/market-app/dashboard/dashboard-ui/src/index';
 import { MarketAppManageUsers } from 'libs/market-app/manage-users/src/index';
 import { MarketAppDashboardDashboardMenu } from 'libs/market-app/dashboard/dashboard-menu/src/index';
 import { MarketAppTopMenu } from '@client/market-app/top-menu';
@@ -11,8 +11,8 @@ export interface MarketAppDashboardProps {}
 
 export function MarketAppDashboard(props: MarketAppDashboardProps) {
   const userNavigation = [{ name: 'Admin panel', href: '#', type: 'admin' }];
-
   const { path } = useRouteMatch();
+
   return (
     <Switch>
       <Route path={`${path}/manage-users`}>

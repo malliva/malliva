@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import './market-app-manage-users.module.scss';
 import {
@@ -20,6 +20,8 @@ import { XIcon } from '@heroicons/react/outline';
 
 import { Fragment, useState } from 'react';
 import { Dialog, Listbox, Menu, Transition } from '@headlessui/react';
+import { useDispatch } from 'react-redux';
+import { getRegisteredUsers } from '@client/shared/account-syn-api';
 
 const people = [
   { id: 1, name: 'Wade Cooper' },
@@ -83,7 +85,6 @@ const projects = [
   },
   // More projects...
 ];
-const pinnedProjects = projects.filter((project) => project.pinned);
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -92,9 +93,14 @@ function classNames(...classes) {
 export interface MarketAppManageUsersProps {}
 
 export function MarketAppManageUsers(props: MarketAppManageUsersProps) {
+  const dispatch = useDispatch();
   const [selected, setSelected] = useState(people[3]);
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    dispatch(getRegisteredUsers());
+  }, [dispatch]);
 
   return (
     <div className="lg:grid grid-cols-12 lg:block lg:col-span-6 xl:col-span-9 lg:gap-8">
@@ -120,7 +126,7 @@ export function MarketAppManageUsers(props: MarketAppManageUsersProps) {
             </span>
           </div>
 
-          <div className="auto">
+          <div className="w-3/12">
             <Listbox value={selected} onChange={setSelected}>
               {({ open }) => (
                 <>

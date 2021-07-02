@@ -31,9 +31,11 @@ export function MarketAppSignIn(props: MarketAppSignInProps) {
   };
 
   useEffect(() => {
-    if (signInDetailsLoaded.loading === 'succeeded') {
+    const { loading, response } = signInDetailsLoaded;
+    if (loading === 'succeeded') {
+      localStorage.setItem('user', JSON.stringify(response));
       location.push('/');
-    } else if (signInDetailsLoaded.loading === 'failed') {
+    } else if (loading === 'failed') {
       const { error } = signInDetailsLoaded;
       setToastMessage({ toast: error, showToast: true });
       location.push('/sign-in');

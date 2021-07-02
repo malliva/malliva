@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './app.module.scss';
 import {
   Route,
@@ -7,7 +7,7 @@ import {
   Redirect,
   useRouteMatch,
 } from 'react-router-dom';
-import { Provider } from 'react-redux';
+import { Provider, useDispatch } from 'react-redux';
 import { Store } from '@reduxjs/toolkit';
 
 import { MarketAppLandingPage } from 'libs/market-app/landing-page/src/index';
@@ -46,7 +46,7 @@ export function App(props: { store: Store }) {
             <MarketAppTopMenu menu={menu} />
             <MarketAppItemDetails />
           </Route>
-          div
+
           {/* Dashboard should be here */}
           <SharedAuthGuard
             path="/dashboard"
