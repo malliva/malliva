@@ -1,7 +1,8 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
 from fastapi.encoders import jsonable_encoder
 from pydantic.networks import EmailStr
 from schema.mallivaUsers import User
+from dbConnectionManager.database_resolver import get_db_name
 
 router = APIRouter()
 
@@ -17,8 +18,11 @@ async def read_user_me():
 
 
 @router.get("/{username}", tags=["users"])
-async def read_user(username: str):
-    return {"username": username}
+async def read_user(username: str, request: Request):
+    print(request.client.host)
+    print(request.base_url.hostname)
+    current_db = "helo"  # get_db_name()
+    return {"username": username, "database name": current_db}
 
 
 # List all Users in the database

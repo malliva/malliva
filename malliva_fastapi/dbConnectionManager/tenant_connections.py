@@ -2,26 +2,29 @@
 
 # from django.conf import settings
 
+import re
 from mongoengine import (
     connect,
     context_managers,
     disconnect,
     disconnect_all,
 )
+from pymongo import database
 
 from config.config_loader import settings
 
 
-class connect_to_database:
-    def __init__(self, database, alias):
+class connect_to_database():
+    def __init__(self, alias):
         self.alias = alias
-        self.database = database
-        self.port = "27017"
+        self.database = settings.PLATFORM_DEFAULT_DB
+        self.port = settings.PLATFORM_DB_PORT
         self.host = settings.PLATFORM_DB_HOST
         self.username = settings.DB_USERNAME
         self.password = settings.DB_PASSWORD
+        print("database connection instance created successfully")
 
-    def initiate_db_connection(self):
+    async def initiate_db_connection(self):
         connect(
             alias=self.alias,
             db=self.database,
@@ -29,18 +32,18 @@ class connect_to_database:
             username=self.username,
             password=self.password,
         )
+        print("database connection started successfully")
 
-    def switch_database(new_database):
-        context_managers.switch_db()
+    async def switch_database(self, model_class, new_database):
+        context_managers.switch_db(model_class, new_database)
+        return model_class
 
-    def switch_collection(new_collection):
-        context_managers.switch_collection(collection)
+    async def switch_collection(self, model_class, new_collection):
+        context_managers.switch_collection(model_class, new_collection)
+        return model_class
 
-    def end_db_connection():
+    async def end_db_connection(self):
         disconnect(
-            alias=self.alias,
-            db=self.database,
-            host=self.host,
-            username=self.username,
-            password=self.password,
+            alias=self.alias
         )
+        print("database connection ended successfully")

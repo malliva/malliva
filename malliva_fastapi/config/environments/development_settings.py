@@ -13,8 +13,14 @@ from pydantic import AnyHttpUrl, BaseSettings, EmailStr, HttpUrl, validator
 class Settings(BaseSettings):
 
     PROJECT_NAME: str = "Malliva Marketplace Platform"
+    ACCOUNT_PROJECT_NAME: str = "Malliva API Backend for Marketplace Accounts"
+    DESCRIPTION: str = "Welcome to the API Backend for Malliva Platform, here are the Available API endpoints you can connect to"
+    ACCOUNT_DESCRIPTION: str = "Welcome to the API Backend for Malliva Marketplace Accounts, here are the Available API endpoints you can connect to"
 
     API_V1_STR: str = "/api/v1"
+
+    MALLIVA_DOMAIN: list = ["localhost:8000", "localhost",
+                            "127.0.0.1", "127.0.0.1:8000", "malliva.com", "www.malliva.com"]
 
     # remember to make this static in production
 
@@ -42,8 +48,12 @@ class Settings(BaseSettings):
 
     DB_USERNAME: str = "mallivay21"
     DB_PASSWORD: str = "P123Malliva"
-    PLATFORM_DB: str = "malliva21_db"
+    PLATFORM_DB_PORT: str = "27017"
     PLATFORM_DB_HOST: str = "localhost"
+    PLATFORM_DEFAULT_DB: str = "malliva21_db"
+    PLATFORM_DEFAULT_ALIAS: str = "mAlLiVa21Y"
+
+    ACCOUNT_DEFAULT_ALIAS: str = "mAlLiVa21YcLiEnT"
 
     SMTP_TLS: bool = True
     SMTP_PORT: Optional[int] = None
@@ -54,7 +64,7 @@ class Settings(BaseSettings):
     EMAILS_FROM_NAME: Optional[str] = None
 
     # remember to deactivate in production
-    openapi_url: str = "/openapi.json"  # ""
+    OPENAPI_URL: str = "/openapi.json"  # ""
 
     DEBUG: bool = True
 
