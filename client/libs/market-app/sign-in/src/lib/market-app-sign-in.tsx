@@ -7,6 +7,7 @@ import { MarketAppToast } from 'libs/market-app/toast/src/index';
 
 import './market-app-sign-in.module.scss';
 import { selectSignInStateLoaded } from './market-app-sign-in.slice';
+import { useCookies } from 'react-cookie';
 
 /* eslint-disable-next-line */
 export interface MarketAppSignInProps {}
@@ -15,6 +16,7 @@ export function MarketAppSignIn(props: MarketAppSignInProps) {
   const dispatch = useDispatch();
   const signInDetailsLoaded = useSelector(selectSignInStateLoaded);
   const location = useHistory();
+  const [cookies, setCookie] = useCookies(['user']);
   const [login, setLogin] = useState({
     email: '',
     password: '',
@@ -34,6 +36,7 @@ export function MarketAppSignIn(props: MarketAppSignInProps) {
     const { loading, response } = signInDetailsLoaded;
     if (loading === 'succeeded') {
       localStorage.setItem('user', JSON.stringify(response));
+      setCookie('jwt', response.jwt, { path: '/' });
       location.push('/');
     } else if (loading === 'failed') {
       const { error } = signInDetailsLoaded;
