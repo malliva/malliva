@@ -23,6 +23,8 @@ sub_malliva_routers.include_router(
     index_routes.router, tags=["index"])
 sub_malliva_routers.include_router(
     sitewide_seo.router, tags=["seo_routes"])
+sub_malliva_routers.include_router(
+    index_routes.sub_router, tags=["sub"])
 
 sub_malliva_routers.include_router(
     auth_users.router, prefix="/auth", tags=["auth"])

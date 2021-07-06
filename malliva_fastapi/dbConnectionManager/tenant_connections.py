@@ -5,6 +5,7 @@
 import re
 from mongoengine import (
     connect,
+    register_connection,
     context_managers,
     disconnect,
     disconnect_all,
@@ -34,16 +35,26 @@ class connect_to_database():
         )
         print("database connection started successfully")
 
+    async def register_new_db_connection(self, current_db):
+        await self.reset_class_variables(current_db)
+        register_connection(
+            alias=self.alias,
+            db=current_db
+        )
+        print("new database connection started successfully")
+
     async def switch_database(self, model_class, new_database):
-        context_managers.switch_db(model_class, new_database)
-        return model_class
+        await self.reset_class_variables(new_database)
+        return context_managers.switch_db(model_class, new_database)
 
     async def switch_collection(self, model_class, new_collection):
-        context_managers.switch_collection(model_class, new_collection)
-        return model_class
+        return context_managers.switch_collection(model_class, new_collection)
 
     async def end_db_connection(self):
         disconnect(
             alias=self.alias
         )
         print("database connection ended successfully")
+
+    async def reset_class_variables(self, current_db):
+        self.database = current_db

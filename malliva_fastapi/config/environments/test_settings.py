@@ -19,7 +19,9 @@ class Settings(BaseSettings):
 
     API_V1_STR: str = "/api/v1"
 
-    MALLIVA_DOMAIN: list = ["localhost:8000", "malliva.com", "www.malliva.com"]
+    MALLIVA_DOMAIN: list = ["localhost:8000", "localhost",
+                            "127.0.0.1", "127.0.0.1:8000", "malliva.com",
+                            "malliva.com:8000", "www.malliva.com", "www.malliva.com:8000"]
 
     # remember to make this static in production
 
