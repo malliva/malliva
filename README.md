@@ -2,29 +2,24 @@
 Power your marketplace platform
 
 Run 
-export DJANGO_SETTINGS_MODULE='malliva.environments.development_settings'
+export MALLIVA_ENVIRONMENT='DEVELOPMENT'
 
 or 
 
-$env:DJANGO_SETTINGS_MODULE='malliva.environments.development_settings'
-
 $env:MALLIVA_ENVIRONMENT='DEVELOPMENT'
 
-Python 3.8 required 
-Django 3.2
+Python 3.8 required
+
+FastAPI
 
 docker-compose up -d
 
 # when you want to rebuild image otherwise just run the above
 docker-compose up -d --build
 
-python manage.py createsuperuser
-
-python .\manage.py runserver
-
 API end points
 
-http://localhost:8000/api/v1/user/register POST
+http://localhost:8000/api/v1/user/ POST
 
 http://localhost:8000/api/v1/marketplace/create/ POST
 

@@ -30,7 +30,6 @@ malliva_api.middleware("http")
 @ malliva_api.on_event("startup")
 async def startup():
     await platform_db_connection_instance.initiate_db_connection()
-    await accounts_db_connection_instance.initiate_db_connection()
 
 
 @ malliva_api.on_event("shutdown")

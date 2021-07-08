@@ -14,13 +14,12 @@ if __name__ == "__main__":
     print("Migrations now running")
 
     # manage makemigrations
-    # os.system("python manage.py makemigrations")
-    connect("malliva21_db")
-    print("connected")
+    # connect("malliva21_db")
+    # print("connected")
 
-    os.system("python manage.py migrate --database=malliva_maindb")
+    os.system("mongoengine_migrate --log-level=debug -u mongodb://malliva33y21_db/malliva21_db makemigrations -m models.mallivaUsers")
 
     os.system(
-        "python manage.py loaddata users permissions roles categories plans subscriptions configurations template_stylings social_media_pages marketplace_accounts listings custom_fields --database=malliva_maindb"
-    )
-    print("default initial data loaded")
+        "mongoengine_migrate --log-level=debug -u mongodb://malliva33y21_db/malliva21_db migrate")
+
+    # print("default initial data loaded")

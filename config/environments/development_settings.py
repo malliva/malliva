@@ -96,7 +96,9 @@ class Settings(BaseSettings):
 
     ALLOWED_FILE_TYPES: list = ['pdf', 'doc', 'docx', 'gif', 'jpg', 'png']
 
-    ALGORITHM: str = "HS256"
+    SESSION_TOKEN_ALGORITHM: str = "HS256"
+
+    PASSWORD_HASHING_ALGORITHM: str = "bcrypt"
 
 
 settings = Settings()

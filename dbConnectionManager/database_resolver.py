@@ -2,11 +2,15 @@
 # determines the database and return the database name
 
 from config.config_loader import settings
+from dbConnectionManager.db_session import register_connection
 
 db_name = None
 
 
 async def get_db_name(request):
+    """ 
+    This method will get db name and setup connection for it
+    """
 
     global db_name
 
@@ -22,7 +26,7 @@ async def get_db_name(request):
         db_name = current_marketplace + "53Q4"
 
     # Make the database to default here if you wish to use it no longer
-    return db_name
+    await register_connection(db_name)
 
 
 # async def get_db(db_name: str = Depends(get_db_name)):

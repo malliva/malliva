@@ -7,9 +7,9 @@ class User(Document):
     first_name = fields.StringField(max_length=200)
     last_name = fields.StringField(max_length=200)
     username = fields.StringField(
-        max_length=200, unique=True, required=False)
-    password = fields.StringField(max_length=200)
-    email = fields.EmailField(max_length=200, unique=True)
+        max_length=200, unique=True, required=True)
+    password = fields.StringField(max_length=200, required=True)
+    email = fields.EmailField(max_length=200, unique=True, required=True)
     is_active = fields.BooleanField(default=True)
     is_superuser = fields.BooleanField(default=False)
     is_deleted = fields.BooleanField(default=False)
