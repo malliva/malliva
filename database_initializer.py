@@ -10,6 +10,8 @@
 import os
 from mongoengine import connect
 
+from config.config_loader import settings
+
 if __name__ == "__main__":
     print("Migrations now running")
 
@@ -17,9 +19,9 @@ if __name__ == "__main__":
     # connect("malliva21_db")
     # print("connected")
 
-    os.system("mongoengine_migrate --log-level=debug -u mongodb://malliva33y21_db/malliva21_db makemigrations -m models.mallivaUsers")
+    os.system("mongoengine_migrate --log-level=debug -u mongodb://mallivay21:P123Malliva@malliva33y21_db:27017/malliva21_db makemigrations -m models.mallivaUsers")
 
     os.system(
-        "mongoengine_migrate --log-level=debug -u mongodb://malliva33y21_db/malliva21_db migrate")
+        "mongoengine_migrate --log-level=debug -u mongodb://mallivay21:P123Malliva@malliva33y21_db:27017/malliva21_db migrate")
 
     # print("default initial data loaded")

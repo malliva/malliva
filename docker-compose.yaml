@@ -4,7 +4,7 @@ services:
         container_name: malliva33y21_api
         image: malliva_api_image
         restart: always
-        command: uvicorn main:malliva_api --reload
+        command: uvicorn main:malliva_api --host 0.0.0.0 --port 8000 --reload
         volumes:
             - .:/app
         networks: 
