@@ -43,3 +43,12 @@ mongoengine_migrate --log-level=debug -u mongodb://localhost/malliva21_db migrat
 mongoengine_migrate --log-level=debug -u mongodb://localhost/malliva21_db downgrade 0000_auto_20210626_1748
 
 mongo $MONGO_INITDB_DATABASE -u $MONGO_INITDB_ROOT_USERNAME -p $MONGO_INITDB_ROOT_PASSWORD
+
+
+# Malliva API Backend for Malliva Platform
+
+http://localhost:8000/api/v1/docs
+
+
+# Malliva API Backend for Marketplace Accounts
+http://localhost:8000/maccounts/api/v1/docs
