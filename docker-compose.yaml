@@ -4,7 +4,7 @@ services:
         container_name: malliva33y21_api
         image: malliva_api_image
         restart: always
-        command: python manage.py runserver 0.0.0.0:8000
+        command: uvicorn main:malliva_api --reload
         volumes:
             - .:/app
         networks: 
@@ -18,28 +18,15 @@ services:
 
     malliva_migration:
         container_name: malliva_migration
+        build:
+            context: .
+            dockerfile: Dockerfile
         image: malliva_api_image
         command: python database_initializer.py
         volumes:
             - .:/app
         networks: 
-            - mallivaplat_net
-        links:
-            - malliva33y21_db
-        depends_on:
-            - malliva_make_migrations
-
-    malliva_make_migrations:
-        container_name: malliva_make_migrations
-        build:
-            context: .
-            dockerfile: Dockerfile
-        image: malliva_api_image
-        command: python manage.py makemigrations
-        volumes:
-            - .:/app
-        networks: 
-            - mallivaplat_net
+            - mallivaplat_net        
         links:
             - malliva33y21_db
         depends_on:
