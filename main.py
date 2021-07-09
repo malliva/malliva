@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+import jwt
 from starlette.middleware.cors import CORSMiddleware
 from config.config_loader import settings
 from dbConnectionManager.db_session import platform_db_connection_instance, accounts_db_connection_instance
@@ -17,12 +18,13 @@ malliva_api = FastAPI(title=settings.PROJECT_NAME,  # root_path=settings.API_V1_
 if settings.BACKEND_CORS_ORIGINS:
     malliva_api.add_middleware(
         CORSMiddleware,
+        # allow_origin_regex=settings.BACKEND_CORS_ORIGINS_REGEX,
         allow_origins=[str(origin)
                        for origin in settings.BACKEND_CORS_ORIGINS],
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
-    )
+        expose_headers=['jwt', 'Origin', 'Access-Control-Request-Method'])
 
 malliva_api.middleware("http")
 

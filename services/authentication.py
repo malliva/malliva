@@ -21,6 +21,9 @@ async def generate_access_token(user, subdomain):
 
 
 async def authenticate(request):
+    """ 
+    Check if User is logged in
+    """
 
     token = request.cookies.get("jwt")
 
