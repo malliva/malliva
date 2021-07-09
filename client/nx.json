@@ -92,6 +92,12 @@
     },
     "market-app-dashboard-dashboard-menu": {
       "tags": []
+    },
+    "market-app-user-fields": {
+      "tags": []
+    },
+    "market-app-user-rights": {
+      "tags": []
     }
   }
 }

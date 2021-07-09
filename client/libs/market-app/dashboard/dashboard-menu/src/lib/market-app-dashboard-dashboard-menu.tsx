@@ -127,7 +127,12 @@ const navigationTwo = [
       {
         name: 'User rights',
         current: false,
-        link: '#',
+        link: '/dashboard/users-rights',
+      },
+      {
+        name: 'User fields',
+        current: false,
+        link: '/dashboard/users-fields',
       },
       {
         name: 'View invitations',

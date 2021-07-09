@@ -73,7 +73,7 @@ export interface MarketAppDashboardUiProps {}
 
 export function MarketAppDashboardUi(props: MarketAppDashboardUiProps) {
   return (
-    <div className="lg:grid grid-cols-12 lg:block lg:col-span-6 xl:col-span-9 lg:gap-8">
+    <div className="lg:grid grid-cols-12 lg:block lg:col-span-9 xl:col-span-9 lg:gap-8">
       <main className="lg:col-span-9 xl:col-span-8">
         <div className="px-4 sm:px-0">
           <div className="sm:hidden">

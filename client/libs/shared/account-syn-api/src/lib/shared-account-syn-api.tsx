@@ -35,7 +35,7 @@ export const postSignUpUser = createAsyncThunk(
     try {
       const formData = JSON.stringify(payload);
       let response = null;
-      response = await axios.post(API_URL + 'api/v1/users/register', formData, {
+      response = await axios.post(API_URL + 'api/v1/users/', formData, {
         headers: { 'Content-Type': 'application/json' },
       });
       const data = await response.data;
@@ -52,7 +52,7 @@ export const getSingInUser = createAsyncThunk(
     try {
       const formData = JSON.stringify(payload);
       const response = await axios.post(
-        API_URL + 'api/v1/users/login',
+        API_URL + 'api/v1/auth/login',
         formData,
         { headers: { 'Content-Type': 'application/json' } }
       );

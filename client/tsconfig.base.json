@@ -62,6 +62,12 @@
       ],
       "@client/market-app/dashboard/dashboard-menu": [
         "libs/market-app/dashboard/dashboard-menu/src/index.ts"
+      ],
+      "@client/market-app/user-fields": [
+        "libs/market-app/user-fields/src/index.ts"
+      ],
+      "@client/market-app/user-rights": [
+        "libs/market-app/user-rights/src/index.ts"
       ]
     }
   },
