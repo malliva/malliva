@@ -4,10 +4,14 @@ Settings for malliva project
 
 # from config.locale.alllanguages import LANGUAGE_OPTIONS, LANGUAGE_BIDI_OPTIONS
 
+import os
 import secrets
 from typing import Any, Dict, List, Optional, Union
-
 from pydantic import AnyHttpUrl, BaseSettings, EmailStr, HttpUrl, validator
+from pydantic.types import DirectoryPath
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 class Settings(BaseSettings):
@@ -102,6 +106,8 @@ class Settings(BaseSettings):
     SESSION_TOKEN_ALGORITHM: str = "HS256"
 
     PASSWORD_HASHING_ALGORITHM: str = "bcrypt"
+
+    MEDIA_UPLOAD_LOCATION: DirectoryPath = os.path.join(BASE_DIR, "uploads")
 
 
 settings = Settings()

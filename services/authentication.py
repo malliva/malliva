@@ -9,9 +9,9 @@ from models.mallivaUsers import User
 from dbConnectionManager.database_resolver import get_db_name
 
 
-async def generate_access_token(user, subdomain):
+async def generate_access_token(username, subdomain):
     payload = {
-        "user_username": user,
+        "user_username": username,
         "subdomain": subdomain,
         "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
         "iat": datetime.datetime.utcnow(),
@@ -25,13 +25,21 @@ async def authenticate(request):
     Check if User is logged in
     """
 
-    token = request.cookies.get("jwt")
+    try:
+        token = request.cookies.get("jwt")
+        if token is None:
+            raise HTTPException(detail="User needs to login to access this page.",
+                                status_code=status.HTTP_401_UNAUTHORIZED)
+    except:
+        raise HTTPException(detail="User needs to login to access this page.",
+                            status_code=status.HTTP_401_UNAUTHORIZED)
 
-    if not token:
-        return None
-
-    payload = jwt.decode(
-        jwt=token, key=settings.SECRET_KEY, algorithms=settings.SESSION_TOKEN_ALGORITHM)
+    try:
+        payload = jwt.decode(
+            jwt=token, key=settings.SECRET_KEY, algorithms=settings.SESSION_TOKEN_ALGORITHM)
+    except jwt.ExpiredSignatureError:
+        raise HTTPException(detail="User session has expired. Please login again",
+                            status_code=status.HTTP_401_UNAUTHORIZED)
 
     await get_db_name(request)
 
@@ -39,13 +47,14 @@ async def authenticate(request):
         user = User.objects.filter(username=payload["user_username"]).first(
         ).switch_db(settings.ACCOUNT_DEFAULT_ALIAS)
     except:
-        return JSONResponse(content="User does not exist", status_code=status.HTTP_400_BAD_REQUEST)
+        return HTTPException(detail="User does not exist", status_code=status.HTTP_401_UNAUTHORIZED)
 
     if user is None or user.is_deleted is True:
-        raise HTTPException(status_code=400, detail="User not found!")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="User not found!")
 
     if user is None or user.is_active is False:
         raise HTTPException(
-            status_code=400, detail="This User has been banned, contact the administrator!")
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="This User has been banned, contact the administrator!")
 
     return (user, None)

@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 import jwt
+from mongoengine.connection import disconnect_all
 from starlette.middleware.cors import CORSMiddleware
 from config.config_loader import settings
 from dbConnectionManager.db_session import platform_db_connection_instance, accounts_db_connection_instance
@@ -31,13 +32,15 @@ malliva_api.middleware("http")
 
 @ malliva_api.on_event("startup")
 async def startup():
+    print("start up tasks running")
+    # initiallize database connection settings
     await platform_db_connection_instance.initiate_db_connection()
+    await accounts_db_connection_instance.initiate_db_connection()
 
 
 @ malliva_api.on_event("shutdown")
 async def shutdown():
-    await platform_db_connection_instance.end_db_connection()
-    await accounts_db_connection_instance.end_db_connection()
+    disconnect_all()
 
 
 # import other routes

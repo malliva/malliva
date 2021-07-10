@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, Request, status
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from starlette.requests import Request
-from schema.mallivaUsers import User
+from schema.mallivaUsers import User, UserLogin
 from models.mallivaUsers import User as UserModel
 from services.authentication import generate_access_token, authenticate
 from security.authentication import verify_password, get_password_hash
@@ -14,8 +14,8 @@ from config.config_loader import settings
 router = APIRouter()
 
 
-@router.post('/login', response_model=User)
-async def authenticate_user(request: Request, user: User):
+@router.post('/login', response_model=UserLogin)
+async def authenticate_user(request: Request, user: UserLogin):
     await get_db_name(request)
 
     user_data = user.dict(exclude_unset=True)

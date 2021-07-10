@@ -39,7 +39,10 @@ class connect_to_database():
         await self.reset_class_variables(current_db)
         register_connection(
             alias=self.alias,
-            db=current_db
+            db=self.database,
+            host=self.host,
+            username=self.username,
+            password=self.password
         )
         print("new database connection started successfully")
 

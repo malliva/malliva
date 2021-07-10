@@ -1,6 +1,7 @@
 from .tenant_connections import connect_to_database
 from config.config_loader import settings
 from fastapi import HTTPException, status
+from mongoengine.connection import _find_existing_connection, get_connection
 
 # create mongo connection instance
 

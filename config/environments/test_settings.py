@@ -2,12 +2,16 @@
 Settings for malliva project
 """
 
-# from config.locale.alllanguages import LANGUAGE_OPTIONS, LANGUAGE_BIDI_OPTIONS
+# from config.
+# locale.alllanguages import LANGUAGE_OPTIONS, LANGUAGE_BIDI_OPTIONS
 
+import os
 import secrets
 from typing import Any, Dict, List, Optional, Union
-
+from pathlib import Path
 from pydantic import AnyHttpUrl, BaseSettings, EmailStr, HttpUrl, validator
+from pydantic.types import DirectoryPath
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 class Settings(BaseSettings):
@@ -55,7 +59,7 @@ class Settings(BaseSettings):
     PLATFORM_DB_PORT: str = "27017"
     PLATFORM_DB_HOST: str = "malliva33y21_db"
     PLATFORM_DEFAULT_DB: str = "malliva21_db"
-    PLATFORM_DEFAULT_ALIAS: str = "mAlLiVa21Y"
+    PLATFORM_DEFAULT_ALIAS: str = "default"
 
     ACCOUNT_DEFAULT_ALIAS: str = "mAlLiVa21YcLiEnT"
 
@@ -102,6 +106,8 @@ class Settings(BaseSettings):
     SESSION_TOKEN_ALGORITHM: str = "HS256"
 
     PASSWORD_HASHING_ALGORITHM: str = "bcrypt"
+
+    MEDIA_UPLOAD_LOCATION: DirectoryPath = os.path.join(BASE_DIR, "uploads")
 
 
 settings = Settings()
