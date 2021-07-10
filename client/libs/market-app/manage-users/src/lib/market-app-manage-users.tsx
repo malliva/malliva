@@ -103,8 +103,8 @@ export function MarketAppManageUsers(props: MarketAppManageUsersProps) {
   }, [dispatch]);
 
   return (
-    <div className="lg:grid grid-cols-12 lg:block lg:col-span-6 xl:col-span-9 lg:gap-8">
-      <div className="lg:col-span-9 xl:col-span-12">
+    <div className="lg:grid grid-cols-12 lg:block lg:col-span-9 xl:col-span-9 lg:gap-8">
+      <div className="lg:col-span-12 xl:col-span-12">
         <div className="flex items-center justify-between">
           <div className="relative w-6/12">
             <label htmlFor="email" className="sr-only">

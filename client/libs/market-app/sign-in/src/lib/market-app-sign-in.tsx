@@ -35,7 +35,6 @@ export function MarketAppSignIn(props: MarketAppSignInProps) {
   useEffect(() => {
     const { loading, response } = signInDetailsLoaded;
     if (loading === 'succeeded') {
-      localStorage.setItem('user', JSON.stringify(response));
       setCookie('jwt', response.jwt, { path: '/' });
       location.push('/');
     } else if (loading === 'failed') {
@@ -43,7 +42,7 @@ export function MarketAppSignIn(props: MarketAppSignInProps) {
       setToastMessage({ toast: error, showToast: true });
       location.push('/sign-in');
     }
-  }, [location, signInDetailsLoaded]);
+  }, [location, setCookie, signInDetailsLoaded]);
 
   const handleUserChange = (event) => {
     const name = event.target.name;
