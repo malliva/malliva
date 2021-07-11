@@ -1,4 +1,7 @@
 import json
+import os
+import shutil
+from fastapi import HTTPException, status
 
 
 async def convert_mongo_result_to_dict(data):
@@ -41,3 +44,24 @@ async def format_mongodate(date_data):
     # print(date_data.strftime("%d-%m-%Y, %H:%M:%S"))
 
     return date_data.isoformat()
+
+
+async def upload_file(file, storage_path, allowed_content_type, service):
+
+    if service is not "local":
+        raise HTTPException(detail="Service is not available yet",
+                            status_code=status.HTTP_503_SERVICE_UNAVAILABLE)
+
+    if file.content_type not in allowed_content_type:
+        raise HTTPException(detail="File type is not allowed",
+                            status_code=status.HTTP_406_NOT_ACCEPTABLE)
+
+    try:
+        if not os.path.exists(storage_path):
+            os.makedirs(storage_path)
+
+        with open(os.path.join(storage_path, file.filename), "wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
+        return True
+    except:
+        return False

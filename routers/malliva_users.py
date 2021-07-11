@@ -1,8 +1,12 @@
+import os
+
+from fastapi.param_functions import Body, Depends
+from services.python_operations import upload_file
 from fastapi import APIRouter, Request, status, HTTPException, File, UploadFile
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from pydantic.types import constr
-from schema.mallivaUsers import User, UserRegister
+from schema.mallivaUsers import User, UserRegister, UserUpdate
 from models.mallivaUsers import User as UserModel
 from dbConnectionManager.database_resolver import get_db_name
 from dbConnectionManager.db_session import accounts_db_connection_instance
@@ -64,7 +68,7 @@ async def read_user_me(request: Request):
 @router.get("/{username}", response_model=User)
 async def read_user(username: constr(to_lower=True), request: Request):
 
-    current_user = await authenticate(request)
+    await get_db_name(request)
 
     try:
         instance = UserModel.objects.filter(username=username).first().switch_db(
@@ -105,7 +109,7 @@ async def read_users(request: Request):
 
 
 @ router.put("/me", response_model=User)
-async def update_user_me(request: Request, user: User):
+async def update_user_me(request: Request, user: UserUpdate, file: UploadFile = File(None)):
 
     current_user = await authenticate(request)
 
@@ -115,6 +119,15 @@ async def update_user_me(request: Request, user: User):
     if "password" in update_data:
         update_data["password"] = get_password_hash(
             user.password.get_secret_value())
+
+    marketplace_domain = request.base_url.hostname.split(".")[0]
+    upload_path = os.path.join(
+        settings.MEDIA_UPLOAD_LOCATION, marketplace_domain, "users", current_user.id)
+    if "profile_picture" in update_data:
+        if not await upload_file(file, upload_path, settings.ALLOWED_IMAGE_TYPES, settings.FILE_SERVICE):
+            raise HTTPException(detail="file could not be uploaded",
+                                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        update_data["profile_picture"] = upload_path
 
     try:
         current_user[0].update(**update_data)
@@ -129,12 +142,13 @@ async def update_user_me(request: Request, user: User):
                             status_code=status.HTTP_304_NOT_MODIFIED)
 
 
-@ router.put("/{username}", response_model=User)
-async def update_user(username: constr(to_lower=True), user: User, request: Request):
+@ router.put("/{usernam}", response_model=User)
+async def update_user(request: Request, usernam: constr(to_lower=True), user: UserUpdate = Depends(), profile_picture: UploadFile = File(None)):
 
-    current_user = await authenticate(request)
+    await get_db_name(request)
 
     update_data = user.dict(exclude_unset=True)
+    print(update_data)
     update_data = jsonable_encoder(update_data)
 
     if "password" in update_data:
@@ -143,7 +157,19 @@ async def update_user(username: constr(to_lower=True), user: User, request: Requ
 
     try:
         instance = UserModel.objects.filter(
-            username=username).first().switch_db(settings.ACCOUNT_DEFAULT_ALIAS)
+            username=usernam).first().switch_db(settings.ACCOUNT_DEFAULT_ALIAS)
+
+        marketplace_domain = request.base_url.hostname.split(".")[0]
+        upload_path = os.path.join(
+            settings.MEDIA_UPLOAD_LOCATION, marketplace_domain, "users", instance.id)
+        print("hello here")
+        if "profile_picture" in update_data:
+            if not await upload_file(profile_picture, upload_path, settings.ALLOWED_IMAGE_TYPES, settings.FILE_SERVICE):
+                raise HTTPException(detail="file could not be uploaded",
+                                    status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+            update_data["profile_picture"] = upload_path
+
         instance.update(**update_data)
         updated_instance = UserModel.objects.filter(
             **update_data).first().switch_db(settings.ACCOUNT_DEFAULT_ALIAS)

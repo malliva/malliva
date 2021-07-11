@@ -133,3 +133,4 @@ dmypy.json
 malliva/environments/production_settings
 
 media/
+uploads/

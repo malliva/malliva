@@ -31,13 +31,12 @@ async def authenticate_user(request: Request, user: UserLogin):
 
             instance = jsonable_encoder(User(**instance))
             response = JSONResponse(
-                content=instance, status_code=status.HTTP_202_ACCEPTED)
+                content={"user": instance, "jwt": token}, status_code=status.HTTP_202_ACCEPTED)
             response.set_cookie(key="jwt", value=token, httponly=True)
 
             await accounts_db_connection_instance.end_db_connection()
             return response
         else:
-            print("here i am")
             raise HTTPException(detail="User cannot login. Email or password not correct.",
                                 status_code=status.HTTP_400_BAD_REQUEST)
     except:

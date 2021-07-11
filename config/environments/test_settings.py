@@ -83,7 +83,7 @@ class Settings(BaseSettings):
         return v
 
     EMAIL_RESET_TOKEN_EXPIRE_HOURS: int = 48
-    EMAIL_TEMPLATES_DIR: str = "/app/app/email-templates/build"
+    EMAIL_TEMPLATES_DIR: str = "/email-templates/build"
     EMAILS_ENABLED: bool = False
 
     @validator("EMAILS_ENABLED", pre=True)
@@ -99,15 +99,17 @@ class Settings(BaseSettings):
     FIRST_SUPERUSER_PASSWORD: str = "pbkdf2_sha256$180000$RsvlpMaQUfMK$SLL4KY5ispX8aX2qzO8TcOqOPiLPvRF+5300cGVa8iQ="
     USERS_OPEN_REGISTRATION: bool = False
 
-    ALLOWED_IMAGE_TYPES: list = ['gif', 'jpg', 'png']
+    ALLOWED_IMAGE_TYPES: list = ['image/jpeg', 'image/png', 'image/gif']
 
-    ALLOWED_FILE_TYPES: list = ['pdf', 'doc', 'docx', 'gif', 'jpg', 'png']
+    ALLOWED_FILE_TYPES: list = ['application/pdf']
 
     SESSION_TOKEN_ALGORITHM: str = "HS256"
 
     PASSWORD_HASHING_ALGORITHM: str = "bcrypt"
 
     MEDIA_UPLOAD_LOCATION: DirectoryPath = os.path.join(BASE_DIR, "uploads")
+
+    FILE_SERVICE: str = "local"
 
 
 settings = Settings()

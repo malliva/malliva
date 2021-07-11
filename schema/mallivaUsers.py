@@ -19,8 +19,11 @@ class UserRegister(UserLogin):
                                                       description="Users will not be able to continue after signing up if they do not accept our terms of service")
 
 
-class User(UserRegister):
+class UserUpdate(UserRegister):
     is_active: Optional[bool] = True
     is_superuser: Optional[bool] = False
     is_deleted: Optional[bool] = False
-    profile_picture: Optional[FilePath] = None
+
+
+class User(UserUpdate):
+    profile_picture: Optional[str] = None

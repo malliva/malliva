@@ -3,6 +3,7 @@
 # from django.conf import settings
 
 import re
+import logging
 from mongoengine import (
     connect,
     register_connection,
@@ -10,9 +11,11 @@ from mongoengine import (
     disconnect,
     disconnect_all,
 )
-from pymongo import database
 
 from config.config_loader import settings
+
+logging.basicConfig(level=settings.LOG_LEVEL)
+logger = logging.getLogger(__name__)
 
 
 class connect_to_database():
@@ -23,7 +26,7 @@ class connect_to_database():
         self.host = settings.PLATFORM_DB_HOST
         self.username = settings.DB_USERNAME
         self.password = settings.DB_PASSWORD
-        print("database connection instance created successfully")
+        logger.info("database connection instance created successfully")
 
     async def initiate_db_connection(self):
         connect(
@@ -33,7 +36,7 @@ class connect_to_database():
             username=self.username,
             password=self.password,
         )
-        print("database connection started successfully")
+        logger.info("database connection started successfully")
 
     async def register_new_db_connection(self, current_db):
         await self.reset_class_variables(current_db)
@@ -44,7 +47,7 @@ class connect_to_database():
             username=self.username,
             password=self.password
         )
-        print("new database connection started successfully")
+        logger.info("new database connection started successfully")
 
     async def switch_database(self, model_class, new_database):
         await self.reset_class_variables(new_database)
@@ -57,7 +60,7 @@ class connect_to_database():
         disconnect(
             alias=self.alias
         )
-        print("database connection ended successfully")
+        logger.info("database connection ended successfully")
 
     async def reset_class_variables(self, current_db):
         self.database = current_db

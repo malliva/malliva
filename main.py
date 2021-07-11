@@ -1,11 +1,13 @@
 from fastapi import FastAPI
-import jwt
 from mongoengine.connection import disconnect_all
 from starlette.middleware.cors import CORSMiddleware
 from config.config_loader import settings
 from dbConnectionManager.db_session import platform_db_connection_instance, accounts_db_connection_instance
 from routers.all_routes import malliva_routers, sub_malliva_routers
-from routers import index_routes, sitewide_seo
+import logging
+
+logging.basicConfig(level=settings.LOG_LEVEL)
+logger = logging.getLogger(__name__)
 
 # initialize FastAPI
 
@@ -32,7 +34,7 @@ malliva_api.middleware("http")
 
 @ malliva_api.on_event("startup")
 async def startup():
-    print("start up tasks running")
+    logger.info("start up tasks running")
     # initiallize database connection settings
     await platform_db_connection_instance.initiate_db_connection()
     await accounts_db_connection_instance.initiate_db_connection()

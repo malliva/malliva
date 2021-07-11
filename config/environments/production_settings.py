@@ -4,24 +4,19 @@ Settings for malliva project
 
 # from config.locale.alllanguages import LANGUAGE_OPTIONS, LANGUAGE_BIDI_OPTIONS
 
+import logging
 import os
 import secrets
 from typing import Any, Dict, List, Optional, Union
 from pydantic import AnyHttpUrl, BaseSettings, EmailStr, HttpUrl, validator
 from pydantic.types import DirectoryPath
 from pathlib import Path
+from .global_settings import Settings
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
-class Settings(BaseSettings):
-
-    PROJECT_NAME: str = "Malliva Marketplace Platform"
-    ACCOUNT_PROJECT_NAME: str = "Malliva API Backend for Marketplace Accounts"
-    DESCRIPTION: str = "Welcome to the API Backend for Malliva Platform, here are the Available API endpoints you can connect to"
-    ACCOUNT_DESCRIPTION: str = "Welcome to the API Backend for Malliva Marketplace Accounts, here are the Available API endpoints you can connect to"
-
-    API_V1_STR: str = "/api/v1"
+class Settings(Settings):
 
     MALLIVA_DOMAIN: list = ["localhost:8000", "localhost",
                             "127.0.0.1", "127.0.0.1:8000", "malliva.com",
@@ -52,29 +47,10 @@ class Settings(BaseSettings):
             return v
         raise ValueError(v)
 
-    # Database auth details
-
-    DB_USERNAME: str = "mallivay21"
-    DB_PASSWORD: str = "P123Malliva"
-    PLATFORM_DB_PORT: str = "27017"
-    PLATFORM_DB_HOST: str = "malliva33y21_db"
-    PLATFORM_DEFAULT_DB: str = "malliva21_db"
-    PLATFORM_DEFAULT_ALIAS: str = "default"
-
-    ACCOUNT_DEFAULT_ALIAS: str = "mAlLiVa21YcLiEnT"
-
-    SMTP_TLS: bool = True
-    SMTP_PORT: Optional[int] = None
-    SMTP_HOST: Optional[str] = None
-    SMTP_USER: Optional[str] = None
-    SMTP_PASSWORD: Optional[str] = None
-    EMAILS_FROM_EMAIL: Optional[EmailStr] = None
-    EMAILS_FROM_NAME: Optional[str] = None
-
     # remember to deactivate in production
-    OPENAPI_URL: str = "/openapi.json"  # ""
+    OPENAPI_URL: str = ""
 
-    DEBUG: bool = True
+    DEBUG: bool = False
 
     @validator("EMAILS_FROM_NAME")
     def get_project_name(cls, v: Optional[str], values: Dict[str, Any]) -> str:
@@ -83,7 +59,7 @@ class Settings(BaseSettings):
         return v
 
     EMAIL_RESET_TOKEN_EXPIRE_HOURS: int = 48
-    EMAIL_TEMPLATES_DIR: str = "/app/app/email-templates/build"
+    EMAIL_TEMPLATES_DIR: str = "/email-templates/build"
     EMAILS_ENABLED: bool = False
 
     @validator("EMAILS_ENABLED", pre=True)
@@ -94,20 +70,9 @@ class Settings(BaseSettings):
             and values.get("EMAILS_FROM_EMAIL")
         )
 
-    EMAIL_TEST_USER: EmailStr = "test@example.com"  # type: ignore
-    FIRST_SUPERUSER: EmailStr = "min45y@malliva.com"
-    FIRST_SUPERUSER_PASSWORD: str = "pbkdf2_sha256$180000$RsvlpMaQUfMK$SLL4KY5ispX8aX2qzO8TcOqOPiLPvRF+5300cGVa8iQ="
-    USERS_OPEN_REGISTRATION: bool = False
+    FILE_SERVICE: str = "amazon"
 
-    ALLOWED_IMAGE_TYPES: list = ['gif', 'jpg', 'png']
-
-    ALLOWED_FILE_TYPES: list = ['pdf', 'doc', 'docx', 'gif', 'jpg', 'png']
-
-    SESSION_TOKEN_ALGORITHM: str = "HS256"
-
-    PASSWORD_HASHING_ALGORITHM: str = "bcrypt"
-
-    MEDIA_UPLOAD_LOCATION: DirectoryPath = os.path.join(BASE_DIR, "uploads")
+    LOG_LEVEL: int = logging.INFO
 
 
 settings = Settings()
