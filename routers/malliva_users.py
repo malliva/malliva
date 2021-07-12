@@ -28,7 +28,8 @@ async def create_user(user: UserRegister, request: Request):
     user_data = jsonable_encoder(user)
 
     try:
-        user_data["password"] = await get_password_hash(user.password.get_secret_value())
+        user_data["password"] = get_password_hash(
+            user.password.get_secret_value())
     except:
         HTTPException(detail="Password field is required!",
                       status_code=status.HTTP_404_NOT_FOUND)
@@ -227,10 +228,10 @@ async def update_user(request: Request,
 
     try:
         if profile_picture is not None:
-            marketplace_domain = await get_request_source(request)
+            marketplace_domain = get_request_source(request)
             upload_path = marketplace_domain + "/users/" + instance.username
-            if not await upload_file(profile_picture, upload_path,
-                                     settings.ALLOWED_IMAGE_TYPES, settings.FILE_SERVICE):
+            if not upload_file(profile_picture, upload_path,
+                               settings.ALLOWED_IMAGE_TYPES, settings.FILE_SERVICE):
                 raise HTTPException(detail="file could not be uploaded",
                                     status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
