@@ -2,6 +2,7 @@ import json
 import os
 import shutil
 from fastapi import HTTPException, status
+from config.config_loader import settings
 
 
 async def convert_mongo_result_to_dict(data):
@@ -56,6 +57,8 @@ async def upload_file(file, storage_path, allowed_content_type, service):
         raise HTTPException(detail="File type is not allowed",
                             status_code=status.HTTP_406_NOT_ACCEPTABLE)
 
+    storage_path = os.path.join(settings.MEDIA_UPLOAD_LOCATION, storage_path)
+
     try:
         if not os.path.exists(storage_path):
             os.makedirs(storage_path)
@@ -65,3 +68,7 @@ async def upload_file(file, storage_path, allowed_content_type, service):
         return True
     except:
         return False
+
+
+async def get_request_source(request):
+    return request.base_url.hostname.split(".")[0]

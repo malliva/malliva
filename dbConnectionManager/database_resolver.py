@@ -1,6 +1,7 @@
 # This class receives the request, resolve the domain name associated with the request,
 # determines the database and return the database name
 
+from services.python_operations import get_request_source
 from config.config_loader import settings
 from dbConnectionManager.db_session import register_connection
 
@@ -14,8 +15,7 @@ async def get_db_name(request):
 
     global db_name
 
-    current_marketplace = request.base_url.hostname.split(":")[0]
-    current_marketplace = request.base_url.hostname.split(".")[0]
+    current_marketplace = await get_request_source(request)
 
     for domain in settings.MALLIVA_DOMAIN:
         if current_marketplace == domain:
