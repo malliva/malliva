@@ -9,7 +9,7 @@ from models.mallivaUsers import User
 from dbConnectionManager.database_resolver import get_db_name
 
 
-async def generate_access_token(username, subdomain):
+def generate_access_token(username, subdomain):
     payload = {
         "user_username": username,
         "subdomain": subdomain,

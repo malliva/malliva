@@ -5,7 +5,7 @@ from fastapi import HTTPException, status
 from config.config_loader import settings
 
 
-async def convert_mongo_result_to_dict(data):
+def convert_mongo_result_to_dict(data):
     """ 
     convert mongo result to from string json to dict json 
     """
@@ -13,16 +13,16 @@ async def convert_mongo_result_to_dict(data):
 
     if converted_data["created_at"]:
         # created_at = converted_data.pop("created_at")
-        converted_data["created_at"] = await format_mongodate(data.created_at)
+        converted_data["created_at"] = format_mongodate(data.created_at)
 
     if converted_data["updated_at"]:
         # updated_at = converted_data.pop("updated_at")
-        converted_data["updated_at"] = await format_mongodate(data.updated_at)
+        converted_data["updated_at"] = format_mongodate(data.updated_at)
 
     return converted_data
 
 
-async def loop_through_queryset(queryset):
+def loop_through_queryset(queryset):
     """ 
     Handle formating for querysets
     """
@@ -31,13 +31,13 @@ async def loop_through_queryset(queryset):
 
     i = 0
     while i < queryset.count():
-        converted_data[i] = await convert_mongo_result_to_dict(queryset[i])
+        converted_data[i] = convert_mongo_result_to_dict(queryset[i])
         i += 1
 
     return converted_data
 
 
-async def format_mongodate(date_data):
+def format_mongodate(date_data):
     """
     convert mongodate to readable format
     """
@@ -47,7 +47,7 @@ async def format_mongodate(date_data):
     return date_data.isoformat()
 
 
-async def upload_file(file, storage_path, allowed_content_type, service):
+def upload_file(file, storage_path, allowed_content_type, service):
     """ 
     This will handle all file uploads for malliva
     TODO: Remember to create thumbnails of images, resize images and restrict maximum size of uploaded file
@@ -76,4 +76,5 @@ async def upload_file(file, storage_path, allowed_content_type, service):
 def get_request_source(request):
     domain = request.base_url.hostname.split(".")[0]
     domain = domain.split(":")[0]
+    print(domain)
     return domain

@@ -24,10 +24,11 @@ async def authenticate_user(request: Request, user: UserLogin):
         instance = UserModel.objects.filter(
             email=user_data["email"]).first().switch_db(settings.ACCOUNT_DEFAULT_ALIAS)
 
-        instance = await convert_mongo_result_to_dict(instance)
+        instance = convert_mongo_result_to_dict(instance)
 
-        if await verify_password(user.password.get_secret_value(), instance["password"]):
-            token = await generate_access_token(instance["username"], request.base_url.hostname.split(".")[0])
+        if verify_password(user.password.get_secret_value(), instance["password"]):
+            token = generate_access_token(
+                instance["username"], request.base_url.hostname.split(".")[0])
 
             instance = jsonable_encoder(User(**instance))
             response = JSONResponse(

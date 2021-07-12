@@ -22,10 +22,7 @@ async def create_upload_file(request: Request, file: UploadFile = File(...)):
     """
     await authenticate(request)
 
-    # await file.write(os.path.join(
-    #    settings.MEDIA_UPLOAD_LOCATION, "file", file.filename))
-
-    if not await upload_file(file, os.path.join(settings.MEDIA_UPLOAD_LOCATION, "file"), settings.ALLOWED_IMAGE_TYPES, settings.FILE_SERVICE):
+    if not upload_file(file, os.path.join(settings.MEDIA_UPLOAD_LOCATION, "file"), settings.ALLOWED_IMAGE_TYPES, settings.FILE_SERVICE):
         raise HTTPException(detail="file could not be uploaded",
                             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
     return JSONResponse(content="The file " + file.filename + " was uploaded successfully", status_code=status.HTTP_201_CREATED)
