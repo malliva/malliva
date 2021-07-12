@@ -234,7 +234,8 @@ async def update_user(request: Request,
                 raise HTTPException(detail="file could not be uploaded",
                                     status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-            update_data["profile_picture"] = upload_path
+            update_data["profile_picture"] = upload_path + \
+                "/" + profile_picture.filename
     except:
         pass
 
