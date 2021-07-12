@@ -154,7 +154,8 @@ async def update_user_me(request: Request,
     try:
         if profile_picture is not None:
             marketplace_domain = await get_request_source(request)
-            upload_path = marketplace_domain + "/users/" + current_user[0].username
+            upload_path = marketplace_domain + \
+                "/users/" + current_user[0].username
             if not await upload_file(profile_picture, upload_path, settings.ALLOWED_IMAGE_TYPES, settings.FILE_SERVICE):
                 raise HTTPException(detail="file could not be uploaded",
                                     status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -184,7 +185,7 @@ async def update_user_me(request: Request,
 async def update_user(request: Request,
                       user_name: constr(to_lower=True),
                       email: str = Form(None),
-                      username: str = Form(None),
+                      username: constr(to_lower=True) = Form(None),
                       password: SecretStr = Form(None),
                       first_name: str = Form(None),
                       last_name: str = Form(None),
@@ -228,7 +229,8 @@ async def update_user(request: Request,
         if profile_picture is not None:
             marketplace_domain = await get_request_source(request)
             upload_path = marketplace_domain + "/users/" + instance.username
-            if not await upload_file(profile_picture, upload_path, settings.ALLOWED_IMAGE_TYPES, settings.FILE_SERVICE):
+            if not await upload_file(profile_picture, upload_path,
+                                     settings.ALLOWED_IMAGE_TYPES, settings.FILE_SERVICE):
                 raise HTTPException(detail="file could not be uploaded",
                                     status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -247,7 +249,7 @@ async def update_user(request: Request,
         updated_instance = await convert_mongo_result_to_dict(updated_instance)
         updated_instance = jsonable_encoder(User(**updated_instance))
         await accounts_db_connection_instance.end_db_connection()
-        return JSONResponse(content=updated_instance, status_code=status.HTTP_206_PARTIAL_CONTENT)
+        return JSONResponse(content=updated_instance, status_code=status.HTTP_202_ACCEPTED)
     except:
         raise HTTPException(detail="User account for " + username + " could not be updated.",
                             status_code=status.HTTP_304_NOT_MODIFIED)
