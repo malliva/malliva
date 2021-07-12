@@ -48,7 +48,10 @@ async def format_mongodate(date_data):
 
 
 async def upload_file(file, storage_path, allowed_content_type, service):
-
+    """ 
+    This will handle all file uploads for malliva
+    TODO: Remember to create thumbnails of images, resize images and restrict maximum size of uploaded file
+    """
     if service is not "local":
         raise HTTPException(detail="Service is not available yet",
                             status_code=status.HTTP_503_SERVICE_UNAVAILABLE)
