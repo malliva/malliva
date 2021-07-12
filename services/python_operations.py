@@ -73,5 +73,7 @@ async def upload_file(file, storage_path, allowed_content_type, service):
         return False
 
 
-async def get_request_source(request):
-    return request.base_url.hostname.split(".")[0]
+def get_request_source(request):
+    domain = request.base_url.hostname.split(":")[0]
+    domain = domain.split(":")[0]
+    return domain

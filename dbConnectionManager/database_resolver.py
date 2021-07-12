@@ -15,7 +15,7 @@ async def get_db_name(request):
 
     global db_name
 
-    current_marketplace = await get_request_source(request)
+    current_marketplace = get_request_source(request)
 
     for domain in settings.MALLIVA_DOMAIN:
         if current_marketplace == domain:

@@ -24,7 +24,7 @@ class Settings(BaseSettings):
     DB_USERNAME: str = "mallivay21"
     DB_PASSWORD: str = "P123Malliva"
     PLATFORM_DB_PORT: str = "27017"
-    PLATFORM_DB_HOST: str = "malliva33y21_db"
+    PLATFORM_DB_HOST: str = "localhost"   # "malliva33y21_db"
     PLATFORM_DEFAULT_DB: str = "malliva21_db"
     PLATFORM_DEFAULT_ALIAS: str = "default"
 

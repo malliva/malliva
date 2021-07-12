@@ -68,7 +68,7 @@ async def read_user_me(request: Request):
 @router.get("/{user_name}", response_model=User)
 async def read_user(user_name: constr(to_lower=True), request: Request):
 
-    await get_db_name(request)
+    get_db_name(request)
 
     try:
         instance = UserModel.objects.filter(username=user_name).first().switch_db(
@@ -153,7 +153,7 @@ async def update_user_me(request: Request,
 
     try:
         if profile_picture is not None:
-            marketplace_domain = await get_request_source(request)
+            marketplace_domain = get_request_source(request)
             upload_path = marketplace_domain + \
                 "/users/" + current_user[0].username
             if not await upload_file(profile_picture, upload_path, settings.ALLOWED_IMAGE_TYPES, settings.FILE_SERVICE):
@@ -206,7 +206,7 @@ async def update_user(request: Request,
                       is_deleted=is_deleted,
                       terms_of_service_accepted=terms_of_service_accepted)
 
-    await get_db_name(request)
+    await authenticate(request)
 
     update_data = user.dict(exclude_unset=True, exclude_none=True)
     update_data = jsonable_encoder(update_data)
