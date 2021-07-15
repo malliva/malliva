@@ -26,8 +26,7 @@ if settings.BACKEND_CORS_ORIGINS:
                        for origin in settings.BACKEND_CORS_ORIGINS],
         allow_credentials=True,
         allow_methods=["*"],
-        allow_headers=["*"],
-        expose_headers=['jwt', 'Origin', 'Access-Control-Request-Method'])
+        allow_headers=["*"])
 
 malliva_api.middleware("http")
 

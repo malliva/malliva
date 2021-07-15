@@ -2,9 +2,10 @@ import logging
 import os
 from pathlib import Path
 from pydantic.env_settings import BaseSettings
+from pydantic.networks import AnyHttpUrl
 from pydantic.types import DirectoryPath
 from pydantic import EmailStr
-from typing import Optional
+from typing import List, Optional
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -24,7 +25,7 @@ class Settings(BaseSettings):
     DB_USERNAME: str = "mallivay21"
     DB_PASSWORD: str = "P123Malliva"
     PLATFORM_DB_PORT: str = "27017"
-    PLATFORM_DB_HOST: str = "localhost"   # "malliva33y21_db"
+    PLATFORM_DB_HOST: str = "malliva33y21_db"  # "localhost"
     PLATFORM_DEFAULT_DB: str = "malliva21_db"
     PLATFORM_DEFAULT_ALIAS: str = "default"
 
@@ -54,3 +55,14 @@ class Settings(BaseSettings):
     MEDIA_UPLOAD_LOCATION: DirectoryPath = os.path.join(BASE_DIR, "uploads")
 
     FILE_SERVICE: str = "local"
+
+    # 60 minutes * 24 hours * 8 days = 8 days
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8
+    SERVER_NAME: Optional[str]
+    SERVER_HOST: Optional[AnyHttpUrl]
+    # BACKEND_CORS_ORIGINS is a JSON-formatted list of origins
+    # e.g: '["http://localhost", "http://localhost:4200", "http://localhost:3000", \
+    # "http://localhost:8080", "http://local.dockertoolbox.tiangolo.com"]'
+
+    BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = [
+        'http://malliva.com', 'http://localhost:4200', 'http://localhost', 'http://localhost:3000']
