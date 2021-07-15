@@ -19,11 +19,13 @@ malliva_api = FastAPI(title=settings.PROJECT_NAME,  # root_path=settings.API_V1_
 
 # Set all CORS enabled origins
 if settings.BACKEND_CORS_ORIGINS:
+    print("Cors settings loaded")
     malliva_api.add_middleware(
         CORSMiddleware,
         # allow_origin_regex=settings.BACKEND_CORS_ORIGINS_REGEX,
-        allow_origins=[str(origin)
-                       for origin in settings.BACKEND_CORS_ORIGINS],
+        allow_origins=['*'],
+        # [str(origin)
+        #               for origin in settings.BACKEND_CORS_ORIGINS],
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"])
