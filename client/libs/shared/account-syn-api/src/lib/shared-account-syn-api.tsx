@@ -14,7 +14,7 @@ export interface SignUpState {
   username: string;
   email: string;
   password: string;
-  password_confirm: string;
+  // password_confirm: string;
   terms_of_service_accepted: boolean;
 }
 
@@ -66,11 +66,15 @@ export const getSingInUser = createAsyncThunk(
 
 export const getRegisteredUsers = createAsyncThunk(
   'malliva/users',
-  async (payload, thunkApi) => {
+  async (payload: any, thunkApi) => {
     try {
-      const response = await axios.get(API_URL + 'api/v1/users', {
-        headers: { 'Content-Type': 'application/json' },
+      const formData = JSON.stringify({ jwt: payload.jwt });
+
+      let response = null;
+      response = await axios.get(API_URL + 'api/v1/users/', {
+        headers: { Authorization: `Bearer ${formData}` },
       });
+
       const data = await response.data;
       return { data };
     } catch (error) {
@@ -78,3 +82,25 @@ export const getRegisteredUsers = createAsyncThunk(
     }
   }
 );
+
+export const setCookieForUsersPageTheme = (key, name, value) => {
+  if (key === 'edit') {
+    document.cookie + '=' + value;
+  }
+  if (document.cookie[name] === undefined && key == 'create') {
+    document.cookie = name + '=' + value;
+  }
+};
+
+export const getCookieForUsersPageTheme = (name) => {
+  const nameEQ = name + '=';
+  const ca = document.cookie.split(';');
+
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+  }
+
+  return null;
+};

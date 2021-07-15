@@ -1,4 +1,7 @@
-import { getSingInUser } from '@client/shared/account-syn-api';
+import {
+  getSingInUser,
+  setCookieForUsersPageTheme,
+} from '@client/shared/account-syn-api';
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -7,7 +10,6 @@ import { MarketAppToast } from 'libs/market-app/toast/src/index';
 
 import './market-app-sign-in.module.scss';
 import { selectSignInStateLoaded } from './market-app-sign-in.slice';
-import { useCookies } from 'react-cookie';
 
 /* eslint-disable-next-line */
 export interface MarketAppSignInProps {}
@@ -16,7 +18,6 @@ export function MarketAppSignIn(props: MarketAppSignInProps) {
   const dispatch = useDispatch();
   const signInDetailsLoaded = useSelector(selectSignInStateLoaded);
   const location = useHistory();
-  const [cookies, setCookie] = useCookies(['user']);
   const [login, setLogin] = useState({
     email: '',
     password: '',
@@ -35,14 +36,14 @@ export function MarketAppSignIn(props: MarketAppSignInProps) {
   useEffect(() => {
     const { loading, response } = signInDetailsLoaded;
     if (loading === 'succeeded') {
-      setCookie('jwt', response.jwt, { path: '/' });
+      setCookieForUsersPageTheme('create', 'jwt', JSON.stringify(response));
       location.push('/');
     } else if (loading === 'failed') {
       const { error } = signInDetailsLoaded;
       setToastMessage({ toast: error, showToast: true });
       location.push('/sign-in');
     }
-  }, [location, setCookie, signInDetailsLoaded]);
+  }, [location, signInDetailsLoaded]);
 
   const handleUserChange = (event) => {
     const name = event.target.name;

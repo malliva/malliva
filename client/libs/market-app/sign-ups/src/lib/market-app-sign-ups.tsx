@@ -34,7 +34,7 @@ export function MarketAppSignUps(props: MarketAppSignUpsProps) {
     username: '',
     email: '',
     password: '',
-    password_confirm: '',
+    //password_confirm: '',
   });
 
   useEffect(() => {
@@ -58,7 +58,7 @@ export function MarketAppSignUps(props: MarketAppSignUpsProps) {
       username: signup.username,
       email: signup.email,
       password: signup.password,
-      password_confirm: signup.password_confirm,
+      // password_confirm: signup.password_confirm,
       terms_of_service_accepted: terms_of_service_accepted,
     };
     dispatch(postSignUpUser(formData));
@@ -201,7 +201,7 @@ export function MarketAppSignUps(props: MarketAppSignUpsProps) {
                     />
                   </div>
                 </div>
-                <div className="space-y-1">
+                {/* <div className="space-y-1">
                   <label
                     htmlFor="password_confirm"
                     className="block text-sm font-medium text-gray-700"
@@ -219,7 +219,7 @@ export function MarketAppSignUps(props: MarketAppSignUpsProps) {
                       className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     />
                   </div>
-                </div>
+                </div> */}
 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center">

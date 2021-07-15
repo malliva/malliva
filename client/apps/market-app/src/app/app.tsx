@@ -28,6 +28,10 @@ const menu = [
 ];
 
 export function App(props: { store: Store }) {
+  useEffect(() => {
+    console.log('test');
+    //check for admin right/privileges
+  }, []);
   return (
     <Provider store={props.store}>
       <BrowserRouter>

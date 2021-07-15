@@ -21,7 +21,10 @@ import { XIcon } from '@heroicons/react/outline';
 import { Fragment, useState } from 'react';
 import { Dialog, Listbox, Menu, Transition } from '@headlessui/react';
 import { useDispatch } from 'react-redux';
-import { getRegisteredUsers } from '@client/shared/account-syn-api';
+import {
+  getCookieForUsersPageTheme,
+  getRegisteredUsers,
+} from '@client/shared/account-syn-api';
 
 const people = [
   { id: 1, name: 'Wade Cooper' },
@@ -95,11 +98,12 @@ export interface MarketAppManageUsersProps {}
 export function MarketAppManageUsers(props: MarketAppManageUsersProps) {
   const dispatch = useDispatch();
   const [selected, setSelected] = useState(people[3]);
-
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
-    dispatch(getRegisteredUsers());
+    const cookie = getCookieForUsersPageTheme('jwt');
+    const parsedJwt = JSON.parse(cookie);
+    dispatch(getRegisteredUsers(parsedJwt));
   }, [dispatch]);
 
   return (
