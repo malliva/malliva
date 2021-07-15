@@ -18,19 +18,20 @@ malliva_api = FastAPI(title=settings.PROJECT_NAME,  # root_path=settings.API_V1_
                       version="1.0")
 
 # Set all CORS enabled origins
-if settings.BACKEND_CORS_ORIGINS:
-    print("Cors settings loaded")
-    malliva_api.add_middleware(
-        CORSMiddleware,
-        # allow_origin_regex=settings.BACKEND_CORS_ORIGINS_REGEX,
-        allow_origins=['*'],
-        # [str(origin)
-        #               for origin in settings.BACKEND_CORS_ORIGINS],
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"])
+origins = [
+    "http://localhost",
+    "http://localhost:4200",
+    "http://localhost:8000",
+    "http://localhost:8080",
+]
 
-malliva_api.middleware("http")
+malliva_api.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @ malliva_api.on_event("startup")
