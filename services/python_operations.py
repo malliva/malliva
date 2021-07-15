@@ -76,5 +76,4 @@ def upload_file(file, storage_path, allowed_content_type, service):
 def get_request_source(request):
     domain = request.base_url.hostname.split(".")[0]
     domain = domain.split(":")[0]
-    print(domain)
     return domain

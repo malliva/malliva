@@ -13,7 +13,7 @@ def generate_access_token(username, subdomain):
     payload = {
         "user_username": username,
         "subdomain": subdomain,
-        "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
+        "exp": datetime.datetime.utcnow() + datetime.timedelta(days=7, minutes=60),
         "iat": datetime.datetime.utcnow(),
     }
 
@@ -24,9 +24,9 @@ async def authenticate(request):
     """ 
     Check if User is logged in
     """
-
     try:
-        token = request.cookies.get("jwt")
+        token = request.cookies.get("jwt") if None else request.headers.get(
+            "jwt")
         if token is None:
             raise HTTPException(detail="User needs to login to access this page.",
                                 status_code=status.HTTP_401_UNAUTHORIZED)
