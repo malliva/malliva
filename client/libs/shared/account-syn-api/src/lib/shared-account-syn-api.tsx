@@ -72,7 +72,7 @@ export const getRegisteredUsers = createAsyncThunk(
 
       let response = null;
       response = await axios.get(API_URL + 'api/v1/users/', {
-        headers: { Authorization: `Bearer ${formData}` },
+        headers: { Authorization: `${formData}` },
       });
 
       const data = await response.data;
