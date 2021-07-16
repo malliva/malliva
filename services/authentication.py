@@ -1,3 +1,6 @@
+import json
+from typing import Dict
+from fastapi.encoders import jsonable_encoder
 import jwt
 import datetime
 from starlette import status
@@ -24,10 +27,12 @@ async def authenticate(request):
     """ 
     Check if User is logged in
     """
-    token = request.cookies.get("jwt") if not None else request.headers.get(
-        "Authorization")
-    print(token)
     try:
+        if request.cookies.get("jwt") is not None:
+            token = request.cookies.get("jwt")
+        else:
+            token = json.loads(request.headers.get(
+                "Authorization"))["jwt"]
 
         if token is None:
             raise HTTPException(detail="User needs to login to access this page.",
