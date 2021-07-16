@@ -24,9 +24,11 @@ async def authenticate(request):
     """ 
     Check if User is logged in
     """
+    token = request.cookies.get("jwt") if not None else request.headers.get(
+        "Authorization")
+    print(token)
     try:
-        token = request.cookies.get("jwt") if None else request.headers.get(
-            "jwt")
+
         if token is None:
             raise HTTPException(detail="User needs to login to access this page.",
                                 status_code=status.HTTP_401_UNAUTHORIZED)
