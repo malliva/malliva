@@ -1,10 +1,7 @@
 import json
-from typing import Dict
-from fastapi.encoders import jsonable_encoder
 import jwt
 import datetime
 from starlette import status
-
 from starlette.responses import JSONResponse
 from config.config_loader import settings
 from fastapi import HTTPException
