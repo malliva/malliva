@@ -60,7 +60,7 @@ async def read_user_me(request: Request):
         current_user = convert_mongo_result_to_dict(current_user[0])
         current_user = jsonable_encoder(User(**current_user))
         await accounts_db_connection_instance.end_db_connection()
-        return JSONResponse(content=current_user, status_code=status.HTTP_302_FOUND)
+        return JSONResponse(content=current_user, status_code=status.HTTP_200_OK)
     except:
         raise HTTPException(detail="This user could not be found",
                             status_code=status.HTTP_404_NOT_FOUND)
@@ -82,7 +82,7 @@ async def read_user(user_name: constr(to_lower=True), request: Request):
         instance = convert_mongo_result_to_dict(instance)
         instance = jsonable_encoder(User(**instance))
         await accounts_db_connection_instance.end_db_connection()
-        return JSONResponse(content=instance, status_code=status.HTTP_302_FOUND)
+        return JSONResponse(content=instance, status_code=status.HTTP_200_OK)
     except:
         raise HTTPException(detail="User with username: " + user_name + " could not be found",
                             status_code=status.HTTP_404_NOT_FOUND)
@@ -103,7 +103,7 @@ async def read_users(request: Request):
             settings.ACCOUNT_DEFAULT_ALIAS)
         queryset = loop_through_queryset(queryset)
         await accounts_db_connection_instance.end_db_connection()
-        return JSONResponse(content=queryset, status_code=status.HTTP_302_FOUND)
+        return JSONResponse(content=queryset, status_code=status.HTTP_200_OK)
     except:
         raise HTTPException(detail="No user found",
                             status_code=status.HTTP_404_NOT_FOUND)
@@ -176,7 +176,7 @@ async def update_user_me(request: Request,
         updated_instance = convert_mongo_result_to_dict(updated_instance)
         updated_instance = jsonable_encoder(User(**updated_instance))
         await accounts_db_connection_instance.end_db_connection()
-        return JSONResponse(content=updated_instance, status_code=status.HTTP_206_PARTIAL_CONTENT)
+        return JSONResponse(content=updated_instance, status_code=status.HTTP_200_OK)
     except:
         raise HTTPException(detail="User account for " + current_user[0].username + " could not be updated.",
                             status_code=status.HTTP_304_NOT_MODIFIED)
@@ -251,7 +251,7 @@ async def update_user(request: Request,
         updated_instance = convert_mongo_result_to_dict(updated_instance)
         updated_instance = jsonable_encoder(User(**updated_instance))
         await accounts_db_connection_instance.end_db_connection()
-        return JSONResponse(content=updated_instance, status_code=status.HTTP_202_ACCEPTED)
+        return JSONResponse(content=updated_instance, status_code=status.HTTP_200_OK)
     except:
         raise HTTPException(detail="User account for " + username + " could not be updated.",
                             status_code=status.HTTP_304_NOT_MODIFIED)
@@ -264,7 +264,7 @@ async def delete_user_me(request: Request):
 
     try:
         current_user[0].delete()
-        return JSONResponse(content="The User with username: " + current_user[0].username + " was deleted successfully", status_code=status.HTTP_410_GONE)
+        return JSONResponse(content="The User with username: " + current_user[0].username + " was deleted successfully", status_code=status.HTTP_200_OK)
     except:
         raise HTTPException(detail="Your user account could not be deleted.",
                             status_code=status.HTTP_400_BAD_REQUEST)
@@ -286,7 +286,7 @@ async def delete_user(user_name: constr(to_lower=True), request: Request):
     try:
         instance.delete()
         await accounts_db_connection_instance.end_db_connection()
-        return JSONResponse(content="The User with username: " + user_name + " was deleted successfully", status_code=status.HTTP_410_GONE)
+        return JSONResponse(content="The User with username: " + user_name + " was deleted successfully", status_code=status.HTTP_200_OK)
     except:
         raise HTTPException(detail="User account for " + user_name + " could not be deleted.",
                             status_code=status.HTTP_400_BAD_REQUEST)
@@ -296,4 +296,4 @@ async def delete_user(user_name: constr(to_lower=True), request: Request):
 @ router.delete("/")
 async def delete_users(request: Request):
     current_user = await authenticate(request)
-    return JSONResponse(content="This route has not been setup yet, check back later", status_code=status.HTTP_306_RESERVED)
+    return JSONResponse(content="This route has not been setup yet, check back later", status_code=status.HTTP_200_OK)
