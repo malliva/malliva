@@ -1,42 +1,102 @@
-from fastapi import APIRouter
+import json
+from config.config_loader import settings
+from fastapi import APIRouter, Request, HTTPException, status
+from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
-from pydantic.networks import EmailStr
 from schema.listings import Listing
+from models.listings import Listing as ListingModel, ListingImage
+from services.authentication import authenticate
+from services.python_operations import convert_mongo_result_to_dict, loop_through_queryset
+from dbConnectionManager.db_session import accounts_db_connection_instance
 
 router = APIRouter()
 
 
-@router.post("/")
-async def create_listing(listing: Listing):
-    return listing
+@router.post("/", response_model=Listing)
+async def create_listing(listing: Listing, request: Request):
+    current_user = await authenticate(request)
 
+    listing = jsonable_encoder(listing)
 
-@router.get("/{listing_id}", tags=["listings"])
-async def read_listing(listing_id: str):
-    return {"listing_id": listing_id}
+    try:
+        instance = ListingModel(
+            **listing).switch_db(settings.ACCOUNT_DEFAULT_ALIAS)
+    except:
+        raise HTTPException(detail="Marketplace database does not exist, please use the right marketplace address.",
+                            status_code=status.HTTP_503_SERVICE_UNAVAILABLE)
+
+    try:
+        instance.save()
+        instance = convert_mongo_result_to_dict(instance)
+        instance = jsonable_encoder(Listing(**instance))
+        await accounts_db_connection_instance.end_db_connection()
+        return JSONResponse(content=instance, status_code=status.HTTP_201_CREATED)
+    except:
+        raise HTTPException(detail="Listing could not be created",
+                            status_code=status.HTTP_501_NOT_IMPLEMENTED)
 
 
 # List all listings in the database
-@router.get("/", response_model=Listing)  # List[listing])
-def read_listings(
-    # db: Session = Depends(deps.get_db),
-    # skip: int = 0,
-    # limit: int = 100,
-    listings: Listing
-    # current_listing: models.listing = Depends(deps.get_current_active_superlisting),
-):  # -> Any:
+@router.get("/", response_model=Listing)
+async def read_listings(request: Request):
     """
     Retrieve listings.
     """
-    # listings = crud.listing.get_multi(skip=skip, limit=limit)
-    return listings
+    current_user = await authenticate(request)
+
+    try:
+        queryset = ListingModel.objects.all().using(
+            settings.ACCOUNT_DEFAULT_ALIAS)
+        queryset = loop_through_queryset(queryset)
+        await accounts_db_connection_instance.end_db_connection()
+        return JSONResponse(content=queryset, status_code=status.HTTP_200_OK)
+    except:
+        raise HTTPException(detail="No listing found",
+                            status_code=status.HTTP_404_NOT_FOUND)
 
 
-@router.put("/{listing_id}")
-async def update_listing():
-    return [{"listing_id": listing_id}, {"listing_id": listing_id}]
+@router.get("/{listing_id}", response_model=Listing)
+async def read_listing(listing_id: str, request: Request):
+    current_user = await authenticate(request)
+
+    try:
+        instance = ListingModel.objects.filter(id=listing_id).first().switch_db(
+            settings.ACCOUNT_DEFAULT_ALIAS)
+    except:
+        raise HTTPException(detail="Marketplace database does not exist, please use the right marketplace address.",
+                            status_code=status.HTTP_503_SERVICE_UNAVAILABLE)
+
+    try:
+        instance = convert_mongo_result_to_dict(instance)
+        instance = jsonable_encoder(Listing(**instance))
+        await accounts_db_connection_instance.end_db_connection()
+        return JSONResponse(content=instance, status_code=status.HTTP_200_OK)
+    except:
+        raise HTTPException(detail="Listing could not be found",
+                            status_code=status.HTTP_404_NOT_FOUND)
+
+
+@router.put("/{listing_id}", response_model=Listing)
+async def update_listing(listing_id: str, request: Request):
+    current_user = await authenticate(request)
+    return {"listing_id": listing_id}
 
 
 @router.delete("/{listing_id}")
-async def delete_listing():
-    return [{"listing_id": listing_id}, {"listing_id": listing_id}]
+async def delete_listing(listing_id: str, request: Request):
+    current_user = await authenticate(request)
+
+    try:
+        instance = ListingModel.objects.filter(id=listing_id).first().switch_db(
+            settings.ACCOUNT_DEFAULT_ALIAS)
+    except:
+        raise HTTPException(detail="Marketplace database does not exist, please use the right marketplace address.",
+                            status_code=status.HTTP_503_SERVICE_UNAVAILABLE)
+
+    try:
+        instance.delete()
+        await accounts_db_connection_instance.end_db_connection()
+        return JSONResponse(content="The listing was deleted successfully", status_code=status.HTTP_200_OK)
+    except:
+        raise HTTPException(detail="Listing could not be deleted.",
+                            status_code=status.HTTP_400_BAD_REQUEST)

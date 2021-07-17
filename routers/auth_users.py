@@ -2,8 +2,8 @@ from fastapi import APIRouter, HTTPException, Request, status
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from starlette.requests import Request
-from schema.mallivaUsers import User, UserLogin
-from models.mallivaUsers import User as UserModel
+from schema.malliva_users import User, UserLogin
+from models.malliva_users import User as UserModel
 from services.authentication import generate_access_token, authenticate
 from security.authentication import verify_password, get_password_hash
 from dbConnectionManager.database_resolver import get_db_name

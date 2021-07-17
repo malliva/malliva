@@ -5,7 +5,7 @@ from starlette import status
 from starlette.responses import JSONResponse
 from config.config_loader import settings
 from fastapi import HTTPException
-from models.mallivaUsers import User
+from models.malliva_users import User
 from dbConnectionManager.database_resolver import get_db_name
 
 

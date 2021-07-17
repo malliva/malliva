@@ -6,8 +6,8 @@ from fastapi import APIRouter, Request, status, HTTPException, File, UploadFile
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from pydantic.types import SecretStr, constr
-from schema.mallivaUsers import User, UserRegister, UserUpdate
-from models.mallivaUsers import User as UserModel
+from schema.malliva_users import User, UserRegister, UserUpdate
+from models.malliva_users import User as UserModel
 from dbConnectionManager.database_resolver import get_db_name
 from dbConnectionManager.db_session import accounts_db_connection_instance
 from config.config_loader import settings
@@ -69,7 +69,7 @@ async def read_user_me(request: Request):
 @router.get("/{user_name}", response_model=User)
 async def read_user(user_name: constr(to_lower=True), request: Request):
 
-    get_db_name(request)
+    current_user = await authenticate(request)
 
     try:
         instance = UserModel.objects.filter(username=user_name).first().switch_db(

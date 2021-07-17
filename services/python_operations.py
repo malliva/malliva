@@ -1,13 +1,15 @@
 import json
+from schema.malliva_users import User
 import os
 import shutil
 from fastapi import HTTPException, status
+from fastapi.encoders import jsonable_encoder
 from config.config_loader import settings
 
 
 def convert_mongo_result_to_dict(data):
-    """ 
-    convert mongo result to from string json to dict json 
+    """
+    convert mongo result to from string json to dict json
     """
     converted_data = json.loads(data.to_json())
 
@@ -23,7 +25,7 @@ def convert_mongo_result_to_dict(data):
 
 
 def loop_through_queryset(queryset):
-    """ 
+    """
     Handle formating for querysets
     """
 
@@ -32,6 +34,7 @@ def loop_through_queryset(queryset):
     i = 0
     while i < queryset.count():
         converted_data[i] = convert_mongo_result_to_dict(queryset[i])
+        converted_data[i] = jsonable_encoder(User(**converted_data[i]))
         i += 1
 
     return converted_data
@@ -48,11 +51,11 @@ def format_mongodate(date_data):
 
 
 def upload_file(file, storage_path, allowed_content_type, service):
-    """ 
+    """
     This will handle all file uploads for malliva
     TODO: Remember to create thumbnails of images, resize images and restrict maximum size of uploaded file
     """
-    if service is not "local":
+    if service != "local":
         raise HTTPException(detail="Service is not available yet",
                             status_code=status.HTTP_503_SERVICE_UNAVAILABLE)
 

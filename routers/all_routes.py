@@ -10,7 +10,8 @@ from routers import (malliva_users,
                      custom_fields,
                      transactions,
                      marketplace_settings,
-                     categories
+                     categories,
+                     reviews_ratings
                      )
 
 
@@ -28,8 +29,7 @@ malliva_routers.include_router(
 malliva_routers.include_router(
     malliva_users.router, prefix="/users", tags=["users"])
 malliva_routers.include_router(
-    malliva_accounts.router, prefix="/marketplaces", tags=["marketplace accounts"])
-
+    marketplace_settings.router, prefix="/marketplaces", tags=["marketplace accounts"])
 # Media routes
 malliva_routers.include_router(
     media_routes.router, prefix="/media", tags=["uploads"])
@@ -49,8 +49,16 @@ sub_malliva_routers.include_router(
     malliva_users.router, prefix="/users", tags=["users"])
 sub_malliva_routers.include_router(
     listings.router, prefix="/listings", tags=["listings"])
-malliva_routers.include_router(
+sub_malliva_routers.include_router(
+    categories.router, prefix="/categories", tags=["categories"])
+sub_malliva_routers.include_router(
     custom_fields.router, prefix="/custom_fields", tags=["custom fields"])
+sub_malliva_routers.include_router(
+    reviews_ratings.router, prefix="/reviews", tags=["Reviews and ratings"])
+sub_malliva_routers.include_router(
+    transactions.router, prefix="/transactions", tags=["transactions"])
+sub_malliva_routers.include_router(
+    custom_codes.router, prefix="/custom_codes", tags=["Custom codes"])
 
 # Media routes
 sub_malliva_routers.include_router(
