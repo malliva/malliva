@@ -1,26 +1,23 @@
-from django.db import models
-from django.contrib.auth import get_user_model
-from django.db.models.deletion import DO_NOTHING, SET_DEFAULT
+from .malliva_users import User
+from .listings import Listing, ListingImage
+from mongoengine import fields
+from mongoengine.document import Document
+from mongoengine.queryset.base import DO_NOTHING
+from .payment_gateways import PaymentGateway
 
-User = get_user_model()
 
-# Create your models here.
-
-
-class Order(models.Model):
+class Order(Document):
     """
     This model should hand all orders and payments in the marketplace.
 
     TODO: set orders belonging to deleted user to "deleted user"
     """
 
-    id = models.BigAutoField(primary_key=True)
-    PaymentGateway = models.ForeignKey(
-        "paymentGateways.PaymentGateway", on_delete=DO_NOTHING
-    )
-    seller = models.ForeignKey(
-        User, on_delete=SET_DEFAULT, default="deleted_user", blank=False
-    )
-    # buyer = models.ForeignKey(
-    #    User, on_delete=SET_DEFAULT, default="deleted_user", blank=False
-    # )
+    id = fields.SequenceField(primary_key=True)
+    PaymentGateway = fields.ReferenceField(
+        PaymentGateway, reverse_delete_rule=DO_NOTHING)
+    listing = fields.ReferenceField(Listing)
+    seller = fields.ReferenceField(
+        User, reverse_delete_rule=DO_NOTHING, default="deleted_user")
+    buyer = fields.LazyReferenceField(
+        User, reverse_delete_rule=DO_NOTHING, default="deleted_user")

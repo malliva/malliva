@@ -1,10 +1,11 @@
-from django.db import models
+from mongoengine import fields
+from mongoengine.document import Document
 
 # Create your models here.
 
 # capture sent emails and templates
 
 
-class Email(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    content = models.CharField(max_length=200)
+class Email(Document):
+    id = fields.SequenceField(primary_key=True)
+    content = fields.StringField(max_length=200)
