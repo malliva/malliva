@@ -9,3 +9,8 @@ from services.python_operations import convert_mongo_result_to_dict, loop_throug
 from dbConnectionManager.db_session import accounts_db_connection_instance
 
 router = APIRouter()
+
+
+@router.post("/", response_model=Category)
+async def create_malliva_accounts():
+    return JSONResponse(content="This is for marketplace accounts", status_code=status.HTTP_200_OK)

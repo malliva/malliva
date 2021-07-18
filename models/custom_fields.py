@@ -1,69 +1,40 @@
-from django.db import models
-from translations.models import Translatable
-from threadlocals.threadlocals import get_request_variable
-from mallivaUsers.models import User
-from listings.models import Listing
+from enum import Enum
+from mongoengine import Document, fields
+from mongoengine.queryset.base import CASCADE
+from .malliva_users import User
+from .listings import Listing
+from schema.custom_fields import CustomFieldType, AssociatedModel
 
 # Create your models here.
 
 
-def field_directory_path(instance, filename):
-    # file will be uploaded to MEDIA_ROOT/domain/<username>/listings/<filename>
-    return "{0}/{1}/{2}".format(
-        get_request_variable("malliva_domain"),
-        "customfields",
-        filename,
-    )
-
-
-class CustomField(Translatable):
+class CustomField(Document):
     """
     This will allow users create new custom fields for User or listing models
     """
 
-    customFieldType = models.TextChoices(
-        "customFieldType", "DROPDOWN TEXT NUMBER LOCATION DATE FILE"
-    )
-
-    # associatedModel = models.TextChoices("associatedModel", "USER LISTING")
-
-    id = models.BigAutoField(primary_key=True)
-    field_name = models.CharField(max_length=200)
-    field_type = models.CharField(
-        max_length=200, choices=customFieldType.choices, blank=False
-    )
-    options = models.CharField(max_length=1000, default="")
-    user_field = models.OneToOneField(
-        User, on_delete=models.CASCADE, null=True)
-    listing_field = models.OneToOneField(
-        Listing, on_delete=models.CASCADE, null=True)
-    is_required = models.BooleanField(default=False)
-    visible = models.BooleanField(
-        default=True, help_text="Is this field visible to the public?"
-    )
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        # return description of field
-        return self.field_name
-
-    class TranslatableMeta:
-
-        fields = ["field_name"]
+    id = fields.SequenceField(primary_key=True)
+    field_name = fields.StringField(max_length=200)
+    field_type = fields.EnumField(
+        CustomFieldType, default=CustomFieldType.TEXT)
+    associated_model = fields.EnumField(AssociatedModel, blank=False)
+    user = fields.ReferenceField(User, on_delete=CASCADE, null=True)
+    listing = fields.ReferenceField(
+        Listing, reverse_delete_rule=CASCADE, null=True)
+    is_required = fields.BooleanField(default=False)
+    visible = fields.BooleanField(default=True)
+    created_at = fields.DateTimeField(auto_now_add=True)
+    updated_at = fields.DateTimeField(auto_now=True)
 
 
-class CustomFieldItem(Translatable):
+class CustomFieldItem(Document):
     """
     This will store the content of every created content fields per user or listing
-    TODO: Remember content may work as a json field better
     """
 
-    id = models.BigAutoField(primary_key=True)
-    custom_field = models.ForeignKey(CustomField, on_delete=models.CASCADE)
-    content = models.CharField(max_length=500)
-    file_upload = models.FileField(upload_to=field_directory_path, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    class TranslatableMeta:
-
-        fields = ["content"]
+    id = fields.SequenceField(primary_key=True)
+    custom_field = fields.ReferenceField(
+        CustomField, reverse_delete_rule=CASCADE)
+    content = fields.DynamicField(max_length=1000, default="")
+    created_at = fields.DateTimeField(auto_now_add=True)
+    updated_at = fields.DateTimeField(auto_now=True)

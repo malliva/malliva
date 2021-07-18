@@ -15,7 +15,7 @@ malliva_api = FastAPI(title=settings.PROJECT_NAME,  # root_path=settings.API_V1_
                       description=settings.DESCRIPTION,
                       openapi_url=f"{settings.API_V1_STR + settings.OPENAPI_URL}",
                       docs_url=f"{settings.API_V1_STR}/docs",
-                      version="1.0")
+                      version="1.0", debug=settings.DEBUG)
 
 
 @ malliva_api.on_event("startup")
@@ -48,7 +48,7 @@ sub_malliva_api = FastAPI(title=settings.ACCOUNT_PROJECT_NAME,
                           description=settings.ACCOUNT_DESCRIPTION,  # root_path=settings.API_V1_STR,
                           openapi_url=f"{settings.API_V1_STR + settings.OPENAPI_URL}",
                           docs_url=f"{settings.API_V1_STR}/docs",
-                          version="1.0")
+                          version="1.0", debug=settings.DEBUG)
 
 
 sub_malliva_api.include_router(sub_malliva_routers, prefix=settings.API_V1_STR)
@@ -62,7 +62,6 @@ if settings.BACKEND_CORS_ORIGINS:
     print("Cors settings loaded")
     malliva_api.add_middleware(
         CORSMiddleware,
-        # allow_origin_regex=settings.BACKEND_CORS_ORIGINS_REGEX,
         allow_origins=[str(origin)
                        for origin in settings.BACKEND_CORS_ORIGINS],
         allow_credentials=True,

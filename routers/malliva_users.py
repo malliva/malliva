@@ -8,6 +8,7 @@ from fastapi.responses import JSONResponse
 from pydantic.types import SecretStr, constr
 from schema.malliva_users import User, UserRegister, UserUpdate
 from models.malliva_users import User as UserModel
+from models.custom_fields import CustomField, CustomFieldItem
 from dbConnectionManager.database_resolver import get_db_name
 from dbConnectionManager.db_session import accounts_db_connection_instance
 from config.config_loader import settings
@@ -52,7 +53,7 @@ async def create_user(user: UserRegister, request: Request):
                             status_code=status.HTTP_501_NOT_IMPLEMENTED)
 
 
-@router.get("/me", tags=["users"])
+@router.get("/me")
 async def read_user_me(request: Request):
     current_user = await authenticate(request)
 

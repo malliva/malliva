@@ -1,6 +1,6 @@
 from mongoengine import Document, fields, queryset, EmbeddedDocument, EmbeddedDocumentListField
 from datetime import datetime
-from models.malliva_users import User
+from .malliva_users import User
 
 
 class ListingImage(EmbeddedDocument):
