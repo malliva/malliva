@@ -20,7 +20,6 @@ import {
 
 import App from './app/app';
 import { configureStore } from '@reduxjs/toolkit';
-import { CookiesProvider } from 'react-cookie';
 
 const logger = (store) => (next) => (action) => {
   console.log('dispatching', action);
@@ -42,9 +41,7 @@ const store = configureStore({
 ReactDOM.render(
   <StrictMode>
     <BrowserRouter>
-      <CookiesProvider>
-        <App store={store} />
-      </CookiesProvider>
+      <App store={store} />
     </BrowserRouter>
   </StrictMode>,
   document.getElementById('root')

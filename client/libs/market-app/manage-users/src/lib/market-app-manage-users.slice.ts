@@ -6,7 +6,7 @@ export const USERS_KEY = 'users';
 
 export const REGISTERED_USER_KEY = 'users';
 
-type REGISTEREDError = any;
+type RegisteredError = any;
 
 const initialRegisteredUserState = {
   response: {},
@@ -33,7 +33,7 @@ export const registeredUserUpSlice = createSlice({
     });
     builder.addCase(
       getRegisteredUsers.rejected,
-      (state, action: PayloadAction<REGISTEREDError>) => {
+      (state, action: PayloadAction<RegisteredError>) => {
         state.error = action.payload.error;
         state.loading = 'failed';
       }
