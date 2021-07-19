@@ -167,7 +167,7 @@ export function MarketAppManageUsers(props: MarketAppManageUsersProps) {
                         static
                         className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
                       >
-                        {people.map((person) => (
+                        {people.map((person, index) => (
                           <Listbox.Option
                             key={person.id}
                             className={({ active }) =>
@@ -367,8 +367,8 @@ export function MarketAppManageUsers(props: MarketAppManageUsersProps) {
                   </div>
                   <ul className="mt-3 border-t border-gray-200 divide-y divide-gray-100">
                     {response.length > 0 &&
-                      response.map((project) => (
-                        <li key={project._id}>
+                      response.map((project, index) => (
+                        <li key={index}>
                           <a
                             href="#"
                             className="group flex items-center justify-between px-4 py-4 hover:bg-gray-50 sm:px-6"
@@ -424,8 +424,8 @@ export function MarketAppManageUsers(props: MarketAppManageUsersProps) {
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-100">
                         {response.length > 0 &&
-                          response.map((project) => (
-                            <tr key={project._id}>
+                          response.map((project, index) => (
+                            <tr key={index}>
                               <td className="px-6 py-3 max-w-0  whitespace-nowrap text-sm font-medium text-gray-900">
                                 <div className="flex items-center space-x-3 lg:pl-2">
                                   <div
