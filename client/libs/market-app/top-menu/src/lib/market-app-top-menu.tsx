@@ -19,7 +19,7 @@ function classNames(...classes) {
 const dropDownTopNavigation = [
   { name: 'Your Profile', link: '#', type: '' },
   { name: 'Settings', link: '#', type: '' },
-  { name: 'Sign out', link: '#', type: '' },
+  { name: 'Sign out', link: 'sign-out', type: '' },
 ];
 
 export function MarketAppTopMenu(props: MarketAppTopMenuProps) {
@@ -137,7 +137,7 @@ export function MarketAppTopMenu(props: MarketAppTopMenuProps) {
                                   <Menu.Item key={index}>
                                     {({ active }) => (
                                       <Link
-                                        to="/"
+                                        to={menuItem.link}
                                         className={classNames(
                                           active ? 'bg-gray-100' : '',
                                           'block px-4 py-2 text-sm text-gray-700'

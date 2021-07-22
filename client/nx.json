@@ -98,6 +98,9 @@
     },
     "market-app-user-rights": {
       "tags": []
+    },
+    "market-app-sign-outs": {
+      "tags": []
     }
   }
 }

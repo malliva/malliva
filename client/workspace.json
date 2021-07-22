@@ -718,6 +718,29 @@
           }
         }
       }
+    },
+    "market-app-sign-outs": {
+      "root": "libs/market-app/sign-outs",
+      "sourceRoot": "libs/market-app/sign-outs/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/market-app/sign-outs/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/market-app/sign-outs"],
+          "options": {
+            "jestConfig": "libs/market-app/sign-outs/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   }
 }

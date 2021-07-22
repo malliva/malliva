@@ -14,9 +14,14 @@ import {
 } from '@client/market-app/sign-ups';
 
 import {
-  registeredUserSliceReducer,
-  REGISTERED_USER_KEY,
+  listUserSliceReducer,
+  LIST_USER_KEY,
 } from '@client/market-app/manage-users';
+
+import {
+  signOutUserSliceReducer,
+  SIGNOUT_USER_KEY,
+} from 'libs/market-app/sign-outs/src/index';
 
 import App from './app/app';
 import { configureStore } from '@reduxjs/toolkit';
@@ -32,7 +37,8 @@ const store = configureStore({
   reducer: {
     [SIGNIN_USER_KEY]: signInSliceReducer,
     [SIGNUP_USER_KEY]: signUpSliceReducer,
-    [REGISTERED_USER_KEY]: registeredUserSliceReducer,
+    [LIST_USER_KEY]: listUserSliceReducer,
+    [SIGNOUT_USER_KEY]: signOutUserSliceReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }).concat(logger),

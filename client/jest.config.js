@@ -24,5 +24,6 @@ module.exports = {
     '<rootDir>/libs/market-app/dashboard/dashboard-menu',
     '<rootDir>/libs/market-app/user-fields',
     '<rootDir>/libs/market-app/user-rights',
+    '<rootDir>/libs/market-app/sign-outs',
   ],
 };

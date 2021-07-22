@@ -64,6 +64,21 @@ export const getSingInUser = createAsyncThunk(
   }
 );
 
+export const postSingOutUser = createAsyncThunk(
+  'malliva/logout',
+  async (payload, thunkApi) => {
+    try {
+      const response = await axios.post(API_URL + 'api/v1/auth/logout', {
+        headers: { 'Content-Type': 'application/json' },
+      });
+      const data = await response.data;
+      return { data };
+    } catch (error) {
+      return thunkApi.rejectWithValue({ error: error.message });
+    }
+  }
+);
+
 export const getRegisteredUsers = createAsyncThunk(
   'malliva/users',
   async (payload: any, thunkApi) => {
@@ -83,16 +98,22 @@ export const getRegisteredUsers = createAsyncThunk(
   }
 );
 
-export const setCookieForUsersPageTheme = (key, name, value) => {
+export const setCookieForUsers = (key, name, value) => {
   if (key === 'edit') {
     document.cookie + '=' + value;
   }
   if (document.cookie[name] === undefined && key == 'create') {
+    //Remove existing cookie for theme.
+    //set the expiration 1 day before the current day/time
+    const date = new Date(Date.now() - 3600 * 1000 * 24);
+    const expires = 'expires=' + date.toUTCString();
+    document.cookie = [name] + '=' + '' + ';path=/;' + expires;
+    //Add a new  cookie for theme.
     document.cookie = name + '=' + value;
   }
 };
 
-export const getCookieForUsersPageTheme = (name) => {
+export const getCookieForUsers = (name) => {
   const nameEQ = name + '=';
   const ca = document.cookie.split(';');
 

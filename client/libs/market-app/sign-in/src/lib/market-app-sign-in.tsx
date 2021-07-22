@@ -1,6 +1,6 @@
 import {
   getSingInUser,
-  setCookieForUsersPageTheme,
+  setCookieForUsers,
 } from '@client/shared/account-syn-api';
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -16,7 +16,8 @@ export interface MarketAppSignInProps {}
 
 export function MarketAppSignIn(props: MarketAppSignInProps) {
   const dispatch = useDispatch();
-  const signInDetailsLoaded = useSelector(selectSignInStateLoaded);
+  const { loading, response, error } = useSelector(selectSignInStateLoaded);
+
   const location = useHistory();
   const [login, setLogin] = useState({
     email: '',
@@ -34,16 +35,14 @@ export function MarketAppSignIn(props: MarketAppSignInProps) {
   };
 
   useEffect(() => {
-    const { loading, response } = signInDetailsLoaded;
     if (loading === 'succeeded') {
-      setCookieForUsersPageTheme('create', 'jwt', JSON.stringify(response));
+      setCookieForUsers('create', 'jwt', JSON.stringify(response));
       location.push('/');
     } else if (loading === 'failed') {
-      const { error } = signInDetailsLoaded;
       setToastMessage({ toast: error, showToast: true });
       location.push('/sign-in');
     }
-  }, [location, signInDetailsLoaded]);
+  }, [error, loading, location, response]);
 
   const handleUserChange = (event) => {
     const name = event.target.name;

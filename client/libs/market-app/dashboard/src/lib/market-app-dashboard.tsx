@@ -16,7 +16,7 @@ export interface MarketAppDashboardProps {}
 export function MarketAppDashboard(props: MarketAppDashboardProps) {
   const userNavigation = [{ name: 'Admin panel', href: '#', type: 'admin' }];
   const { path } = useRouteMatch();
-
+  //Logout not working here yet Fix later
   return (
     <Switch>
       <Route path={`${path}/manage-users`}>

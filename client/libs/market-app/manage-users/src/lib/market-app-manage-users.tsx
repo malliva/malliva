@@ -21,10 +21,10 @@ import { Fragment, useState } from 'react';
 import { Dialog, Listbox, Menu, Transition } from '@headlessui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  getCookieForUsersPageTheme,
+  getCookieForUsers,
   getRegisteredUsers,
 } from '@client/shared/account-syn-api';
-import { selectRegisteredStateStateLoaded } from './market-app-manage-users.slice';
+import { selectListUsersStateStateLoaded } from './market-app-manage-users.slice';
 import moment from 'moment';
 
 const people = [
@@ -50,45 +50,6 @@ const teams = [
   { name: 'Human Resources', href: '#', bgColorClass: 'bg-green-500' },
   { name: 'Customer Success', href: '#', bgColorClass: 'bg-yellow-500' },
 ];
-const projects = [
-  {
-    id: 1,
-    title: 'GraphQL API',
-    initials: 'GA',
-    team: 'Engineering',
-    members: [
-      {
-        name: 'Dries Vincent',
-        handle: 'driesvincent',
-        imageUrl:
-          'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      },
-      {
-        name: 'Lindsay Walton',
-        handle: 'lindsaywalton',
-        imageUrl:
-          'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      },
-      {
-        name: 'Courtney Henry',
-        handle: 'courtneyhenry',
-        imageUrl:
-          'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      },
-      {
-        name: 'Tom Cook',
-        handle: 'tomcook',
-        imageUrl:
-          'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      },
-    ],
-    totalMembers: 12,
-    lastUpdated: 'March 17, 2020',
-    pinned: true,
-    bgColorClass: 'bg-pink-600',
-  },
-  // More projects...
-];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -98,7 +59,7 @@ export interface MarketAppManageUsersProps {}
 
 export function MarketAppManageUsers(props: MarketAppManageUsersProps) {
   const dispatch = useDispatch();
-  const { response } = useSelector(selectRegisteredStateStateLoaded);
+  const { response } = useSelector(selectListUsersStateStateLoaded);
 
   const [selected, setSelected] = useState(people[3]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -109,7 +70,7 @@ export function MarketAppManageUsers(props: MarketAppManageUsersProps) {
   };
 
   useEffect(() => {
-    const cookie = getCookieForUsersPageTheme('jwt');
+    const cookie = getCookieForUsers('jwt');
     const parsedJwt = JSON.parse(cookie);
     dispatch(getRegisteredUsers(parsedJwt));
   }, [dispatch]);
@@ -451,9 +412,20 @@ export function MarketAppManageUsers(props: MarketAppManageUsersProps) {
                               </td>
 
                               <td className="px-6 py-3 max-w-0  whitespace-nowrap text-sm font-medium text-gray-900">
-                                <span>
+                                {/* <span>
                                   {project.is_superuser ? 'True' : 'False'}
-                                </span>
+                                </span> */}
+                                <div className="relative flex items-start">
+                                  <div className="flex items-center h-5">
+                                    <input
+                                      id="comments"
+                                      aria-describedby="comments-description"
+                                      name="comments"
+                                      type="checkbox"
+                                      className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                                    />
+                                  </div>
+                                </div>
                               </td>
 
                               <td className="hidden md:table-cell px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-left">

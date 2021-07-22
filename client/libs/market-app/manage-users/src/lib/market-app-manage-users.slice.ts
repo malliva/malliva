@@ -4,18 +4,18 @@ import { getRegisteredUsers } from '@client/shared/account-syn-api';
 
 export const USERS_KEY = 'users';
 
-export const REGISTERED_USER_KEY = 'users';
+export const LIST_USER_KEY = 'users';
 
-type RegisteredError = any;
+type ListUsersError = any;
 
-const initialRegisteredUserState = {
+const initialListUserState = {
   response: {},
   loading: 'idle',
   error: {},
 };
-export const registeredUserUpSlice = createSlice({
-  name: REGISTERED_USER_KEY,
-  initialState: initialRegisteredUserState,
+export const ListUserSlice = createSlice({
+  name: USERS_KEY,
+  initialState: initialListUserState,
   reducers: {},
   //Thunk actions here
   extraReducers: (builder) => {
@@ -33,7 +33,7 @@ export const registeredUserUpSlice = createSlice({
     });
     builder.addCase(
       getRegisteredUsers.rejected,
-      (state, action: PayloadAction<RegisteredError>) => {
+      (state, action: PayloadAction<ListUsersError>) => {
         state.error = action.payload.error;
         state.loading = 'failed';
       }
@@ -41,12 +41,11 @@ export const registeredUserUpSlice = createSlice({
   },
 });
 // Action creators are generated for each case reducer function
-export const registeredUserSliceReducer = registeredUserUpSlice.reducer;
+export const listUserSliceReducer = ListUserSlice.reducer;
 
-export const getRegisteredUsersState = (stateObj: any) =>
-  stateObj[REGISTERED_USER_KEY];
+export const getListUsersState = (stateObj: any) => stateObj[LIST_USER_KEY];
 
-export const selectRegisteredStateStateLoaded = createSelector(
-  getRegisteredUsersState,
+export const selectListUsersStateStateLoaded = createSelector(
+  getListUsersState,
   (stateObj) => stateObj
 );
