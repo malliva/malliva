@@ -24,17 +24,18 @@ def convert_mongo_result_to_dict(data):
     return converted_data
 
 
-def loop_through_queryset(queryset):
+def loop_through_queryset(Model, queryset):
     """
     Handle formating for querysets
     """
 
     converted_data = json.loads(queryset.to_json())
+    print(Model)
 
     i = 0
     while i < queryset.count():
         converted_data[i] = convert_mongo_result_to_dict(queryset[i])
-        converted_data[i] = jsonable_encoder(User(**converted_data[i]))
+        converted_data[i] = jsonable_encoder(Model(**converted_data[i]))
         i += 1
 
     return converted_data

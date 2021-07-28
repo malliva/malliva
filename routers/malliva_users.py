@@ -102,7 +102,7 @@ async def read_users(request: Request):
     try:
         queryset = UserModel.objects.all().using(
             settings.ACCOUNT_DEFAULT_ALIAS)
-        queryset = loop_through_queryset(queryset)
+        queryset = loop_through_queryset(User, queryset)
         await accounts_db_connection_instance.end_db_connection()
         return JSONResponse(content=queryset, status_code=status.HTTP_200_OK)
     except:
@@ -118,6 +118,7 @@ async def update_user_me(request: Request,
                          first_name: str = Form(None),
                          last_name: str = Form(None),
                          is_active: str = Form(None),
+                         can_post: bool = Form(None),
                          is_superuser: bool = Form(None),
                          is_deleted: bool = Form(None),
                          terms_of_service_accepted: bool = Form(None),
@@ -130,6 +131,7 @@ async def update_user_me(request: Request,
                       username=username,
                       password=password,
                       is_active=is_active,
+                      can_post=can_post,
                       is_superuser=is_superuser,
                       is_deleted=is_deleted,
                       terms_of_service_accepted=terms_of_service_accepted)

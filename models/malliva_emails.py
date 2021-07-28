@@ -1,7 +1,6 @@
 from mongoengine import fields
 from mongoengine.document import Document
 
-# Create your models here.
 
 # capture sent emails and templates
 

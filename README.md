@@ -1,6 +1,8 @@
 # malliva
 Power your marketplace platform
 
+![Home page](https://github.com/malliva/malliva/blob/master/screenshot_home.png)
+
 Run 
 export MALLIVA_ENVIRONMENT='DEVELOPMENT'
 
