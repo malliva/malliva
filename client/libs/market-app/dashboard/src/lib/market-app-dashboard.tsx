@@ -8,45 +8,55 @@ import { MarketAppUserFields } from 'libs/market-app/user-fields/src/index';
 import { MarketAppUserRights } from 'libs/market-app/user-rights/src/index';
 
 import { MarketAppTopMenu } from '@client/market-app/top-menu';
-import { Route, Switch, useRouteMatch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 
 /* eslint-disable-next-line */
 export interface MarketAppDashboardProps {}
 
-export function MarketAppDashboard(props: MarketAppDashboardProps) {
+export function MarketAppDashboard({ match }) {
   const userNavigation = [{ name: 'Admin panel', href: '#', type: 'admin' }];
-  const { path } = useRouteMatch();
-  //Logout not working here yet Fix later
+
   return (
     <Switch>
-      <Route path={`${path}/manage-users`}>
-        <MarketAppTopMenu menu={userNavigation} />
-        <div className="max-w-3xl mx-auto sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:py-10 lg:grid-cols-12 lg:gap-8">
-          <MarketAppDashboardDashboardMenu />
-          <MarketAppManageUsers />
-        </div>
-      </Route>
-      <Route path={`${path}/users-rights`}>
-        <MarketAppTopMenu menu={userNavigation} />
-        <div className="max-w-3xl mx-auto sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:py-10 lg:grid-cols-12 lg:gap-8">
-          <MarketAppDashboardDashboardMenu />
-          <MarketAppUserRights />
-        </div>
-      </Route>
-      <Route path={`${path}/users-fields`}>
-        <MarketAppTopMenu menu={userNavigation} />
-        <div className="max-w-3xl mx-auto sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:py-10 lg:grid-cols-12 lg:gap-8">
-          <MarketAppDashboardDashboardMenu />
-          <MarketAppUserFields />
-        </div>
-      </Route>
-      <Route path={`${path}`}>
-        <MarketAppTopMenu menu={userNavigation} />
+      {match.params.slug === 'manage-users' && (
+        <Route path={`${match.url}`}>
+          <MarketAppTopMenu menu={userNavigation} {...match} />
+          <div className="max-w-3xl mx-auto sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:py-10 lg:grid-cols-12 lg:gap-8">
+            <MarketAppDashboardDashboardMenu />
+            <MarketAppManageUsers />
+          </div>
+        </Route>
+      )}
+      {match.params.slug === 'users-rights' && (
+        <Route path={`${match.url}`}>
+          <MarketAppTopMenu menu={userNavigation} {...match} />
+          <div className="max-w-3xl mx-auto sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:py-10 lg:grid-cols-12 lg:gap-8">
+            <MarketAppDashboardDashboardMenu />
+            <MarketAppUserRights />
+          </div>
+        </Route>
+      )}
+      {match.params.slug === 'users-fields' && (
+        <Route path={`${match.path}`}>
+          <MarketAppTopMenu menu={userNavigation} {...match} />
+          <div className="max-w-3xl mx-auto sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:py-10 lg:grid-cols-12 lg:gap-8">
+            <MarketAppDashboardDashboardMenu />
+            <MarketAppUserFields />
+          </div>
+        </Route>
+      )}
+
+      <Route path={`/dashboard/index`}>
+        <MarketAppTopMenu menu={userNavigation} {...match} />
         <div className="max-w-3xl mx-auto sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:py-10 lg:grid-cols-12 lg:gap-8">
           <MarketAppDashboardDashboardMenu />
           <MarketAppDashboardUi />
         </div>
       </Route>
+      {/* Fixes signout in dashboard */}
+      {match.params.slug === 'sign-out' && <Redirect to="/sign-out" />}
+
+      <Redirect to="/index" />
     </Switch>
   );
 }

@@ -1,7 +1,7 @@
 import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom';
 import thunk from 'redux-thunk';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, useLocation, useParams } from 'react-router-dom';
 
 import {
   signInSliceReducer,
@@ -24,7 +24,8 @@ import {
 } from 'libs/market-app/sign-outs/src/index';
 
 import App from './app/app';
-import { configureStore } from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { Provider } from 'react-redux';
 
 const logger = (store) => (next) => (action) => {
   console.log('dispatching', action);
@@ -33,13 +34,22 @@ const logger = (store) => (next) => (action) => {
   return result;
 };
 
+const combinedReducer = combineReducers({
+  [SIGNIN_USER_KEY]: signInSliceReducer,
+  [SIGNUP_USER_KEY]: signUpSliceReducer,
+  [LIST_USER_KEY]: listUserSliceReducer,
+  [SIGNOUT_USER_KEY]: signOutUserSliceReducer,
+});
+
+const rootReducer = (state, action) => {
+  if (action.type === 'malliva/logout/fulfilled') {
+    state = undefined;
+  }
+  return combinedReducer(state, action);
+};
+
 const store = configureStore({
-  reducer: {
-    [SIGNIN_USER_KEY]: signInSliceReducer,
-    [SIGNUP_USER_KEY]: signUpSliceReducer,
-    [LIST_USER_KEY]: listUserSliceReducer,
-    [SIGNOUT_USER_KEY]: signOutUserSliceReducer,
-  },
+  reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }).concat(logger),
 });
@@ -47,7 +57,9 @@ const store = configureStore({
 ReactDOM.render(
   <StrictMode>
     <BrowserRouter>
-      <App store={store} />
+      <Provider store={store}>
+        <App />
+      </Provider>
     </BrowserRouter>
   </StrictMode>,
   document.getElementById('root')

@@ -7,18 +7,26 @@ import {
 } from '@client/shared/account-syn-api';
 
 import './market-app-sign-outs.module.scss';
-import { selectSignOutStateStateLoaded } from './market-app-sign-outs.slice';
+import {
+  logout,
+  selectSignOutStateStateLoaded,
+} from './market-app-sign-outs.slice';
+
+import { Link } from 'react-router-dom';
 
 /* eslint-disable-next-line */
 export interface MarketAppSignOutsProps {}
 
 export function MarketAppSignOuts(props: MarketAppSignOutsProps) {
   const dispatch = useDispatch();
-  const { response, loading } = useSelector(selectSignOutStateStateLoaded);
+  const { loading } = useSelector(selectSignOutStateStateLoaded);
 
-  if (loading === 'succeeded') {
-    setCookieForUsers('create', 'jwt', '');
-  }
+  useEffect(() => {
+    if (loading === 'succeeded') {
+      setCookieForUsers('create', 'jwt', '');
+      dispatch(logout());
+    }
+  }, [dispatch, loading]);
 
   useEffect(() => {
     dispatch(postSingOutUser());
@@ -27,6 +35,7 @@ export function MarketAppSignOuts(props: MarketAppSignOutsProps) {
   return (
     <div className="text-center">
       <h1>Welcome to market-app-sign-outs!</h1>
+      <Link to="/sign-in">Sing in</Link>
     </div>
   );
 }

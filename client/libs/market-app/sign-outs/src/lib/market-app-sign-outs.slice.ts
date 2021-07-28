@@ -16,7 +16,13 @@ const initialSignOutUserState = {
 export const signOutUserUpSlice = createSlice({
   name: SIGNOUT_USER_KEY,
   initialState: initialSignOutUserState,
-  reducers: {},
+  reducers: {
+    logout: (state) => {
+      // From here we can take action only at this state
+      // But, as we have taken care of this particular "logout" action
+      // in rootReducer, we can use it to CLEAR the complete Redux Store's state
+    },
+  },
   //Thunk actions here
   extraReducers: (builder) => {
     builder.addCase(
@@ -49,3 +55,5 @@ export const selectSignOutStateStateLoaded = createSelector(
   signOutUsersState,
   (stateObj) => stateObj
 );
+
+export const { logout } = signOutUserUpSlice.actions;
