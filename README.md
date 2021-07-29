@@ -1,7 +1,20 @@
 # malliva
 Power your marketplace platform
 
+## Screenshots
+
+OpenAPI documentation for RestAPI backend  http://localhost:8000/api/v1/docs
+![OpenAPI](https://github.com/malliva/malliva/blob/master/malliva_api_docs.png)
+
+API endpoint Successful response
+![API endpoint response](https://github.com/malliva/malliva/blob/master/success_response.png)
+
+Home page
 ![Home page](https://github.com/malliva/malliva/blob/master/screenshot_home.png)
+
+## Setup
+
+TODO: To be reorganized
 
 Run 
 export MALLIVA_ENVIRONMENT='DEVELOPMENT'
@@ -16,7 +29,7 @@ FastAPI
 
 docker-compose up -d
 
-# when you want to rebuild image otherwise just run the above
+when you want to rebuild image otherwise just run the above
 docker-compose up -d --build
 
 API end points
