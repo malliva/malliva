@@ -2,11 +2,11 @@ import {
   getSingInUser,
   setCookieForUsers,
 } from '@client/shared/account-syn-api';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import { MarketAppToast } from 'libs/market-app/toast/src/index';
+import { MarketAppToast } from '@client/market-app/toast';
 
 import './market-app-sign-in.module.scss';
 import { selectSignInStateLoaded } from './market-app-sign-in.slice';
@@ -16,6 +16,7 @@ export interface MarketAppSignInProps {}
 
 export function MarketAppSignIn(props: MarketAppSignInProps) {
   const dispatch = useDispatch();
+
   const { loading, response, error } = useSelector(selectSignInStateLoaded);
 
   const location = useHistory();
@@ -24,11 +25,26 @@ export function MarketAppSignIn(props: MarketAppSignInProps) {
     password: '',
   });
 
+  const formElements = [
+    {
+      name: 'email',
+      label: 'Email address',
+      type: 'email',
+    },
+    {
+      name: 'password',
+      label: 'Password',
+      type: 'password',
+    },
+  ];
+  const formRefs = useRef([]);
+
   const [toastMessage, setToastMessage] = useState({
     toast: [],
     showToast: false,
   });
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleUserLogin = (event) => {
     event.preventDefault();
     dispatch(getSingInUser(login));
@@ -44,6 +60,35 @@ export function MarketAppSignIn(props: MarketAppSignInProps) {
     }
   }, [error, loading, location, response]);
 
+  useEffect(() => {
+    const listener = (event) => {
+      if (event.code === 'Enter' || event.code === 'NumpadEnter') {
+        event.preventDefault();
+
+        const interval = setInterval(() => {
+          if (formRefs.current) {
+            formRefs.current.map((formElement) => {
+              const { name, value } = formElement;
+              setLogin((prevalue) => {
+                return {
+                  ...prevalue, // Spread Operator
+                  [name]: value,
+                };
+              });
+              handleUserLogin(event);
+            });
+
+            clearInterval(interval);
+          }
+        }, 100);
+      }
+    };
+    document.addEventListener('keydown', listener);
+    return () => {
+      document.removeEventListener('keydown', listener);
+    };
+  }, [handleUserLogin, login]);
+
   const handleUserChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -55,6 +100,7 @@ export function MarketAppSignIn(props: MarketAppSignInProps) {
       };
     });
   };
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <MarketAppToast message={toastMessage} />
@@ -81,45 +127,32 @@ export function MarketAppSignIn(props: MarketAppSignInProps) {
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form className="space-y-6" action="#" method="POST">
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Email address
-              </label>
-              <div className="mt-1">
-                <input
-                  onChange={handleUserChange}
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Password
-              </label>
-              <div className="mt-1">
-                <input
-                  onChange={handleUserChange}
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-              </div>
-            </div>
+            {formElements.map((item, index) => {
+              return (
+                <div key={index}>
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    {item.label}
+                  </label>
+                  <div className="mt-1">
+                    <input
+                      ref={(element) => {
+                        formRefs.current[index] = element;
+                      }}
+                      onChange={handleUserChange}
+                      id={item.name}
+                      name={item.name}
+                      type={item.type}
+                      autoComplete={item.name}
+                      required
+                      className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    />
+                  </div>
+                </div>
+              );
+            })}
 
             <div className="flex items-center justify-between">
               <div className="flex items-center">
@@ -144,7 +177,7 @@ export function MarketAppSignIn(props: MarketAppSignInProps) {
             <div>
               <button
                 onClick={handleUserLogin}
-                type="button"
+                type="submit"
                 className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 Sign in

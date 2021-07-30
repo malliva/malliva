@@ -49,7 +49,7 @@ export function App(props: MarketAppProps) {
       </Route>
 
       <Route path="/sign-out">
-        <MarketAppTopMenu menu={menu} />
+        {/* <MarketAppTopMenu menu={menu} /> */}
         <MarketAppSignOuts />
       </Route>
 
