@@ -20,11 +20,9 @@ import { XIcon } from '@heroicons/react/outline';
 import { Fragment, useState } from 'react';
 import { Dialog, Listbox, Menu, Transition } from '@headlessui/react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  getCookieForUsers,
-  getRegisteredUsers,
-} from '@client/shared/account-syn-api';
+import { getRegisteredUsers } from '@client/shared/account-syn-api';
 import { selectListUsersStateStateLoaded } from './market-app-manage-users.slice';
+import { selectSignInStateLoaded } from '@client/market-app/sign-in';
 import moment from 'moment';
 
 const people = [
@@ -60,6 +58,7 @@ export interface MarketAppManageUsersProps {}
 export function MarketAppManageUsers(props: MarketAppManageUsersProps) {
   const dispatch = useDispatch();
   const { response } = useSelector(selectListUsersStateStateLoaded);
+  const userAuthToken = useSelector(selectSignInStateLoaded);
 
   const [selected, setSelected] = useState(people[3]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -70,10 +69,10 @@ export function MarketAppManageUsers(props: MarketAppManageUsersProps) {
   };
 
   useEffect(() => {
-    const cookie = getCookieForUsers('jwt');
-    const parsedJwt = JSON.parse(cookie);
-    dispatch(getRegisteredUsers(parsedJwt));
-  }, [dispatch]);
+    const { response } = userAuthToken;
+    const usersJwt = response;
+    dispatch(getRegisteredUsers(usersJwt));
+  }, [dispatch, userAuthToken]);
 
   return (
     <div className="lg:grid grid-cols-12 lg:block lg:col-span-9 xl:col-span-9 lg:gap-8">

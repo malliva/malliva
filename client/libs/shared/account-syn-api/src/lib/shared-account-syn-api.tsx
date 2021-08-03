@@ -97,31 +97,3 @@ export const getRegisteredUsers = createAsyncThunk(
     }
   }
 );
-
-export const setCookieForUsers = (key, name, value) => {
-  if (key === 'edit') {
-    document.cookie + '=' + value;
-  }
-  if (document.cookie[name] === undefined && key == 'create') {
-    //Remove existing cookie for theme.
-    //set the expiration 1 day before the current day/time
-    const date = new Date(Date.now() - 3600 * 1000 * 24);
-    const expires = 'expires=' + date.toUTCString();
-    document.cookie = [name] + '=' + '' + ';path=/;' + expires;
-    //Add a new  cookie for theme.
-    document.cookie = name + '=' + value;
-  }
-};
-
-export const getCookieForUsers = (name) => {
-  const nameEQ = name + '=';
-  const ca = document.cookie.split(';');
-
-  for (let i = 0; i < ca.length; i++) {
-    let c = ca[i];
-    while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-  }
-
-  return null;
-};

@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import styles from './app.module.scss';
-import { Route, Switch, Redirect, useLocation } from 'react-router-dom';
+import {
+  Route,
+  Switch,
+  Redirect,
+  useLocation,
+  useParams,
+} from 'react-router-dom';
 
 import { MarketAppLandingPage } from 'libs/market-app/landing-page/src/index';
 import {
@@ -23,6 +29,10 @@ const menu = [
   { name: 'Invite new members', link: '#', type: '' },
 ];
 
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
+
 /* eslint-disable-next-line */
 export interface MarketAppProps {}
 
@@ -30,10 +40,14 @@ export function App(props: MarketAppProps) {
   const [isLogin, setIsLogin] = useState(false);
   const [routeLink, setRouteLink] = useState('');
   const { response } = useSelector(selectSignInStateLoaded);
+  const location = useLocation();
+  // let query = useQuery();
+
+  //console.log(match);
 
   useEffect(() => {
     //check for admin right/privileges
-    if (Object.entries(response).length > 0) {
+    if (response) {
       setIsLogin(true);
       setRouteLink('/dashboard/index');
     } else {
@@ -44,12 +58,11 @@ export function App(props: MarketAppProps) {
 
   return (
     <Switch>
-      <Route path="/sign-in">
+      <Route path="account/sign-in">
         <MarketAppSignIn />
       </Route>
 
       <Route path="/sign-out">
-        {/* <MarketAppTopMenu menu={menu} /> */}
         <MarketAppSignOuts />
       </Route>
 

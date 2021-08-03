@@ -8,11 +8,7 @@ import {
 } from '@heroicons/react/outline';
 
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  getCookieForUsers,
-  postSingOutUser,
-  setCookieForUsers,
-} from '@client/shared/account-syn-api';
+import { postSingOutUser } from '@client/shared/account-syn-api';
 
 import './market-app-sign-outs.module.scss';
 import {
@@ -117,7 +113,6 @@ export function MarketAppSignOuts(props: MarketAppSignOutsProps) {
 
   useEffect(() => {
     if (loading === 'succeeded') {
-      setCookieForUsers('create', 'jwt', '');
       dispatch(logout());
     }
   }, [dispatch, loading]);

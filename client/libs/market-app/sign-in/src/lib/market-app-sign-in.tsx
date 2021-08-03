@@ -1,7 +1,4 @@
-import {
-  getSingInUser,
-  setCookieForUsers,
-} from '@client/shared/account-syn-api';
+import { getSingInUser } from '@client/shared/account-syn-api';
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -52,7 +49,6 @@ export function MarketAppSignIn(props: MarketAppSignInProps) {
 
   useEffect(() => {
     if (loading === 'succeeded') {
-      setCookieForUsers('create', 'jwt', JSON.stringify(response));
       location.push('/');
     } else if (loading === 'failed') {
       setToastMessage({ toast: error, showToast: true });
@@ -67,6 +63,7 @@ export function MarketAppSignIn(props: MarketAppSignInProps) {
 
         const interval = setInterval(() => {
           if (formRefs.current) {
+            // eslint-disable-next-line array-callback-return
             formRefs.current.map((formElement) => {
               const { name, value } = formElement;
               setLogin((prevalue) => {
