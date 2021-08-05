@@ -8,6 +8,7 @@ export const SIGNIN_USER_KEY = 'signin';
 
 export const initialSignInState = {
   response: {},
+  isLogin: false,
   loading: 'idle',
   error: {},
 };
@@ -27,6 +28,7 @@ export const signInSlice = createSlice({
     );
     builder.addCase(getSingInUser.fulfilled, (state, { payload }) => {
       state.response = payload.data;
+      state.isLogin = true;
       state.loading = 'succeeded';
       state.error = '';
     });
@@ -34,6 +36,7 @@ export const signInSlice = createSlice({
       getSingInUser.rejected,
       (state, action: PayloadAction<SignInError>) => {
         state.error = action.payload.error;
+        state.isLogin = false;
         state.loading = 'failed';
       }
     );

@@ -37,28 +37,10 @@ function useQuery() {
 export interface MarketAppProps {}
 
 export function App(props: MarketAppProps) {
-  const [isLogin, setIsLogin] = useState(false);
-  const [routeLink, setRouteLink] = useState('');
-  const { response } = useSelector(selectSignInStateLoaded);
-  const location = useLocation();
-  // let query = useQuery();
-
-  //console.log(match);
-
-  useEffect(() => {
-    //check for admin right/privileges
-    if (response) {
-      setIsLogin(true);
-      setRouteLink('/dashboard/index');
-    } else {
-      setIsLogin(false);
-      setRouteLink('/');
-    }
-  }, [response]);
-
+  const { isLogin } = useSelector(selectSignInStateLoaded);
   return (
     <Switch>
-      <Route path="account/sign-in">
+      <Route path="/sign-in">
         <MarketAppSignIn />
       </Route>
 
@@ -86,7 +68,7 @@ export function App(props: MarketAppProps) {
         <MarketAppLandingPage />
       </Route>
 
-      <Redirect to={routeLink} />
+      <Redirect to={'/'} />
     </Switch>
   );
 }
