@@ -22,9 +22,10 @@ from routers import (malliva_users,
 # router for main platform
 
 malliva_routers = APIRouter()
+malliva_index_routers = APIRouter()
 
 # these are platform routes
-malliva_routers.include_router(
+malliva_index_routers.include_router(
     index_routes.router, tags=["Index"])
 malliva_routers.include_router(
     sitewide_seo.router, tags=["Seo routes"])

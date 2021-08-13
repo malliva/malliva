@@ -22,9 +22,9 @@ async def create_listing(listing: Listing, request: Request):
     try:
         instance = ListingModel(
             **listing).switch_db(settings.ACCOUNT_DEFAULT_ALIAS)
-    except:
-        raise HTTPException(detail="Marketplace database does not exist, please use the right marketplace address.",
-                            status_code=status.HTTP_503_SERVICE_UNAVAILABLE)
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail=f"Marketplace database does not exist. Error: "+str(e))
 
     try:
         instance.save()
@@ -48,11 +48,11 @@ async def read_listings(request: Request):
     try:
         queryset = ListingModel.objects.all().using(
             settings.ACCOUNT_DEFAULT_ALIAS)
-        queryset = loop_through_queryset(queryset)
+        queryset = loop_through_queryset(Listing, queryset)
         await accounts_db_connection_instance.end_db_connection()
         return JSONResponse(content=queryset, status_code=status.HTTP_200_OK)
-    except:
-        raise HTTPException(detail="No listing found",
+    except Exception as e:
+        raise HTTPException(detail="No listing foundError: "+str(e),
                             status_code=status.HTTP_404_NOT_FOUND)
 
 
@@ -63,17 +63,18 @@ async def read_listing(listing_id: str, request: Request):
     try:
         instance = ListingModel.objects.filter(id=listing_id).first().switch_db(
             settings.ACCOUNT_DEFAULT_ALIAS)
-    except:
-        raise HTTPException(detail="Marketplace database does not exist, please use the right marketplace address.",
-                            status_code=status.HTTP_503_SERVICE_UNAVAILABLE)
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail=f"Marketplace database does not exist. Error: "+str(e))
 
     try:
         instance = convert_mongo_result_to_dict(instance)
+        print(type(instance))
         instance = jsonable_encoder(Listing(**instance))
         await accounts_db_connection_instance.end_db_connection()
         return JSONResponse(content=instance, status_code=status.HTTP_200_OK)
-    except:
-        raise HTTPException(detail="Listing could not be found",
+    except Exception as e:
+        raise HTTPException(detail="Listing could not be found. Error: " + str(e),
                             status_code=status.HTTP_404_NOT_FOUND)
 
 

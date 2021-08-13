@@ -38,9 +38,9 @@ async def create_user(user: UserRegister, request: Request):
     try:
         instance = UserModel(
             **user_data).switch_db(settings.ACCOUNT_DEFAULT_ALIAS)
-    except:
-        raise HTTPException(detail="Marketplace database does not exist, please use the right marketplace address.",
-                            status_code=status.HTTP_503_SERVICE_UNAVAILABLE)
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail=f"Marketplace database does not exist. Error: "+str(e))
 
     try:
         instance.save()
@@ -75,9 +75,9 @@ async def read_user(user_name: constr(to_lower=True), request: Request):
     try:
         instance = UserModel.objects.filter(username=user_name).first().switch_db(
             settings.ACCOUNT_DEFAULT_ALIAS)
-    except:
-        raise HTTPException(detail="Marketplace database does not exist, please use the right marketplace address.",
-                            status_code=status.HTTP_503_SERVICE_UNAVAILABLE)
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail=f"Marketplace database does not exist. Error: "+str(e))
 
     try:
         instance = convert_mongo_result_to_dict(instance)

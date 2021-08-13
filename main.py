@@ -3,7 +3,7 @@ from mongoengine.connection import disconnect_all
 from starlette.middleware.cors import CORSMiddleware
 from config.config_loader import settings
 from dbConnectionManager.db_session import platform_db_connection_instance, accounts_db_connection_instance
-from routers.all_routes import malliva_routers, sub_malliva_routers
+from routers.all_routes import malliva_routers, sub_malliva_routers, malliva_index_routers
 import logging
 
 logging.basicConfig(level=settings.LOG_LEVEL)
@@ -33,6 +33,7 @@ async def shutdown():
 
 # import other routes
 malliva_api.include_router(malliva_routers, prefix=settings.API_V1_STR)
+malliva_api.include_router(malliva_index_routers)
 
 # malliva_routers.include_router(
 #     admin.router,

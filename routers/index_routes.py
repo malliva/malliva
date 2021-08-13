@@ -1,4 +1,5 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, status
+from starlette.responses import HTMLResponse, JSONResponse
 from config.config_loader import settings
 
 router = APIRouter()
@@ -8,7 +9,20 @@ sub_router = APIRouter()
 
 @router.get("/")
 async def root():
-    return {"message": settings.PROJECT_NAME}
+    """ Root route returns simple guide page
+    """
+    html_content1 = """
+    <a href="/api/v1/docs">/api/v1/docs</a>
+    """
+
+    html_content2 = """
+    <a href="/maccounts/api/v1/docs">/maccounts/api/v1/docs</a>
+    """
+    try:
+        return HTMLResponse(content=f"{settings.DESCRIPTION} Visit {html_content1} for the platform endpoints, and{html_content2} for the marketplace api endpoints.",
+                            status_code=status.HTTP_200_OK)
+    except Exception as e:
+        return JSONResponse(content=e, status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @router.get('/info')

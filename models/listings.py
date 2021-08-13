@@ -20,7 +20,8 @@ class Listing(Document):
     price = fields.FloatField(min_value=0.0)
     posted_by = fields.ReferenceField(
         User, reverse_delete_rule=queryset.CASCADE)
-    # category = fields.ReferenceField(Category, reverse_delete_rule=queryset.DO_NOTHING)
+    category = fields.IntField()
+    # fields.ReferenceField(Category, reverse_delete_rule=queryset.DO_NOTHING)
     description = fields.StringField(max_length=500, default="")
     listing_images = fields.EmbeddedDocumentListField(
         ListingImage, required=False)
