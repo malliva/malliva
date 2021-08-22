@@ -25,5 +25,6 @@ module.exports = {
     '<rootDir>/libs/market-app/user-fields',
     '<rootDir>/libs/market-app/user-rights',
     '<rootDir>/libs/market-app/sign-outs',
+    '<rootDir>/libs/market-app/create-listing',
   ],
 };

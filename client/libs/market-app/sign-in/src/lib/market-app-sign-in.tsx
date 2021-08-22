@@ -50,7 +50,7 @@ export function MarketAppSignIn(props: MarketAppSignInProps) {
   useEffect(() => {
     if (loading === 'succeeded') {
       location.push('/');
-    } else if (loading === 'failed') {
+    } else if (loading === 'failed' && response.length > 0) {
       setToastMessage({ toast: error, showToast: true });
       location.push('/sign-in');
     }

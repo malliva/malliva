@@ -70,7 +70,12 @@
         "libs/market-app/user-rights/src/index.ts"
       ],
       "@client/market-app/sign-out": ["libs/market-app/sign-out/src/index.ts"],
-      "@client/market-app/sign-outs": ["libs/market-app/sign-outs/src/index.ts"]
+      "@client/market-app/sign-outs": [
+        "libs/market-app/sign-outs/src/index.ts"
+      ],
+      "@client/market-app/create-listing": [
+        "libs/market-app/create-listing/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

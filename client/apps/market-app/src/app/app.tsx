@@ -19,6 +19,7 @@ import { SharedAuthGuard } from 'libs/shared/auth-guard/src/index';
 import { MarketAppDashboard } from 'libs/market-app/dashboard/src/index';
 import { MarketAppTopMenu } from '@client/market-app/top-menu';
 import { MarketAppSignOuts } from 'libs/market-app/sign-outs/src/index';
+import { MarketAppCreateListing } from 'libs/market-app/create-listing/src/index';
 import { useSelector } from 'react-redux';
 
 const menu = [
@@ -28,10 +29,6 @@ const menu = [
   { name: 'Contact us', link: '#', type: '' },
   { name: 'Invite new members', link: '#', type: '' },
 ];
-
-function useQuery() {
-  return new URLSearchParams(useLocation().search);
-}
 
 /* eslint-disable-next-line */
 export interface MarketAppProps {}
@@ -55,6 +52,11 @@ export function App(props: MarketAppProps) {
       <Route path="/item-id">
         <MarketAppTopMenu menu={menu} />
         <MarketAppItemDetails />
+      </Route>
+
+      <Route exact path="/create-listing">
+        <MarketAppTopMenu menu={menu} />
+        <MarketAppCreateListing />
       </Route>
 
       <SharedAuthGuard

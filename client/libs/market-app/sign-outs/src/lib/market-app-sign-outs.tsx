@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ChevronRightIcon } from '@heroicons/react/solid';
 import {
   BookmarkAltIcon,
@@ -9,14 +9,14 @@ import {
 
 import { useDispatch, useSelector } from 'react-redux';
 import { postSingOutUser } from '@client/shared/account-syn-api';
-
+import { MarketAppToast } from '@client/market-app/toast';
 import './market-app-sign-outs.module.scss';
 import {
   logout,
   selectSignOutStateStateLoaded,
 } from './market-app-sign-outs.slice';
 
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 const links = [
   {
@@ -109,13 +109,24 @@ export interface MarketAppSignOutsProps {}
 
 export function MarketAppSignOuts(props: MarketAppSignOutsProps) {
   const dispatch = useDispatch();
-  const { loading } = useSelector(selectSignOutStateStateLoaded);
+  const [toastMessage, setToastMessage] = useState({
+    toast: [],
+    showToast: false,
+  });
+  const [messageTitle, setmessageTitle] = useState('');
+
+  const { loading, error } = useSelector(selectSignOutStateStateLoaded);
 
   useEffect(() => {
     if (loading === 'succeeded') {
       dispatch(logout());
+      setmessageTitle('successfully');
     }
-  }, [dispatch, loading]);
+    if (loading === 'failed') {
+      setToastMessage({ toast: error, showToast: true });
+      setmessageTitle('failed');
+    }
+  }, [dispatch, error, loading]);
 
   useEffect(() => {
     dispatch(postSingOutUser());
@@ -123,6 +134,7 @@ export function MarketAppSignOuts(props: MarketAppSignOutsProps) {
 
   return (
     <div className="bg-white">
+      <MarketAppToast message={toastMessage} />
       <main className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex-shrink-0 pt-16">
           <img
@@ -136,12 +148,10 @@ export function MarketAppSignOuts(props: MarketAppSignOutsProps) {
             {/* <p className="text-sm font-semibold text-indigo-600 uppercase tracking-wide">
               Signed successfully
             </p> */}
+
             <h1 className="mt-2 text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl">
-              Signed out successfully
+              Signed out {messageTitle}
             </h1>
-            {/* <p className="mt-2 text-lg text-gray-500">
-              The page you are looking for could not be found.
-            </p> */}
           </div>
           <div className="mt-12">
             <h2 className="text-sm font-semibold text-gray-500 tracking-wide uppercase">

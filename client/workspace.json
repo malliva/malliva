@@ -741,6 +741,29 @@
           }
         }
       }
+    },
+    "market-app-create-listing": {
+      "root": "libs/market-app/create-listing",
+      "sourceRoot": "libs/market-app/create-listing/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/market-app/create-listing/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/market-app/create-listing"],
+          "options": {
+            "jestConfig": "libs/market-app/create-listing/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   }
 }
