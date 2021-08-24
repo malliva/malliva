@@ -2,19 +2,10 @@ import React from 'react';
 
 import './market-app-create-listing.module.scss';
 
-import { Fragment } from 'react';
 import { Menu, Switch, Transition } from '@headlessui/react';
-import {
-  ArchiveIcon,
-  ArrowCircleRightIcon,
-  ChevronDownIcon,
-  DuplicateIcon,
-  HeartIcon,
-  PencilAltIcon,
-  TrashIcon,
-  UserAddIcon,
-} from '@heroicons/react/solid';
 import { useState } from 'react';
+import { postCreateListing } from '@client/shared/account-syn-api';
+import { useDispatch } from 'react-redux';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -24,19 +15,52 @@ function classNames(...classes) {
 export interface MarketAppCreateListingProps {}
 
 export function MarketAppCreateListing(props: MarketAppCreateListingProps) {
+  const dispatch = useDispatch();
+
   const [visible, setVisible] = useState(false);
+  const [listing, setListing] = useState({
+    title: '',
+    price: '',
+    posted_by: '',
+    category: '',
+    description: '',
+    listing_images: [],
+  });
+
+  const handleListingSubmit = (event) => {
+    event.preventDefault();
+    const formData = {
+      title: listing.title,
+      price: listing.price,
+      posted_by: listing.posted_by,
+      category: listing.category,
+      description: listing.description,
+      listing_images: listing.listing_images,
+      visible: visible,
+    };
+    dispatch(postCreateListing(formData));
+  };
+
+  const handleListingChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+
+    setListing((prevalue) => {
+      return {
+        ...prevalue, // Spread Operator
+        [name]: value,
+      };
+    });
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="min-h-screen  flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <div className="min-h-screen flex justify-center py-12 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Create your listing
-          </h2>
-        </div>
-
-        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
           <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+            <h2 className="text-left text-3xl mb-4 font-extrabold text-gray-900">
+              Create your listing
+            </h2>
             <form className="space-y-6" action="#" method="POST">
               <div>
                 <label
@@ -52,6 +76,7 @@ export function MarketAppCreateListing(props: MarketAppCreateListingProps) {
                     type="text"
                     autoComplete="title"
                     required
+                    onChange={handleListingChange}
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />
                 </div>
@@ -71,6 +96,7 @@ export function MarketAppCreateListing(props: MarketAppCreateListingProps) {
                     type="text"
                     autoComplete="price"
                     required
+                    onChange={handleListingChange}
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />
                 </div>
@@ -90,6 +116,7 @@ export function MarketAppCreateListing(props: MarketAppCreateListingProps) {
                     type="text"
                     autoComplete="posted_by"
                     required
+                    onChange={handleListingChange}
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />
                 </div>
@@ -97,58 +124,21 @@ export function MarketAppCreateListing(props: MarketAppCreateListingProps) {
 
               <div>
                 <label
-                  htmlFor="posted_by"
+                  htmlFor="category"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Category
                 </label>
-                <div className="mt-1">
-                  <Menu as="div" className="relative inline-block text-left">
-                    <div>
-                      <Menu.Button className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500">
-                        Options
-                        <ChevronDownIcon
-                          className="-mr-1 ml-2 h-5 w-5"
-                          aria-hidden="true"
-                        />
-                      </Menu.Button>
-                    </div>
-
-                    <Transition
-                      as={Fragment}
-                      enter="transition ease-out duration-100"
-                      enterFrom="transform opacity-0 scale-95"
-                      enterTo="transform opacity-100 scale-100"
-                      leave="transition ease-in duration-75"
-                      leaveFrom="transform opacity-100 scale-100"
-                      leaveTo="transform opacity-0 scale-95"
-                    >
-                      <Menu.Items className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 focus:outline-none">
-                        <div className="py-1">
-                          <Menu.Item>
-                            {({ active }) => (
-                              <a
-                                href="#"
-                                className={classNames(
-                                  active
-                                    ? 'bg-gray-100 text-gray-900'
-                                    : 'text-gray-700',
-                                  'group flex items-center px-4 py-2 text-sm'
-                                )}
-                              >
-                                <PencilAltIcon
-                                  className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
-                                  aria-hidden="true"
-                                />
-                                Edit
-                              </a>
-                            )}
-                          </Menu.Item>
-                        </div>
-                      </Menu.Items>
-                    </Transition>
-                  </Menu>
-                </div>
+                <select
+                  id="category"
+                  name="category"
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:ring-indigo-500 focus:border-indigo-500 h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md"
+                  onChange={handleListingChange}
+                >
+                  <option>USD</option>
+                  <option>CAD</option>
+                  <option>EUR</option>
+                </select>
               </div>
 
               <div>
@@ -160,10 +150,11 @@ export function MarketAppCreateListing(props: MarketAppCreateListingProps) {
                 </label>
                 <div className="mt-1">
                   <textarea
-                    name="text"
-                    id="post-description"
+                    name="description"
+                    id="description"
                     className="resize border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                     placeholder="Posting instruction"
+                    onChange={handleListingChange}
                   />
                 </div>
               </div>
@@ -190,7 +181,6 @@ export function MarketAppCreateListing(props: MarketAppCreateListingProps) {
                 <div className="flex items-center">
                   <Switch.Group as="div" className="flex items-center">
                     <Switch
-                      //type="terms_of_service_accepted"
                       checked={visible}
                       onChange={setVisible}
                       className={classNames(
@@ -221,18 +211,21 @@ export function MarketAppCreateListing(props: MarketAppCreateListingProps) {
 
               <div>
                 <button
+                  onClick={handleListingSubmit}
                   type="submit"
                   className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
                   Submit for review
                 </button>
-                <i>
-                  All listings on company will be reviewed before publishing.
-                  Once your listing has been approved, you will be notified by
-                  email and it will be visible to all.
-                </i>
               </div>
             </form>
+          </div>
+        </div>
+        <div className="sm:mx-auto sm:w-full sm:max-w-md">
+          <div className="border-dotted border-4 border-light-blue-500 p-2">
+            All listings on company will be reviewed before publishing. Once
+            your listing has been approved, you will be notified by email and it
+            will be visible to all.
           </div>
         </div>
       </div>

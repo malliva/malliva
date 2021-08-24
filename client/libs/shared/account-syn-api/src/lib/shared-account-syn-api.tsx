@@ -14,8 +14,17 @@ export interface SignUpState {
   username: string;
   email: string;
   password: string;
-  // password_confirm: string;
   terms_of_service_accepted: boolean;
+}
+
+export interface CreateListingState {
+  title: string;
+  price: number | string;
+  posted_by: string;
+  category: string;
+  description: string;
+  listing_images: Array<string>;
+  visible: boolean;
 }
 
 export interface SignInState {
@@ -90,6 +99,27 @@ export const getRegisteredUsers = createAsyncThunk(
         headers: { Authorization: `${formData}` },
       });
 
+      const data = await response.data;
+      return { data };
+    } catch (error) {
+      return thunkApi.rejectWithValue({ error: error.message });
+    }
+  }
+);
+
+export const postCreateListing = createAsyncThunk(
+  'malliva/create-listing',
+  async (payload: CreateListingState, thunkApi) => {
+    try {
+      //Update post url
+      const formData = JSON.stringify(payload);
+      const response = await axios.post(
+        API_URL + 'api/v1/auth/logout',
+        formData,
+        {
+          headers: { 'Content-Type': 'application/json' },
+        }
+      );
       const data = await response.data;
       return { data };
     } catch (error) {
