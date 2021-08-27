@@ -104,6 +104,13 @@
     },
     "market-app-create-listing": {
       "tags": []
+    },
+    "market-nx-app": {
+      "tags": []
+    },
+    "market-nx-app-e2e": {
+      "tags": [],
+      "implicitDependencies": ["market-nx-app"]
     }
   }
 }

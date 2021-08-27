@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+
+import Link from 'next/link';
 
 import './market-app-top-banner.module.scss';
 
@@ -20,7 +21,7 @@ export function MarketAppTopBanner(props: MarketAppTopBannerProps) {
             Malesuada adipiscing sagittis vel nulla nec.
           </p>
           <Link
-            to="/dashboard/index"
+            href="/dashboard/index"
             className="mt-8 w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-indigo-50 sm:w-auto"
           >
             Checkout

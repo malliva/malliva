@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 import './market-app-item-list.module.scss';
 const people = [
@@ -65,7 +65,7 @@ export function MarketAppItemList(props: MarketAppItemListProps) {
           <ul className="space-y-12 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 sm:space-y-0 lg:grid-cols-3 lg:gap-x-8">
             {people.map((person) => (
               <li key={person.name}>
-                <Link to="/item-id">
+                <Link href="/item-id">
                   <div className="space-y-4">
                     <div className="aspect-w-3 aspect-h-2">
                       <img
