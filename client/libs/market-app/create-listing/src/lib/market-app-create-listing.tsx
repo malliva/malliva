@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import './market-app-create-listing.module.scss';
 
@@ -6,6 +6,7 @@ import { Menu, Switch, Transition } from '@headlessui/react';
 import { useState } from 'react';
 import { postCreateListing } from '@client/shared/account-syn-api';
 import { useDispatch } from 'react-redux';
+import axios from 'axios';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -16,6 +17,8 @@ export interface MarketAppCreateListingProps {}
 
 export function MarketAppCreateListing(props: MarketAppCreateListingProps) {
   const dispatch = useDispatch();
+  const API_ENDPOINT =
+    'https://gt9pm8a9b0.execute-api.us-east-2.amazonaws.com/default/getPresignedImageURL';
 
   const [visible, setVisible] = useState(false);
   const [listing, setListing] = useState({
@@ -26,6 +29,33 @@ export function MarketAppCreateListing(props: MarketAppCreateListingProps) {
     description: '',
     listing_images: [],
   });
+
+  const handleImageUpload = (event) => {
+    event.preventDefault();
+    const newArr = event.target.files;
+
+    for (let i = 0; i < newArr.length; i++) {
+      handleAwsImageUpload(newArr[i]);
+    }
+  };
+
+  const handleAwsImageUpload = async (file) => {
+    const newFileName = file.name.replace(/\..+$/, '');
+    console.log(file);
+    try {
+      const response = await axios({
+        method: 'GET',
+        url: API_ENDPOINT,
+      });
+      console.log('Response: ', response.data.uploadURL);
+      const result = await fetch(response.data.uploadURL, {
+        method: 'PUT',
+        body: file,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleListingSubmit = (event) => {
     event.preventDefault();
@@ -168,6 +198,8 @@ export function MarketAppCreateListing(props: MarketAppCreateListingProps) {
                 </label>
                 <div className="mt-1">
                   <input
+                    onChange={handleImageUpload}
+                    multiple
                     id="listing_images"
                     name="listing_images"
                     type="file"
