@@ -17,10 +17,12 @@ export interface MarketAppCreateListingProps {}
 
 export function MarketAppCreateListing(props: MarketAppCreateListingProps) {
   const dispatch = useDispatch();
-  const API_ENDPOINT =
+  const API_GETPRESIGNEDIMAGEURL_LAMBDA =
     'https://gt9pm8a9b0.execute-api.us-east-2.amazonaws.com/default/getPresignedImageURL';
+  const API_CLOUDFRONT = 'https://de1zwyywuzu14.cloudfront.net/';
 
   const [visible, setVisible] = useState(false);
+  const [images, setImages] = useState([]);
   const [listing, setListing] = useState({
     title: '',
     price: '',
@@ -40,16 +42,30 @@ export function MarketAppCreateListing(props: MarketAppCreateListingProps) {
   };
 
   const handleAwsImageUpload = async (file) => {
-    const newFileName = file.name.replace(/\..+$/, '');
-    console.log(file);
+    //https://www.youtube.com/watch?v=_khupEk42zs
+    const url =
+      'https://syc3fr1g2l.execute-api.us-east-2.amazonaws.com/Prod/hello/';
+
+    const data = { name: file.name };
+
+    //const fileName = file.fileName;
     try {
-      const response = await axios({
-        method: 'GET',
-        url: API_ENDPOINT,
-      });
-      console.log('Response: ', response.data.uploadURL);
-      const result = await fetch(response.data.uploadURL, {
-        method: 'PUT',
+      //   await axios({
+      //     method: 'GET',
+      //     url: API_GETPRESIGNEDIMAGEURL_LAMBDA,
+      //   }).then((res) => {
+      //     const result = axios
+      //       .put(res.data.uploadURL, data)
+      //       .then((res) => {
+      //         console.log(res);
+      //       })
+      //       .catch((error) => {
+      //         console.log(error);
+      //       });
+      //   });
+
+      const result = await fetch(url, {
+        method: 'post',
         body: file,
       });
     } catch (error) {
@@ -84,11 +100,11 @@ export function MarketAppCreateListing(props: MarketAppCreateListingProps) {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="min-h-screen flex justify-center py-12 sm:px-6 lg:px-8">
+    <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+      <div className="flex justify-center min-h-screen py-12 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-            <h2 className="text-left text-3xl mb-4 font-extrabold text-gray-900">
+          <div className="px-4 py-8 bg-white shadow sm:rounded-lg sm:px-10">
+            <h2 className="mb-4 text-3xl font-extrabold text-left text-gray-900">
               Create your listing
             </h2>
             <form className="space-y-6" action="#" method="POST">
@@ -107,7 +123,7 @@ export function MarketAppCreateListing(props: MarketAppCreateListingProps) {
                     autoComplete="title"
                     required
                     onChange={handleListingChange}
-                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    className="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />
                 </div>
               </div>
@@ -127,7 +143,7 @@ export function MarketAppCreateListing(props: MarketAppCreateListingProps) {
                     autoComplete="price"
                     required
                     onChange={handleListingChange}
-                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    className="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />
                 </div>
               </div>
@@ -147,7 +163,7 @@ export function MarketAppCreateListing(props: MarketAppCreateListingProps) {
                     autoComplete="posted_by"
                     required
                     onChange={handleListingChange}
-                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    className="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />
                 </div>
               </div>
@@ -162,7 +178,7 @@ export function MarketAppCreateListing(props: MarketAppCreateListingProps) {
                 <select
                   id="category"
                   name="category"
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:ring-indigo-500 focus:border-indigo-500 h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md"
+                  className="block w-full h-full px-3 py-0 py-2 pl-2 text-gray-500 placeholder-gray-400 bg-transparent border border-transparent border-gray-300 rounded-md shadow-sm appearance-none focus:ring-indigo-500 focus:border-indigo-500 pr-7 sm:text-sm"
                   onChange={handleListingChange}
                 >
                   <option>USD</option>
@@ -182,7 +198,7 @@ export function MarketAppCreateListing(props: MarketAppCreateListingProps) {
                   <textarea
                     name="description"
                     id="description"
-                    className="resize border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                    className="block w-full border border-gray-300 rounded-md shadow-sm resize focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     placeholder="Posting instruction"
                     onChange={handleListingChange}
                   />
@@ -204,7 +220,7 @@ export function MarketAppCreateListing(props: MarketAppCreateListingProps) {
                     name="listing_images"
                     type="file"
                     required
-                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    className="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />
                 </div>
               </div>
@@ -245,7 +261,7 @@ export function MarketAppCreateListing(props: MarketAppCreateListingProps) {
                 <button
                   onClick={handleListingSubmit}
                   type="submit"
-                  className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
                   Submit for review
                 </button>
@@ -254,7 +270,7 @@ export function MarketAppCreateListing(props: MarketAppCreateListingProps) {
           </div>
         </div>
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <div className="border-dotted border-4 border-light-blue-500 p-2">
+          <div className="p-2 border-4 border-dotted border-light-blue-500">
             All listings on company will be reviewed before publishing. Once
             your listing has been approved, you will be notified by email and it
             will be visible to all.
