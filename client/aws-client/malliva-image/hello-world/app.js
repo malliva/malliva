@@ -14,27 +14,60 @@ let response;
  * @returns {Object} object - API Gateway Lambda Proxy Output Format
  *
  */
-exports.lambdaHandler = async (event, context) => {
-  try {
-    console.debug('checking');
-    console.debug({ event });
 
-    let a = event.a ?? event.queryStringParameters['a'];
-    let b = event.b ?? event.queryStringParameters['b'];
-    let product = a * b;
+const AWS = require('aws-sdk');
+const fs = require('fs');
+const ACCESS_KEY_ID = 'xxxxxx';
+const SECRET_ACCESS_KEY = 'xxxx';
+AWS.config.update({ region: process.env.AWS_REGION });
 
-    response = {
-      statusCode: 200,
-      body: JSON.stringify({
-        message: product,
-      }),
-    };
-    console.debug('response');
-    console.log(response);
-  } catch (err) {
-    console.log(err);
-    return err;
-  }
+const s3 = new AWS.S3({
+  accessKeyId: ACCESS_KEY_ID,
+  secretAccessKey: SECRET_ACCESS_KEY,
+});
+const URL_EXPIRATION_SECONDS = 300;
+const UploadBucket = 'malliva-img-temp';
 
-  return response;
+// Main Lambda entry point
+exports.lambdaHandler = async (event) => {
+  return await getUploadURL(event);
+};
+
+const getUploadURL = async function (event) {
+  console.error({ event });
+  //const data = JSON.parse(event);
+  const key = event.key;
+  const body = event.body;
+
+  const bufBody = new Buffer.from(body, 'base64');
+
+  // const bufBody = new Buffer.from(
+  //   body.replace(/^data:image\/\w+;base64,/, ''),
+  //   'base64'
+  // );
+
+  var params = {
+    Bucket: UploadBucket,
+    Key: key,
+    Body: bufBody,
+    ContentEncoding: 'base64',
+    ContentType: 'image/jpeg',
+    ACL: 'public-read',
+  };
+
+  return (response = await s3
+    .putObject(params, function (err, data) {
+      let res;
+      if (err) {
+        res = { error: err, event: event };
+        console.log(err, err.stack);
+      } else {
+        res = {
+          statusCode: 200,
+          body: JSON.stringify(data),
+        };
+      }
+      return res;
+    })
+    .promise());
 };

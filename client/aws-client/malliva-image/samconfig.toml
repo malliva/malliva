@@ -2,9 +2,9 @@ version = 0.1
 [default]
 [default.deploy]
 [default.deploy.parameters]
-stack_name = "malliva-img"
+stack_name = "upload-img"
 s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-1lz1y2hbtjyoj"
-s3_prefix = "malliva-img"
+s3_prefix = "upload-img"
 region = "us-east-2"
 confirm_changeset = true
 capabilities = "CAPABILITY_IAM"

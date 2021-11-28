@@ -34,40 +34,40 @@ export function MarketAppCreateListing(props: MarketAppCreateListingProps) {
 
   const handleImageUpload = (event) => {
     event.preventDefault();
-    const newArr = event.target.files;
-
-    for (let i = 0; i < newArr.length; i++) {
-      handleAwsImageUpload(newArr[i]);
-    }
+    const file = event.target;
+    uploadFile(file);
   };
 
-  const handleAwsImageUpload = async (file) => {
+  const uploadFile = (event) => {
+    const file = event.files[0];
+    const fileName = event.files[0].name;
+    const reader = new FileReader();
+    reader.onloadend = function () {
+      const data = (reader.result as string).split(',')[1];
+      const binaryBlob = atob(data);
+      handleAwsImageUpload(fileName, binaryBlob);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleAwsImageUpload = async (name, binaryBlob) => {
     //https://www.youtube.com/watch?v=_khupEk42zs
     const url =
-      'https://syc3fr1g2l.execute-api.us-east-2.amazonaws.com/Prod/hello/';
+      'https://9a7gbs3ile.execute-api.us-east-2.amazonaws.com/Prod/image/ ';
 
-    const data = { name: file.name };
-
-    //const fileName = file.fileName;
     try {
-      //   await axios({
-      //     method: 'GET',
-      //     url: API_GETPRESIGNEDIMAGEURL_LAMBDA,
-      //   }).then((res) => {
-      //     const result = axios
-      //       .put(res.data.uploadURL, data)
-      //       .then((res) => {
-      //         console.log(res);
-      //       })
-      //       .catch((error) => {
-      //         console.log(error);
-      //       });
-      //   });
-
-      const result = await fetch(url, {
-        method: 'post',
-        body: file,
-      });
+      const data = {
+        key: name,
+        body: binaryBlob,
+      };
+      await axios
+        .put(url, data)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } catch (error) {
       console.log(error);
     }
